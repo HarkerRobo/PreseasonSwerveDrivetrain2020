@@ -3,6 +3,7 @@ package frc.robot.util;
 import frc.robot.RobotMap;
 import harkerrobolib.wrappers.HSTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
@@ -18,6 +19,10 @@ public class SwerveModule {
     private static final int FALCON_CURRENT_LIMIT = 0;
     private static final double CURRENT_TRIGGER_THRESHOLD = 0;
     private static final double TRIGGER_THRESHOLD_TIME = 0;
+
+    private static final double TRANSLATION_P = 0;
+    private static final double TRANSLATION_I = 0;
+    private static final double TRANSLATION_D = 0;
 
     private boolean ROTATION_SENSOR_PHASE;
     private boolean TRANSLATION_SENSOR_PHASE;
@@ -47,12 +52,33 @@ public class SwerveModule {
         rotation.configContinuousCurrentLimit(CURRENT_LIMIT, 0);
         rotation.configVoltageCompSaturation(VOLTAGE_COMP);
         rotation.configForwardSoftLimitEnable(true);
+
+
+        rotation.config_kP(RobotMap.SLOT_INDEX, TRANSLATION_P);
+        rotation.config_kI(RobotMap.SLOT_INDEX, TRANSLATION_I);
+        rotation.config_kD(RobotMap.SLOT_INDEX, TRANSLATION_D);
+
+        rotation.selectProfileSlot(RobotMap.SLOT_INDEX, RobotMap.LOOP_INDEX);
+
+        rotation.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.LOOP_INDEX);
+
+
     }
 
     private void translationMotorInit() {
         translation.configFactoryDefault();
         translation.setSensorPhase(TRANSLATION_SENSOR_PHASE);
         translation.setNeutralMode(NeutralMode.Coast);
+
+        translation.config_kP(RobotMap.SLOT_INDEX, TRANSLATION_P);
+        translation.config_kI(RobotMap.SLOT_INDEX, TRANSLATION_I);
+        translation.config_kD(RobotMap.SLOT_INDEX, TRANSLATION_D);
+
+        translation.selectProfileSlot(RobotMap.SLOT_INDEX, RobotMap.LOOP_INDEX);
+
+        translation.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.LOOP_INDEX);
+
+
 
         translation.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, FALCON_CURRENT_LIMIT,
                 CURRENT_TRIGGER_THRESHOLD, TRIGGER_THRESHOLD_TIME));
@@ -68,6 +94,6 @@ public class SwerveModule {
     }
 
     private double getAngle(double speed, double turn) {
-        return Math.atan(speed / turn);
+        return Math.atan2(speed, turn);
     }
 }

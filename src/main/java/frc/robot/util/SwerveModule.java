@@ -27,12 +27,13 @@ public class SwerveModule {
     private boolean ROTATION_SENSOR_PHASE;
     private boolean TRANSLATION_SENSOR_PHASE;
 
-    public SwerveModule(boolean rotationSensorPhase, boolean translationSensorPhase, int[] driveIds) {
+    public SwerveModule(boolean rotationSensorPhase, boolean translationSensorPhase, int rotationDriveId,
+            int translationDriveId, boolean inverted) {
         ROTATION_SENSOR_PHASE = rotationSensorPhase;
         TRANSLATION_SENSOR_PHASE = translationSensorPhase;
 
-        rotation = new HSTalon(driveIds[0]);
-        translation = new HSFalcon(driveIds[1]);
+        rotation = new HSTalon(rotationDriveId);
+        translation = new HSFalcon(translationDriveId);
         rotationMotorInit();
         translationMotorInit();
     }
@@ -53,7 +54,6 @@ public class SwerveModule {
         rotation.configVoltageCompSaturation(VOLTAGE_COMP);
         rotation.configForwardSoftLimitEnable(true);
 
-
         rotation.config_kP(RobotMap.SLOT_INDEX, TRANSLATION_P);
         rotation.config_kI(RobotMap.SLOT_INDEX, TRANSLATION_I);
         rotation.config_kD(RobotMap.SLOT_INDEX, TRANSLATION_D);
@@ -61,7 +61,6 @@ public class SwerveModule {
         rotation.selectProfileSlot(RobotMap.SLOT_INDEX, RobotMap.LOOP_INDEX);
 
         rotation.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.LOOP_INDEX);
-
 
     }
 
@@ -77,8 +76,6 @@ public class SwerveModule {
         translation.selectProfileSlot(RobotMap.SLOT_INDEX, RobotMap.LOOP_INDEX);
 
         translation.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.LOOP_INDEX);
-
-
 
         translation.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, FALCON_CURRENT_LIMIT,
                 CURRENT_TRIGGER_THRESHOLD, TRIGGER_THRESHOLD_TIME));

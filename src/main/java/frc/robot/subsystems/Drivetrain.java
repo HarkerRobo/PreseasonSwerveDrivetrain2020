@@ -62,6 +62,13 @@ public class Drivetrain extends SubsystemBase {
         bottomRight.setRotationMotor(angle);
     }
 
+    public void setPercentOutput(double rotation, double translation){
+        topLeft.setPercentOutput(translation, rotation);
+        topRight.setPercentOutput(translation, rotation);
+        bottomLeft.setPercentOutput(translation, rotation);
+        bottomRight.setPercentOutput(translation, rotation);
+    }
+
     public static Drivetrain getInstance() {
         if (drivetrain == null) {
             drivetrain = new Drivetrain();

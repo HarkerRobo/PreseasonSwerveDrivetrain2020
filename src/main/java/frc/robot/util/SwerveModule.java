@@ -81,12 +81,8 @@ public class SwerveModule {
 				CURRENT_TRIGGER_THRESHOLD, TRIGGER_THRESHOLD_TIME));
 	}
 
-	public void setPercentOutput(double speed, double turn) {
-		translation.set(ControlMode.PercentOutput, speed);
-		setRotationMotor(turn);
-	}
-
-	public void setRotationMotor(double angle) {
-		rotation.set(ControlMode.Position, angle*90);
+	public void setPercentOutput(Vector translationvec) {
+		translation.set(ControlMode.PercentOutput, translationvec.getMagnitude());
+		rotation.set(ControlMode.Position, translationvec.getAngle() * (4096 / 360));
 	}
 }

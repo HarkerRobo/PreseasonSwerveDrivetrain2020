@@ -3,6 +3,11 @@ package frc.robot.commands;
 import frc.robot.subsystems.Drivetrain;
 import harkerrobolib.commands.IndefiniteCommand;
 import harkerrobolib.util.MathUtil;
+
+import frc.robot.util.Vector;
+
+
+
 import frc.robot.OI;
 
 
@@ -13,10 +18,11 @@ public class ManualDrive extends IndefiniteCommand{
 
     @Override
     public void execute(){
-        double rotation=MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftX(), OI.DEADBAND);
-        
-        double translation=MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftY(), OI.DEADBAND);
+        double translationx=MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftX(), OI.DEADBAND);
+        double translationy=MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftY(), OI.DEADBAND);
 
-        Drivetrain.getInstance().setPercentOutput(rotation, translation);
+        double rotation=MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(), OI.DEADBAND);
+
+        Drivetrain.getInstance().setPercentOutput(new Vector(translationx, translationy));
     }
 }

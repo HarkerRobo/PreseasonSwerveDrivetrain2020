@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.util.SwerveModule;
 
+import frc.robot.util.Vector;
+
 public class Drivetrain extends SubsystemBase {
     private static Drivetrain drivetrain;
 
@@ -55,18 +57,11 @@ public class Drivetrain extends SubsystemBase {
         return bottomRight;
     }
 
-    public void rotateAllWheels(double angle) {
-        topLeft.setRotationMotor(angle);
-        topRight.setRotationMotor(angle);
-        bottomLeft.setRotationMotor(angle);
-        bottomRight.setRotationMotor(angle);
-    }
-
-    public void setPercentOutput(double rotation, double translation){
-        topLeft.setPercentOutput(translation, rotation);
-        topRight.setPercentOutput(translation, rotation);
-        bottomLeft.setPercentOutput(translation, rotation);
-        bottomRight.setPercentOutput(translation, rotation);
+    public void setPercentOutput(Vector translation){
+        topLeft.setPercentOutput(translation);
+        topRight.setPercentOutput(translation);
+        bottomLeft.setPercentOutput(translation);
+        bottomRight.setPercentOutput(translation);
     }
 
     public static Drivetrain getInstance() {

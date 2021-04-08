@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2021.1.2"
+    id "edu.wpi.first.GradleRIO" version "2021.2.2"
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
@@ -43,7 +43,7 @@ def includeDesktopSupport = true
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 4.
 dependencies {
-    compile files("lib/HarkerRoboLib.jar")
+    compile files("HarkerRoboLib-7.1.0.jar")
     implementation wpi.deps.wpilib()
     nativeZip wpi.deps.wpilibJni(wpi.platforms.roborio)
     nativeDesktopZip wpi.deps.wpilibJni(wpi.platforms.desktop)

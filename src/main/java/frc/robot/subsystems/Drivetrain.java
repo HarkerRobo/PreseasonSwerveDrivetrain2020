@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.util.SwerveModule;
@@ -44,6 +45,10 @@ public class Drivetrain extends SubsystemBase {
     public static final double TALON_PEAK_TIME = 0.750;
     public static final double TALON_CONTINUOUS_LIMIT = 15;
     public static final double VOLTAGE_COMP = 10;
+
+    public static final double MAX_SPEED = 0;
+
+    public SwerveDriveKinematics swerveDriveKinematics= new SwerveDriveKinematics();
 
     public Drivetrain() {
         topLeft = new SwerveModule(TOP_LEFT_ROTATION_SENSOR_PHASE, TOP_LEFT_TRANSLATION_SENSOR_PHASE,
@@ -97,6 +102,17 @@ public class Drivetrain extends SubsystemBase {
         topRight.setPercentOutput(translation);
         bottomLeft.setPercentOutput(translation);
         bottomRight.setPercentOutput(translation);
+    }
+
+    public void setAngleAndDriveVelocity(SwerveModuleState[] states){
+        topLeft.setSwerveManual(states[0]);
+        topRight.setSwerveManual(states[1]);
+        bottomLeft.setSwerveManual(states[2]);
+        bottomRight.setSwerveManual(states[3]);
+    }
+
+    public SwerveDriveKinematics getSwerveDriveKinematics(){
+        return swerveDriveKinematics;
     }
 
     public static Drivetrain getInstance() {

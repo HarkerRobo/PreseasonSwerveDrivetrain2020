@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import harkerrobolib.wrappers.HSFalcon;
 
 public class SwerveModule {
@@ -85,6 +86,12 @@ public class SwerveModule {
 	public void setPercentOutput(Vector translationvec) {
 		translation.set(ControlMode.PercentOutput, translationvec.getMagnitude());
 		rotation.set(ControlMode.Position, translationvec.getAngle() * (4096 / 360));
+
+	}
+
+	public void setSwerveManual(SwerveModuleState state){
+		translation.set(ControlMode.PercentOutput, state.speedMetersPerSecond);
+		rotation.set(ControlMode.Position, state.angle.getDegrees() * (4096 / 360));
 
 	}
 }

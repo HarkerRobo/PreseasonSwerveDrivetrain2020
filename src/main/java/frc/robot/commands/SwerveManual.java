@@ -16,19 +16,21 @@ public class SwerveManual extends IndefiniteCommand {
 
     @Override
     public void execute() {
-        double angularVelocity = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftX(), OI.DEADBAND);
-        double translation = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftY(), OI.DEADBAND);
+        double angularVelocity = MathUtil.mapJoystickOutput(OI.getInstance().getOperatorGamepad().getLeftX(), OI.DEADBAND);
+        double translationx = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftX(), OI.DEADBAND);
+        double translationy = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftY(), OI.DEADBAND);
 
 
         angularVelocity*=Drivetrain.MAX_SPEED;
 
-        translation*=Drivetrain.MAX_SPEED;
+        translationx*=Drivetrain.MAX_SPEED;
+        translationy*=Drivetrain.MAX_SPEED;
 
         // double rotation =
         // MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(),
         // OI.DEADBAND);
 
-        ChassisSpeeds chassis=new ChassisSpeeds(0, translation, angularVelocity);
+        ChassisSpeeds chassis=new ChassisSpeeds(translationx, translationy, angularVelocity);
 
         Drivetrain.getInstance().setAngleAndDriveVelocity(Drivetrain.getInstance().getSwerveDriveKinematics().toSwerveModuleStates(chassis));
     }

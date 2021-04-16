@@ -46,7 +46,7 @@ public class Drivetrain extends SubsystemBase {
     public static final double TALON_CONTINUOUS_LIMIT = 15;
     public static final double VOLTAGE_COMP = 10;
 
-    public static final double MAX_SPEED = 0;
+    public static final double MAX_SPEED = 0.7;
 
     public SwerveDriveKinematics swerveDriveKinematics= new SwerveDriveKinematics();
 

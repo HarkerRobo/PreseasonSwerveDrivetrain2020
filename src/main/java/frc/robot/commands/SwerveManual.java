@@ -16,7 +16,7 @@ public class SwerveManual extends IndefiniteCommand {
 
     @Override
     public void execute() {
-        double angularVelocity = MathUtil.mapJoystickOutput(OI.getInstance().getOperatorGamepad().getLeftX(), OI.DEADBAND);
+        double angularVelocity = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(), OI.DEADBAND);
         double translationx = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftX(), OI.DEADBAND);
         double translationy = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftY(), OI.DEADBAND);
 

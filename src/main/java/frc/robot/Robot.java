@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.SwerveManual;
 import frc.robot.subsystems.Drivetrain;
+import harkerrobolib.util.Conversions.SpeedUnit;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -59,6 +60,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("angle pos tr", Drivetrain.getInstance().getTopRight().getRotationMotor().getSelectedSensorPosition());
     SmartDashboard.putNumber("angle pos bl", Drivetrain.getInstance().getBottomLeft().getRotationMotor().getSelectedSensorPosition());
     SmartDashboard.putNumber("angle pos br", Drivetrain.getInstance().getBottomRight().getRotationMotor().getSelectedSensorPosition());
+
+    SmartDashboard.putNumber("Pigeon Heading", Drivetrain.getInstance().getPigeon().getFusedHeading());
   }
 
   /**

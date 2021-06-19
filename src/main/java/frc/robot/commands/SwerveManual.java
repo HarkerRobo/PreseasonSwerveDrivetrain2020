@@ -5,6 +5,7 @@ import harkerrobolib.commands.IndefiniteCommand;
 import harkerrobolib.util.MathUtil;
 
 import frc.robot.util.Vector;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,7 +23,14 @@ public class SwerveManual extends IndefiniteCommand {
         double angularVelocity = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(), OI.DEADBAND);
         double translationx = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftX(), OI.DEADBAND);
         double translationy = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftY(), OI.DEADBAND);
+        double chasisMagnitude=Math.sqrt(translationx*translationx + translationy*translationy);
 
+        if(chasisMagnitude<(Drivetrain.MIN_OUTPUT)){
+            translationx=0;
+            translationy=0;
+            if(Math.abs(angularVelocity)<(Drivetrain.MIN_OUTPUT)){
+            angularVelocity=0.01;}
+        }
 
         angularVelocity *= Drivetrain.MAX_ANGULAR_VEL;
 
@@ -34,8 +42,8 @@ public class SwerveManual extends IndefiniteCommand {
         // MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(),
         // OI.DEADBAND);
 
-        ChassisSpeeds chassis = new ChassisSpeeds(translationx, translationy, -angularVelocity);
-        
+        ChassisSpeeds chassis = ChassisSpeeds.fromFieldRelativeSpeeds(translationx, translationy, -angularVelocity, new Rotation2d(Math.toRadians(Drivetrain.getInstance().getPigeon().getFusedHeading())));
+
         Drivetrain.getInstance().setAngleAndDriveVelocity(Drivetrain.getInstance().getSwerveDriveKinematics().toSwerveModuleStates(chassis), false);
     }
 }

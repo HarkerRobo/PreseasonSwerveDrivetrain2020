@@ -9,6 +9,7 @@ import frc.robot.RobotMap;
 import frc.robot.util.SwerveModule;
 
 import frc.robot.util.Vector;
+import harkerrobolib.wrappers.HSPigeon;
 
 public class Drivetrain extends SubsystemBase {
     private static Drivetrain drivetrain;
@@ -55,10 +56,15 @@ public class Drivetrain extends SubsystemBase {
     public static final double TALON_CONTINUOUS_LIMIT = 15;
     public static final double VOLTAGE_COMP = 10;
 
-    public static final double MAX_DRIVE_VEL = 4;
+    public static final double MAX_DRIVE_VEL = 1;
     public static final double MAX_ANGULAR_VEL = 1 * Math.PI;
 
     public static final double FEET_TO_METER=3.281;
+    public static final int WHEEL_DIAMETER=4;
+    public static final int GEAR_RATIO=6;
+    public static final double MIN_OUTPUT=10e-4;
+
+    private HSPigeon pigeon;
 
 
     public SwerveDriveKinematics swerveDriveKinematics;
@@ -78,6 +84,9 @@ public class Drivetrain extends SubsystemBase {
         m_backLeftLocation = new Translation2d(-DT_LENGTH / 2, -DT_WIDTH / 2);
         m_backRightLocation = new Translation2d(DT_LENGTH / 2, -DT_WIDTH / 2);
         swerveDriveKinematics= new SwerveDriveKinematics(m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
+
+        pigeon=new HSPigeon(RobotMap.PIGEON_ID);
+        pigeon.setFusedHeading(0);
 
         // In SwerveManual:
         
@@ -108,6 +117,10 @@ public class Drivetrain extends SubsystemBase {
 
     public SwerveModule getBottomRight() {
         return bottomRight;
+    }
+
+    public HSPigeon getPigeon(){
+        return pigeon;
     }
 
     public void setPercentOutput(Vector translation){

@@ -9,8 +9,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import harkerrobolib.util.Conversions.SpeedUnit;
-
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import harkerrobolib.util.Conversions;
 import harkerrobolib.wrappers.HSFalcon;
 
@@ -67,6 +68,10 @@ public class SwerveModule {
 		return rotation;
 	}
 
+	public double getRotationAngle(){
+		return rotation.getSelectedSensorPosition()*(360.0/4096);
+	}
+
 	private void rotationMotorInit() {
 		rotation.configFactoryDefault();
 		rotation.setInverted(ROTATION_INVERT);
@@ -89,7 +94,7 @@ public class SwerveModule {
 	private void translationMotorInit() {
 		translation.configFactoryDefault();
 		translation.setSensorPhase(TRANSLATION_SENSOR_PHASE);
-		translation.setNeutralMode(NeutralMode.Coast);
+		translation.setNeutralMode(NeutralMode.Brake);
 		translation.setInverted(TRANSLATION_INVERT);
 
 		translation.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, DRIVE_CURRENT_CONTINUOUS, DRIVE_CURRENT_PEAK, DRIVE_CURRENT_PEAK_DUR));
@@ -111,12 +116,45 @@ public class SwerveModule {
 
 	}
 
+	public SwerveModuleState optimize(SwerveModuleState desiredState, double currentAngle){
+		double delta = desiredState.angle.getDegrees()-currentAngle;
+		SmartDashboard.putNumber("desired", desiredState.angle.getDegrees());
+		SmartDashboard.putNumber("current", currentAngle);
+
+		// System.out.println(delta.getDegrees());
+		while(desiredState.angle.getDegrees()-currentAngle>180){
+			System.out.println(" loop1");
+			desiredState.angle.rotateBy(Rotation2d.fromDegrees(-360));
+			//delta = desiredState.angle.getDegrees()-currentAngle;
+		}
+
+		while(desiredState.angle.getDegrees()-currentAngle<-180){
+			System.out.println(" loop2");
+
+			desiredState.angle.rotateBy(Rotation2d.fromDegrees(360));
+			//delta = desiredState.angle.minus(currentAngle);
+
+		}
+
+		// if(delta.getDegrees()>90){
+		// 	desiredState.angle.rotateBy(Rotation2d.fromDegrees(180));
+		// 	desiredState.speedMetersPerSecond *= -1;
+		// }
+
+		// else if(delta.getDegrees()<-90){
+		// 	desiredState.angle.rotateBy(Rotation2d.fromDegrees(-180));
+		// 	desiredState.speedMetersPerSecond *= -1;
+		// }
+		return desiredState;
+	}
+
 	public void setSwerveManual(SwerveModuleState state, boolean isPercentOutput){
+		state = optimize(state, getRotationAngle());
 		if(isPercentOutput){
 			translation.set(TalonFXControlMode.PercentOutput, state.speedMetersPerSecond);
 		}
 		else{
-			translation.set(TalonFXControlMode.Velocity, Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  state.speedMetersPerSecond*Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS));
+			translation.set(TalonFXControlMode.Velocity, Drivetrain.GEAR_RATIO*Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  state.speedMetersPerSecond*Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048));
 		}
 		rotation.set(ControlMode.Position, state.angle.getDegrees() * (4096 / 360));
 

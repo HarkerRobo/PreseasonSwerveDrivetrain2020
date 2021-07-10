@@ -12,9 +12,10 @@ import harkerrobolib.wrappers.HSTalon;
 public class Intake extends SubsystemBase {
     private static Intake instance;
     private HSTalon rotation;
-    private static final double ANGLE_P = 1.1;
-	private static final double ANGLE_I = 0;
-    private static final double ANGLE_D = 11;
+    private static final double ROTATION_P = 1.1;
+	private static final double ROTATION_I = 0;
+    private static final double ROTATION_D = 11;
+    private static final double ROTATION_F = 11;
     private static final double VOLTAGE_COMP = 10;
     private static final double ANGLE_CURRENT_CONTINUOUS = 15;
     private static final double ANGLE_CURRENT_PEAK = 20;
@@ -31,9 +32,10 @@ public class Intake extends SubsystemBase {
 		rotation.configVoltageCompSaturation(VOLTAGE_COMP);
 		rotation.configForwardSoftLimitEnable(false);
 
-		rotation.config_kP(RobotMap.SLOT_INDEX, ANGLE_P);
-		rotation.config_kI(RobotMap.SLOT_INDEX, ANGLE_I);
-		rotation.config_kD(RobotMap.SLOT_INDEX, ANGLE_D);
+		rotation.config_kP(RobotMap.SLOT_INDEX, ROTATION_P);
+		rotation.config_kI(RobotMap.SLOT_INDEX, ROTATION_I);
+        rotation.config_kD(RobotMap.SLOT_INDEX, ROTATION_D);
+        rotation.config_kF(RobotMap.SLOT_INDEX, ROTATION_F);
 
 		rotation.selectProfileSlot(RobotMap.SLOT_INDEX, RobotMap.LOOP_INDEX);
 

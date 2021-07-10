@@ -122,13 +122,13 @@ public class SwerveModule {
 		SmartDashboard.putNumber("current", currentAngle);
 
 		// System.out.println(delta.getDegrees());
-		while(desiredState.angle.getDegrees()-currentAngle>180){
+		if(desiredState.angle.getDegrees()-currentAngle>180){
 			System.out.println(" loop1");
 			desiredState.angle.rotateBy(Rotation2d.fromDegrees(-360));
 			//delta = desiredState.angle.getDegrees()-currentAngle;
 		}
 
-		while(desiredState.angle.getDegrees()-currentAngle<-180){
+		if(desiredState.angle.getDegrees()-currentAngle<-180){
 			System.out.println(" loop2");
 
 			desiredState.angle.rotateBy(Rotation2d.fromDegrees(360));
@@ -149,14 +149,43 @@ public class SwerveModule {
 	}
 
 	public void setSwerveManual(SwerveModuleState state, boolean isPercentOutput){
-		state = optimize(state, getRotationAngle());
+		//state = optimize(state, getRotationAngle());
+		double speed=state.speedMetersPerSecond;
+		double angle = state.angle.getDegrees();
+		double currentAngle=getRotationAngle();
+		while(angle-currentAngle>180){
+			System.out.println(" loop1");
+			angle-=360;
+			//delta = desiredState.angle.getDegrees()-currentAngle;
+		}
+
+		while(angle-currentAngle<-180){
+			System.out.println(" loop2");
+
+			angle+=360;
+			//delta = desiredState.angle.minus(currentAngle);
+
+		}
+
+		if(angle-currentAngle>90){
+			angle-=180;
+			speed *= -1;
+		}
+
+		else if(angle-currentAngle<-90){
+			angle+=180;
+			speed *= -1;
+		}
+
+
+
 		if(isPercentOutput){
-			translation.set(TalonFXControlMode.PercentOutput, state.speedMetersPerSecond);
+			translation.set(TalonFXControlMode.PercentOutput,speed);
 		}
 		else{
-			translation.set(TalonFXControlMode.Velocity, Drivetrain.GEAR_RATIO*Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  state.speedMetersPerSecond*Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048));
+			translation.set(TalonFXControlMode.Velocity, Drivetrain.GEAR_RATIO*Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  speed*Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048));
 		}
-		rotation.set(ControlMode.Position, state.angle.getDegrees() * (4096 / 360));
+		rotation.set(ControlMode.Position,angle * (4096 / 360));
 
 
 	}

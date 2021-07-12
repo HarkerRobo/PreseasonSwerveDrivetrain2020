@@ -29,10 +29,10 @@ public class SwerveModule {
     private static final double ANGLE_CURRENT_PEAK = 20;
     private static final double ANGLE_CURRENT_PEAK_DUR = 0.02;
 
-	private static final double TRANSLATION_P = 0.7;
+	private static final double TRANSLATION_P = 0.5;
 	private static final double TRANSLATION_I = 0.0;
-	private static final double TRANSLATION_D = 10;
-	private static final double TRANSLATION_F = 0.06;
+	private static final double TRANSLATION_D = 5;
+	private static final double TRANSLATION_F = 0.034;
 
 	private static final double ANGLE_P = 1.1;
 	private static final double ANGLE_I = 0;

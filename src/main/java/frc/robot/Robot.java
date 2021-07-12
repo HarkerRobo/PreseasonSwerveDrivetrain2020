@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.IntakeManualPID;
 import frc.robot.commands.SwerveManual;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 import harkerrobolib.util.Conversions.SpeedUnit;
 
 /**
@@ -37,6 +39,8 @@ public class Robot extends TimedRobot {
     Drivetrain.getInstance().getBottomLeft().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BL_OFFSET));
     Drivetrain.getInstance().getBottomRight().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BR_OFFSET));
     CommandScheduler.getInstance().setDefaultCommand(Drivetrain.getInstance(), new SwerveManual());
+    CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeManualPID());
+
   }
 
   /**

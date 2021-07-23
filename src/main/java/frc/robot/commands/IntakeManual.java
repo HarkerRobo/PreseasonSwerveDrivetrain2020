@@ -23,5 +23,11 @@ public class IntakeManual extends IndefiniteCommand {
         double output = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightTrigger(), OI.DEADBAND);
         output*=OUTPUT_MULTIPLIER;
         Intake.getInstance().setPercentOutput(output);
+
+        boolean a_button = OI.getInstance().getDriverGamepad().getButtonAState();
+
+        if(a_button){
+            Intake.getInstance().invertSolenoid();
+        }
     }
 }

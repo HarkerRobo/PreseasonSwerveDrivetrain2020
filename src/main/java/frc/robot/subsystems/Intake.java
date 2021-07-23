@@ -6,6 +6,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import harkerrobolib.util.Conversions;
@@ -16,6 +19,7 @@ import harkerrobolib.wrappers.HSTalon;
 public class Intake extends SubsystemBase {
     private static Intake instance;
     private HSFalcon rotation;
+    private DoubleSolenoid solenoid;
     private static final double ROTATION_P = 0.3;
     private static final double ROTATION_I = 0;
     
@@ -32,6 +36,7 @@ public class Intake extends SubsystemBase {
 
     private Intake() {
         rotation=new HSFalcon(RobotMap.INTAKE);
+        solenoid = new DoubleSolenoid(RobotMap.INTAKE_PISTON_1, RobotMap.INTAKE_PISTON_2);
         
         intakeInit();
     }
@@ -67,6 +72,18 @@ public class Intake extends SubsystemBase {
 
     public HSFalcon getRotation(){
         return rotation;
+    }
+
+    public DoubleSolenoid getSolenoid(){
+        return solenoid;
+    }
+
+    public void invertSolenoid(){
+        if(solenoid.get()==Value.kForward){
+            solenoid.set(Value.kReverse);
+            return;
+        }
+        solenoid.set(Value.kForward);
     }
 
     public static Intake getInstance() {

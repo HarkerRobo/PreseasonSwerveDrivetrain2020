@@ -25,4 +25,8 @@ public class RobotMap {
     public static final int PIGEON_ID=0;
 
     public static final int INTAKE=10;
+
+    public static final int INTAKE_PISTON_1=0;
+    public static final int INTAKE_PISTON_2=0;
+
 }

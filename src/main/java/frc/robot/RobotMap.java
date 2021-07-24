@@ -26,7 +26,14 @@ public class RobotMap {
 
     public static final int INTAKE=10;
 
-    public static final int INTAKE_PISTON_1=0;
-    public static final int INTAKE_PISTON_2=0;
+    public static final int INTAKE_SOLENOID_REVERSE=0;
+    public static final int INTAKE_SOLENOID_FORWARD=7;
+
+
+    public static final int SHOOTER_MASTER=8;
+    public static final int SHOOTER_FOLLOWER=9;
+
+    public static final int Shooter_SOLENOID_REVERSE=6;
+    public static final int Shooter_SOLENOID_FORWARD=1;
 
 }

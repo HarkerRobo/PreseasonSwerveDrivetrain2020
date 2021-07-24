@@ -21,8 +21,8 @@ public class IntakeManualPID extends IndefiniteCommand {
     @Override
     public void execute(){
         double magnitude = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightTrigger(), OI.DEADBAND);
-        magnitude*=MAX_VELOCITY;
-        Intake.getInstance().setVelocity(magnitude);;
+        magnitude *= MAX_VELOCITY;
+        Intake.getInstance().setVelocity(magnitude);
         SmartDashboard.putNumber("desired velocity", magnitude);
         SmartDashboard.putNumber("intake current velocity", Intake.getInstance().getRotation().getSelectedSensorVelocity());
         SmartDashboard.putNumber("velocity error", Intake.getInstance().getRotation().getClosedLoopError());

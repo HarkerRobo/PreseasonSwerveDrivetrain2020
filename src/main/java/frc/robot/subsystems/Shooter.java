@@ -16,9 +16,11 @@ import harkerrobolib.util.Conversions.SpeedUnit;
 import harkerrobolib.wrappers.HSFalcon;
 import harkerrobolib.wrappers.HSTalon;
 
-public class Intake extends SubsystemBase {
-    private static Intake instance;
+public class Shooter extends SubsystemBase {
+    private static Shooter instance;
     private HSFalcon rotation;
+    private HSFalcon rotation_follower;
+
     private DoubleSolenoid solenoid;
     private static final double ROTATION_P = 0.3;
     private static final double ROTATION_I = 0;
@@ -33,10 +35,16 @@ public class Intake extends SubsystemBase {
     public static final int WHEEL_DIAMETER=2;
     public static final boolean INTAKE_INVERTED=true;
 
+    public static final boolean ROTATION_INVERTED=true;
 
-    private Intake() {
-        rotation=new HSFalcon(RobotMap.INTAKE);
-        solenoid = new DoubleSolenoid(RobotMap.INTAKE_SOLENOID_REVERSE, RobotMap.INTAKE_SOLENOID_FORWARD);
+    public static final boolean ROTATION_FOLLOWER_INVERTED=false;
+
+
+    private Shooter() {
+        rotation=new HSFalcon(RobotMap.SHOOTER_MASTER);
+        rotation_follower=new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
+
+        solenoid = new DoubleSolenoid(RobotMap.Shooter_SOLENOID_REVERSE, RobotMap.Shooter_SOLENOID_FORWARD);
         
         intakeInit();
     }
@@ -57,7 +65,11 @@ public class Intake extends SubsystemBase {
 		rotation.selectProfileSlot(RobotMap.SLOT_INDEX, RobotMap.LOOP_INDEX);
 
         rotation.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, RobotMap.SLOT_INDEX, 100);
-        rotation.setInverted(INTAKE_INVERTED);
+        rotation.setInverted(ROTATION_INVERTED);
+
+        rotation_follower.configFactoryDefault();
+        rotation_follower.follow(rotation);
+        rotation_follower.setInverted(ROTATION_FOLLOWER_INVERTED);
     }
 
 
@@ -79,16 +91,22 @@ public class Intake extends SubsystemBase {
     }
 
     public void invertSolenoid(){
-        if(solenoid.get()==Value.kForward){
-            solenoid.set(Value.kReverse);
+        if(solenoid.get()==Value.kReverse){
+            solenoid.set(Value.kForward);
             return;
         }
+        solenoid.set(Value.kReverse);
+    }
+    public void setShooterForward(){
         solenoid.set(Value.kForward);
     }
+    public void setShooterReverse(){
+        solenoid.set(Value.kReverse);
+    }
 
-    public static Intake getInstance() {
+    public static Shooter getInstance() {
         if (instance == null) {
-           instance = new Intake();
+           instance = new Shooter();
         }
         return instance;
      }

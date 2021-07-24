@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import harkerrobolib.commands.IndefiniteCommand;
 import harkerrobolib.util.MathUtil;
 
@@ -12,17 +13,17 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 
-public class IntakeManual extends IndefiniteCommand {
+public class ShooterManual extends IndefiniteCommand {
     private static final double OUTPUT_MULTIPLIER= 0.2;
-    public IntakeManual() {
-        addRequirements(Intake.getInstance());
+    public ShooterManual() {
+        addRequirements(Shooter.getInstance());
     }
 
     @Override
     public void execute(){
-        double output = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightTrigger(), OI.DEADBAND);
+        double output = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftTrigger(), OI.DEADBAND);
         output*=OUTPUT_MULTIPLIER;
-        Intake.getInstance().setPercentOutput(output);
+        Shooter.getInstance().setPercentOutput(output);
 
     }
 }

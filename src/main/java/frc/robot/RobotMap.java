@@ -36,4 +36,13 @@ public class RobotMap {
     public static final int Shooter_SOLENOID_REVERSE=6;
     public static final int Shooter_SOLENOID_FORWARD=1;
 
+    public static final int INDEXER_LINEAR=12;
+    public static final int INDEXER_AGITATOR=13;
+
+    public static final int INDEXER_BLOCKER_FORWARD=3;
+    public static final int INDEXER_BLOCKER_REVERSE=4;
+
+    public static final int SHOOTER_SENSOR=6;
+    public static final int LINEAR_SENSOR=7;
+
 }

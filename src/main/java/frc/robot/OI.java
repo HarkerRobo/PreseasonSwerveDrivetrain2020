@@ -31,13 +31,6 @@ public class OI {
             Shooter.getInstance().invertSolenoid();
         }, Shooter.getInstance()));
 
-
-        driverGamepad.getButtonY().whenPressed(new InstantCommand(() -> {
-            Shooter.getInstance().setShooterForward();;
-        }, Shooter.getInstance()));
-        driverGamepad.getButtonX().whenPressed(new InstantCommand(() -> {
-            Shooter.getInstance().setShooterReverse();;
-        }, Shooter.getInstance()));
     }
     
     public HSGamepad getDriverGamepad(){

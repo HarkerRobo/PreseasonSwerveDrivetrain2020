@@ -13,9 +13,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.intake.IntakeControl;
 import frc.robot.commands.intake.IntakeManualPID;
 import frc.robot.commands.shooter.ShooterManual;
-import frc.robot.commands.spine.LinearManual;
 import frc.robot.commands.drivetrain.SwerveManual;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Indexer;
@@ -43,9 +43,9 @@ public class Robot extends TimedRobot {
     Drivetrain.getInstance().getBottomLeft().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BL_OFFSET));
     Drivetrain.getInstance().getBottomRight().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BR_OFFSET));
     CommandScheduler.getInstance().setDefaultCommand(Drivetrain.getInstance(), new SwerveManual());
-    CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeManualPID());
+    CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeControl());
     CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterManual());
-    CommandScheduler.getInstance().setDefaultCommand(Indexer.getInstance(), new LinearManual());
+    // CommandScheduler.getInstance().setDefaultCommand(Indexer.getInstance(), new LinearManual());
 
   }
 

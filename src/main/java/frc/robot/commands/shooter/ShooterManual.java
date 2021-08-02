@@ -19,11 +19,11 @@ public class ShooterManual extends IndefiniteCommand {
         addRequirements(Shooter.getInstance());
     }
 
-    @Override
-    public void execute(){
-        double output = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftTrigger(), OI.DEADBAND);
-        output*=OUTPUT_MULTIPLIER;
-        Shooter.getInstance().setPercentOutput(output);
+    // @Override
+    // public void execute(){
+    //     double output = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftTrigger(), OI.DEADBAND);
+    //     output*=OUTPUT_MULTIPLIER;
+    //     Shooter.getInstance().setPercentOutput(output);
 
-    }
+    // }
 }

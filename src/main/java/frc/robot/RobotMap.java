@@ -45,4 +45,7 @@ public class RobotMap {
     public static final int SHOOTER_SENSOR=6;
     public static final int LINEAR_SENSOR=7;
 
+    public static final int CLIMBER_MASTER=14;
+    public static final int CLIMBER_FOLLOWER=15;
+
 }

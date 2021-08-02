@@ -77,6 +77,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public void setLinearPercentOutput(double output){
+        System.out.println("linear output" + output);
         linear.set(ControlMode.PercentOutput, output);
     }
 

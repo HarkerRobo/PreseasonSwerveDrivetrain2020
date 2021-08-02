@@ -44,7 +44,7 @@ public class Robot extends TimedRobot {
     Drivetrain.getInstance().getBottomRight().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BR_OFFSET));
     CommandScheduler.getInstance().setDefaultCommand(Drivetrain.getInstance(), new SwerveManual());
     CommandScheduler.getInstance().setDefaultCommand(Intake.getInstance(), new IntakeControl());
-    CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterManual());
+    // CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterManual());
     // CommandScheduler.getInstance().setDefaultCommand(Indexer.getInstance(), new LinearManual());
 
   }

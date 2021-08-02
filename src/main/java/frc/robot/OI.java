@@ -1,11 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.intake.MoveBallsToShooter;
+import frc.robot.commands.shooter.ShooterManual;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import harkerrobolib.commands.CallMethodCommand;
 import harkerrobolib.wrappers.HSGamepad;
 import harkerrobolib.wrappers.XboxGamepad;
+
 
 public class OI {
     private static OI oi;
@@ -30,6 +33,9 @@ public class OI {
         driverGamepad.getButtonB().whenPressed(new InstantCommand(() -> {
             Shooter.getInstance().invertSolenoid();
         }, Shooter.getInstance()));
+
+        driverGamepad.getButtonX().whilePressed(new MoveBallsToShooter());
+        driverGamepad.getButtonY().whilePressed(new ShooterManual());
 
     }
     

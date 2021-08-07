@@ -56,8 +56,8 @@ public class Drivetrain extends SubsystemBase {
     public static final double TALON_CONTINUOUS_LIMIT = 15;
     public static final double VOLTAGE_COMP = 10;
 
-    public static final double MAX_DRIVE_VEL = 0.4;
-    public static final double MAX_ANGULAR_VEL = 1 * Math.PI;
+    public static final double MAX_DRIVE_VEL = 0.2;
+    public static final double MAX_ANGULAR_VEL = .5 * Math.PI;
 
     public static final double FEET_TO_METER=3.281;
     public static final int WHEEL_DIAMETER=4;

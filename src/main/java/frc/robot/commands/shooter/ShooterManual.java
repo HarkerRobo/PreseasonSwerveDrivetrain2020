@@ -21,7 +21,7 @@ public class ShooterManual extends IndefiniteCommand {
 
     @Override
     public void execute(){
-        double output = 0.4;
+        double output = 0.7;
         // output*=OUTPUT_MULTIPLIER;
         Shooter.getInstance().setPercentOutput(output);
 

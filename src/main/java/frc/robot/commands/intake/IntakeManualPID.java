@@ -34,7 +34,6 @@ public class IntakeManualPID extends IndefiniteCommand {
 
     @Override
     public void execute() {
-        System.out.println("working");
         Intake.getInstance().setVelocity(magnitude*MAX_VELOCITY);
 
         if(reverse)

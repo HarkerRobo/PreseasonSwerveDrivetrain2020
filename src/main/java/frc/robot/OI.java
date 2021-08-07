@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShooterManual;
 import frc.robot.subsystems.Intake;
@@ -33,9 +34,10 @@ public class OI {
         driverGamepad.getButtonB().whenPressed(new InstantCommand(() -> {
             Shooter.getInstance().invertSolenoid();
         }, Shooter.getInstance()));
-
-        driverGamepad.getButtonX().whilePressed(new MoveBallsToShooter());
-        driverGamepad.getButtonY().whilePressed(new ShooterManual());
+        
+        driverGamepad.getButtonX().whilePressed(new ParallelCommandGroup(
+            new MoveBallsToShooter(), new ShooterManual()
+        ));
 
     }
     

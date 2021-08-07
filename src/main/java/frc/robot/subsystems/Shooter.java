@@ -32,7 +32,7 @@ public class Shooter extends SubsystemBase {
     private static final double ANGLE_CURRENT_CONTINUOUS = 40;
     private static final double ANGLE_CURRENT_PEAK = 50;
     private static final double ANGLE_CURRENT_PEAK_DUR = 0.1;
-    public static final int WHEEL_DIAMETER=2;
+    public static final int WHEEL_DIAMETER=4;
     public static final boolean INTAKE_INVERTED=true;
 
     public static final boolean ROTATION_INVERTED=true;

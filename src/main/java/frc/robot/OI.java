@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShooterManual;
+import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import harkerrobolib.commands.CallMethodCommand;
@@ -37,6 +38,10 @@ public class OI {
         
         driverGamepad.getButtonX().whilePressed(new ParallelCommandGroup(
             new MoveBallsToShooter(), new ShooterManual()
+        ));
+
+        driverGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
+            new ShooterVelocityManual()
         ));
 
     }

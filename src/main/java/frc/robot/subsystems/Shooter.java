@@ -22,12 +22,14 @@ public class Shooter extends SubsystemBase {
     private HSFalcon rotation_follower;
 
     private DoubleSolenoid solenoid;
-    private static final double ROTATION_P = 0.3;
-    private static final double ROTATION_I = 0;
+    private static final double ROTATION_P = 0.05;
+    private static final double ROTATION_I = 0.0001;
+    private static final double ROTATION_I_ZONE = 1700;
+
     
-    private static final double ROTATION_D = 4;
-    private static final double ROTATION_F = 0.05;
-    private static final double RAMP_RATE = 0.1;
+    private static final double ROTATION_D = 1;
+    private static final double ROTATION_F = 0.064;
+    private static final double RAMP_RATE = 0;
     private static final double VOLTAGE_COMP = 10;
     private static final double ANGLE_CURRENT_CONTINUOUS = 40;
     private static final double ANGLE_CURRENT_PEAK = 50;
@@ -38,6 +40,8 @@ public class Shooter extends SubsystemBase {
     public static final boolean ROTATION_INVERTED=true;
 
     public static final boolean ROTATION_FOLLOWER_INVERTED=false;
+    public static final double GEAR_RATIO = 0.675;
+
 
 
     private Shooter() {
@@ -51,7 +55,7 @@ public class Shooter extends SubsystemBase {
 
     public void intakeInit(){
         rotation.configFactoryDefault();
-        rotation.setNeutralMode(NeutralMode.Brake);
+        rotation.setNeutralMode(NeutralMode.Coast);
 		rotation.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, ANGLE_CURRENT_CONTINUOUS, ANGLE_CURRENT_PEAK, ANGLE_CURRENT_PEAK_DUR));
 		rotation.configVoltageCompSaturation(VOLTAGE_COMP);
 		rotation.configForwardSoftLimitEnable(false);
@@ -60,6 +64,7 @@ public class Shooter extends SubsystemBase {
 		rotation.config_kI(RobotMap.SLOT_INDEX, ROTATION_I);
         rotation.config_kD(RobotMap.SLOT_INDEX, ROTATION_D);
         rotation.config_kF(RobotMap.SLOT_INDEX, ROTATION_F);
+        rotation.config_IntegralZone(RobotMap.SLOT_INDEX, ROTATION_I_ZONE);
         rotation.configClosedloopRamp(RAMP_RATE);
 
 		rotation.selectProfileSlot(RobotMap.SLOT_INDEX, RobotMap.LOOP_INDEX);
@@ -78,7 +83,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setVelocity(double output){
-        rotation.set(ControlMode.Velocity, Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  output, SpeedUnit.ENCODER_UNITS, WHEEL_DIAMETER, 4096));
+        rotation.set(ControlMode.Velocity, Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  output, SpeedUnit.ENCODER_UNITS, WHEEL_DIAMETER, 2048));
 		
     }
 

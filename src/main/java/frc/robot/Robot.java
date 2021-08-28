@@ -21,6 +21,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.util.Limelight;
 import harkerrobolib.util.Conversions.SpeedUnit;
 
 /**
@@ -87,6 +88,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Limelight.setLEDS(false);
     // m_autoSelected = m_chooser.getSelected();
     // // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     // System.out.println("Auto selected: " + m_autoSelected);
@@ -113,6 +115,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    Limelight.setLEDS(true);
   }
 
   /**
@@ -128,6 +131,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    Limelight.setLEDS(false);
   }
 
   /**
@@ -135,6 +139,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledPeriodic() {
+    Limelight.setLEDS(false);
   }
 
   /**

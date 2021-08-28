@@ -123,14 +123,11 @@ public class SwerveModule {
 
 		// System.out.println(delta.getDegrees());
 		if(desiredState.angle.getDegrees()-currentAngle>180){
-			System.out.println(" loop1");
 			desiredState.angle.rotateBy(Rotation2d.fromDegrees(-360));
 			//delta = desiredState.angle.getDegrees()-currentAngle;
 		}
 
 		if(desiredState.angle.getDegrees()-currentAngle<-180){
-			System.out.println(" loop2");
-
 			desiredState.angle.rotateBy(Rotation2d.fromDegrees(360));
 			//delta = desiredState.angle.minus(currentAngle);
 
@@ -154,13 +151,11 @@ public class SwerveModule {
 		double angle = state.angle.getDegrees();
 		double currentAngle=getRotationAngle();
 		while(angle-currentAngle>180){
-			System.out.println(" loop1");
 			angle-=360;
 			//delta = desiredState.angle.getDegrees()-currentAngle;
 		}
 
 		while(angle-currentAngle<-180){
-			System.out.println(" loop2");
 
 			angle+=360;
 			//delta = desiredState.angle.minus(currentAngle);

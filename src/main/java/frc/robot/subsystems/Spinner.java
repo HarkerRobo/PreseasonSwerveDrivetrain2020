@@ -97,8 +97,8 @@ public class Spinner extends SubsystemBase {
     @Override
     public void periodic() {
         // Color detectedColor = colorSensor.getColor();\
-        SmartDashboard.putString("color",Spinner.getInstance().getCurrentColor().toString()
-        );
+        // SmartDashboard.putString("color",Spinner.getInstance().getCurrentColor().toString()
+        // );
         // /**
         //  * Run the color match algorithm on our detected color
         //  */

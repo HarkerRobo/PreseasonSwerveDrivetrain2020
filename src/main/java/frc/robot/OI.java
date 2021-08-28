@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShooterManual;
 import frc.robot.commands.shooter.ShooterVelocityManual;
+import frc.robot.commands.spine.Jumble;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import harkerrobolib.commands.CallMethodCommand;
@@ -28,21 +29,25 @@ public class OI {
     }
 
     private void initBindings() {
-        driverGamepad.getButtonA().whenPressed(new InstantCommand(() -> {
+        operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> {
             Intake.getInstance().invertSolenoid();
         }, Intake.getInstance()));
 
-        driverGamepad.getButtonB().whenPressed(new InstantCommand(() -> {
+        operatorGamepad.getButtonB().whenPressed(new InstantCommand(() -> {
             Shooter.getInstance().invertSolenoid();
         }, Shooter.getInstance()));
         
-        driverGamepad.getButtonX().whilePressed(new ParallelCommandGroup(
+        driverGamepad.getButtonBumperRight().whilePressed(new ParallelCommandGroup(
             new MoveBallsToShooter(), new ShooterManual()
         ));
 
         driverGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
+            new Jumble()
+        ));
+        operatorGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
             new ShooterVelocityManual()
         ));
+
 
     }
     

@@ -44,7 +44,9 @@ public class Limelight {
     public static final int NO_SNAPSHOT = 0;
     public static final int SNAPSHOT = 1;
     
-    private static double[] nullArr;
+    private static double[] nullArr;    
+    public static final double LIMELIGHT_HEIGHT=1.54;
+
 
     /**
      * Setup Limelight with default settings

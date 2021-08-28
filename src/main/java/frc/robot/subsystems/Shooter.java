@@ -41,6 +41,8 @@ public class Shooter extends SubsystemBase {
 
     public static final boolean ROTATION_FOLLOWER_INVERTED=false;
     public static final double GEAR_RATIO = 0.675;
+    public static final double POWER_PORT_HEIGHT=8.1875;
+
 
 
 

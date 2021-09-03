@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 
 public class SwerveManual extends IndefiniteCommand {
-    private static final double OUTPUT_MULTIPLIER= 0.2;
+    private static final double OUTPUT_MULTIPLIER= 1;
     private static final double kP=0.03;
     private static final double kI=0.0002;
     private static final double kD=0.008;
@@ -57,6 +57,6 @@ public class SwerveManual extends IndefiniteCommand {
 
         ChassisSpeeds chassis = ChassisSpeeds.fromFieldRelativeSpeeds(translationx, translationy, -angularVelocity, new Rotation2d(Math.toRadians(Drivetrain.getInstance().getPigeon().getFusedHeading())));
 
-        Drivetrain.getInstance().setAngleAndDriveVelocity(Drivetrain.getInstance().getSwerveDriveKinematics().toSwerveModuleStates(chassis), false);
+        Drivetrain.getInstance().setAngleAndDriveVelocity(Drivetrain.getInstance().getKinematics().toSwerveModuleStates(chassis), false);
     }
 }

@@ -106,7 +106,7 @@ public class SwerveModule {
 
 		translation.selectProfileSlot(RobotMap.SLOT_INDEX, RobotMap.LOOP_INDEX);
 
-		translation.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, RobotMap.SLOT_INDEX);
+		translation.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, RobotMap.SLOT_INDEX);
 
 	}
 
@@ -116,34 +116,13 @@ public class SwerveModule {
 
 	}
 
-	public SwerveModuleState optimize(SwerveModuleState desiredState, double currentAngle){
-		double delta = desiredState.angle.getDegrees()-currentAngle;
-		SmartDashboard.putNumber("desired", desiredState.angle.getDegrees());
-		SmartDashboard.putNumber("current", currentAngle);
-
-		// System.out.println(delta.getDegrees());
-		if(desiredState.angle.getDegrees()-currentAngle>180){
-			desiredState.angle.rotateBy(Rotation2d.fromDegrees(-360));
-			//delta = desiredState.angle.getDegrees()-currentAngle;
-		}
-
-		if(desiredState.angle.getDegrees()-currentAngle<-180){
-			desiredState.angle.rotateBy(Rotation2d.fromDegrees(360));
-			//delta = desiredState.angle.minus(currentAngle);
-
-		}
-
-		// if(delta.getDegrees()>90){
-		// 	desiredState.angle.rotateBy(Rotation2d.fromDegrees(180));
-		// 	desiredState.speedMetersPerSecond *= -1;
-		// }
-
-		// else if(delta.getDegrees()<-90){
-		// 	desiredState.angle.rotateBy(Rotation2d.fromDegrees(-180));
-		// 	desiredState.speedMetersPerSecond *= -1;
-		// }
-		return desiredState;
+	public SwerveModuleState getState() {
+		return new SwerveModuleState(
+			Conversions.convertSpeed(SpeedUnit.ENCODER_UNITS, translation.getSelectedSensorVelocity() / Drivetrain.FEET_TO_METER, SpeedUnit.FEET_PER_SECOND, Drivetrain.WHEEL_DIAMETER, 2048) / Drivetrain.GEAR_RATIO, 
+			Rotation2d.fromDegrees(rotation.getSelectedSensorPosition() * 360 / 4096)
+		);
 	}
+
 
 	public void setSwerveManual(SwerveModuleState state, boolean isPercentOutput){
 		//state = optimize(state, getRotationAngle());
@@ -151,34 +130,32 @@ public class SwerveModule {
 		double angle = state.angle.getDegrees();
 		double currentAngle=getRotationAngle();
 		while(angle-currentAngle>180){
-			angle-=360;
-			//delta = desiredState.angle.getDegrees()-currentAngle;
+			angle -= 360;
+			//delta = desiredState.angle.getDegrees() - currentAngle;
 		}
 
 		while(angle-currentAngle<-180){
 
-			angle+=360;
+			angle += 360;
 			//delta = desiredState.angle.minus(currentAngle);
 
 		}
 
 		if(angle-currentAngle>90){
-			angle-=180;
+			angle -= 180;
 			speed *= -1;
 		}
 
 		else if(angle-currentAngle<-90){
-			angle+=180;
+			angle += 180;
 			speed *= -1;
 		}
 
-
-
 		if(isPercentOutput){
-			translation.set(TalonFXControlMode.PercentOutput,speed);
+			translation.set(TalonFXControlMode.PercentOutput, speed);
 		}
 		else{
-			translation.set(TalonFXControlMode.Velocity, Drivetrain.GEAR_RATIO*Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  speed*Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048));
+			translation.set(TalonFXControlMode.Velocity, Drivetrain.GEAR_RATIO * Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  speed * Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048));
 		}
 		rotation.set(ControlMode.Position,angle * (4096 / 360));
 

@@ -10,6 +10,7 @@ package frc.robot;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -55,24 +56,43 @@ public class Robot extends TimedRobot {
    * this for items like diagnostics that you want ran during disabled,
    * autonomous, teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
+   * This runs after the mode specific periodic functions, but before
    * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("angle pos tl pulse width", Drivetrain.getInstance().getTopLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
-    SmartDashboard.putNumber("angle pos tr pulse width", Drivetrain.getInstance().getTopRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
-    SmartDashboard.putNumber("angle pos bl pulse width", Drivetrain.getInstance().getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
-    SmartDashboard.putNumber("angle pos br pulse width", Drivetrain.getInstance().getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
+    Drivetrain drivetrain = Drivetrain.getInstance();
+
+    drivetrain.getOdometry().update(
+      Rotation2d.fromDegrees(drivetrain.getPigeon().getFusedHeading()), 
+      drivetrain.getTopLeft().getState(),
+      drivetrain.getTopRight().getState(), 
+      drivetrain.getBottomLeft().getState(), 
+      drivetrain.getBottomRight().getState()
+    );
 
     
-    SmartDashboard.putNumber("angle pos tl", Drivetrain.getInstance().getTopLeft().getRotationMotor().getSelectedSensorPosition());
-    SmartDashboard.putNumber("angle pos tr", Drivetrain.getInstance().getTopRight().getRotationMotor().getSelectedSensorPosition());
-    SmartDashboard.putNumber("angle pos bl", Drivetrain.getInstance().getBottomLeft().getRotationMotor().getSelectedSensorPosition());
-    SmartDashboard.putNumber("angle pos br", Drivetrain.getInstance().getBottomRight().getRotationMotor().getSelectedSensorPosition());
+    
+    SmartDashboard.putNumber("angle pos tl pulse width", drivetrain.getTopLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
+    SmartDashboard.putNumber("angle pos tr pulse width", drivetrain.getTopRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
+    SmartDashboard.putNumber("angle pos bl pulse width", drivetrain.getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
+    SmartDashboard.putNumber("angle pos br pulse width", drivetrain.getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
 
-    SmartDashboard.putNumber("Pigeon Heading", Drivetrain.getInstance().getPigeon().getFusedHeading());
+    SmartDashboard.putNumber("ODOMOTER X", drivetrain.getOdometry().getPoseMeters().getX());
+    SmartDashboard.putNumber("ODOMOTER Y", drivetrain.getOdometry().getPoseMeters().getY());
+    SmartDashboard.putNumber("ODOMOTER ANGLE", drivetrain.getOdometry().getPoseMeters().getRotation().getDegrees());
+    SmartDashboard.putNumber("STATE SPEED", drivetrain.getBottomLeft().getState().speedMetersPerSecond);
+    SmartDashboard.putNumber("SENSOR SPEEDs", drivetrain.getBottomLeft().getTranslationMotor().getSelectedSensorVelocity());
+    SmartDashboard.putNumber("STATE ANGLE", drivetrain.getBottomLeft().getState().angle.getDegrees());
+    
+
+    SmartDashboard.putNumber("angle pos tl", drivetrain.getTopLeft().getRotationMotor().getSelectedSensorPosition());
+    SmartDashboard.putNumber("angle pos tr", drivetrain.getTopRight().getRotationMotor().getSelectedSensorPosition());
+    SmartDashboard.putNumber("angle pos bl", drivetrain.getBottomLeft().getRotationMotor().getSelectedSensorPosition());
+    SmartDashboard.putNumber("angle pos br", drivetrain.getBottomRight().getRotationMotor().getSelectedSensorPosition());
+
+    SmartDashboard.putNumber("Pigeon Heading", drivetrain.getPigeon().getFusedHeading());
   }
 
   /**

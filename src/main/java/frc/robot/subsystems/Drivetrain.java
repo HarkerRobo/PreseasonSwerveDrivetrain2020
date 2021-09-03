@@ -1,7 +1,10 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,6 +12,7 @@ import frc.robot.RobotMap;
 import frc.robot.util.SwerveModule;
 
 import frc.robot.util.Vector;
+
 import harkerrobolib.wrappers.HSPigeon;
 
 public class Drivetrain extends SubsystemBase {
@@ -44,10 +48,10 @@ public class Drivetrain extends SubsystemBase {
     public static final int BL_OFFSET = 370+2048;
     public static final int BR_OFFSET = 1465+2048;
 
-    private Translation2d m_frontLeftLocation;
-    private Translation2d m_frontRightLocation;
-    private Translation2d m_backLeftLocation;
-    private Translation2d m_backRightLocation;
+    private Translation2d frontLeftLocation;
+    private Translation2d frontRightLocation;
+    private Translation2d backLeftLocation;
+    private Translation2d backRightLocation;
 
     public static final double DT_WIDTH = 0.419;
     public static final double DT_LENGTH = 0.523;
@@ -56,8 +60,8 @@ public class Drivetrain extends SubsystemBase {
     public static final double TALON_CONTINUOUS_LIMIT = 15;
     public static final double VOLTAGE_COMP = 10;
 
-    public static final double MAX_DRIVE_VEL = 1;
-    public static final double MAX_ANGULAR_VEL = .5 * Math.PI;
+    public static final double MAX_DRIVE_VEL = 2;
+    public static final double MAX_ANGULAR_VEL = 1 * Math.PI;
 
     public static final double FEET_TO_METER=3.281;
     public static final int WHEEL_DIAMETER=4;
@@ -66,8 +70,9 @@ public class Drivetrain extends SubsystemBase {
 
     private HSPigeon pigeon;
 
+    private SwerveDriveKinematics kinematics;
 
-    public SwerveDriveKinematics swerveDriveKinematics;
+    private SwerveDriveOdometry odometry;
 
     public Drivetrain() {
         topLeft = new SwerveModule(TOP_LEFT_ROTATION_SENSOR_PHASE, TOP_LEFT_TRANSLATION_SENSOR_PHASE,
@@ -78,29 +83,17 @@ public class Drivetrain extends SubsystemBase {
                 RobotMap.ROTATION_IDS[2], RobotMap.TRANSLATION_IDS[2], BOTTOM_LEFT_ROTATION_INVERTED, BOTTOM_LEFT_TRANSLATION_INVERTED);
         bottomRight = new SwerveModule(BOTTOM_RIGHT_ROTATION_SENSOR_PHASE, BOTTOM_RIGHT_TRANSLATION_SENSOR_PHASE,
                 RobotMap.ROTATION_IDS[3], RobotMap.TRANSLATION_IDS[3], BOTTOM_RIGHT_ROTATION_INVERTED, BOTTOM_RIGHT_TRANSLATION_INVERTED);
-
-        m_frontLeftLocation = new Translation2d(-DT_LENGTH / 2, DT_WIDTH / 2);
-        m_frontRightLocation = new Translation2d(DT_LENGTH / 2, DT_WIDTH / 2);
-        m_backLeftLocation = new Translation2d(-DT_LENGTH / 2, -DT_WIDTH / 2);
-        m_backRightLocation = new Translation2d(DT_LENGTH / 2, -DT_WIDTH / 2);
-        swerveDriveKinematics= new SwerveDriveKinematics(m_frontLeftLocation, m_frontRightLocation, m_backLeftLocation, m_backRightLocation);
-
-        pigeon=new HSPigeon(RobotMap.PIGEON_ID);
+        
+        pigeon = new HSPigeon(RobotMap.PIGEON_ID);
         pigeon.setFusedHeading(0);
 
-        // In SwerveManual:
+        frontLeftLocation = new Translation2d(-DT_LENGTH / 2, DT_WIDTH / 2);
+        frontRightLocation = new Translation2d(DT_LENGTH / 2, DT_WIDTH / 2);
+        backLeftLocation = new Translation2d(-DT_LENGTH / 2, -DT_WIDTH / 2);
+        backRightLocation = new Translation2d(DT_LENGTH / 2, -DT_WIDTH / 2);
         
-        // TODO: Add multiplier to raw outputs for safety
-
-        // TODO: Make ChassisSpeeds object (vx, vy, omega)
-
-        // TODO: Convert from ChassisSpeeds to SwerveModuleStates
-
-        // In DriveTrain:
-        
-        // Set velocities based on SwerveModuleStates' speeds and angles,
-        // make sure to convert from angle degrees to encoder units before
-        // implementing angle PID
+        kinematics = new SwerveDriveKinematics(frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
+        odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(pigeon.getFusedHeading()), new Pose2d(0,0, new Rotation2d()));
     }
 
     public SwerveModule getTopLeft() {
@@ -138,8 +131,12 @@ public class Drivetrain extends SubsystemBase {
         bottomRight.setSwerveManual(states[3], isPercentOutput);
     }
 
-    public SwerveDriveKinematics getSwerveDriveKinematics(){
-        return swerveDriveKinematics;
+    public SwerveDriveOdometry getOdometry() {
+        return odometry;
+    }
+
+    public SwerveDriveKinematics getKinematics(){
+        return kinematics;
     }
 
     public static Drivetrain getInstance() {

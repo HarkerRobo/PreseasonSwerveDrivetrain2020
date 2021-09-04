@@ -43,9 +43,9 @@ public class Drivetrain extends SubsystemBase {
     private static final boolean BOTTOM_RIGHT_ROTATION_INVERTED = false; //false;
     private static final boolean BOTTOM_RIGHT_TRANSLATION_INVERTED = false;
 
-    public static final int TL_OFFSET = 272;
-    public static final int TR_OFFSET = 1510+2048;
-    public static final int BL_OFFSET = 370+2048;
+    public static final int TL_OFFSET = 2327-2048+40;
+    public static final int TR_OFFSET = 1538+2048;
+    public static final int BL_OFFSET = 408+2048-20;
     public static final int BR_OFFSET = 1465+2048;
 
     private Translation2d frontLeftLocation;
@@ -67,6 +67,12 @@ public class Drivetrain extends SubsystemBase {
     public static final int WHEEL_DIAMETER=4;
     public static final int GEAR_RATIO=6;
     public static final double MIN_OUTPUT=10e-4;
+
+    public static final double AUTO_MAX_SPEED = 2;
+    public static final double AUTO_MAX_ANGULAR_VEL = Math.PI;
+
+    public static final double AUTO_MAX_SPEED_ACCELERATION = 1;
+    public static final double AUTO_MAX_ANGULAR_VEL_ACCELERATION = 0.5 * Math.PI;
 
     private HSPigeon pigeon;
 
@@ -123,12 +129,12 @@ public class Drivetrain extends SubsystemBase {
         bottomRight.setPercentOutput(translation);
     }
 
-    public void setAngleAndDriveVelocity(SwerveModuleState[] states, boolean isPercentOutput){
-        topLeft.setSwerveManual(states[0], isPercentOutput);
+    public void setAngleAndDriveVelocity(SwerveModuleState[] states){
+        topLeft.setSwerveManual(states[0]);
         SmartDashboard.putNumber("TL VEL", states[0].speedMetersPerSecond);
-        topRight.setSwerveManual(states[1], isPercentOutput);
-        bottomLeft.setSwerveManual(states[2], isPercentOutput);
-        bottomRight.setSwerveManual(states[3], isPercentOutput);
+        topRight.setSwerveManual(states[1]);
+        bottomLeft.setSwerveManual(states[2]);
+        bottomRight.setSwerveManual(states[3]);
     }
 
     public SwerveDriveOdometry getOdometry() {

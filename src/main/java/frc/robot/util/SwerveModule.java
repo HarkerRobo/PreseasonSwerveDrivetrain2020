@@ -124,7 +124,7 @@ public class SwerveModule {
 	}
 
 
-	public void setSwerveManual(SwerveModuleState state, boolean isPercentOutput){
+	public void setSwerveManual(SwerveModuleState state){
 		//state = optimize(state, getRotationAngle());
 		double speed=state.speedMetersPerSecond;
 		double angle = state.angle.getDegrees();
@@ -151,12 +151,8 @@ public class SwerveModule {
 			speed *= -1;
 		}
 
-		if(isPercentOutput){
-			translation.set(TalonFXControlMode.PercentOutput, speed);
-		}
-		else{
-			translation.set(TalonFXControlMode.Velocity, Drivetrain.GEAR_RATIO * Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  speed * Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048));
-		}
+		translation.set(TalonFXControlMode.Velocity, Drivetrain.GEAR_RATIO * Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  speed * Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048));
+		
 		rotation.set(ControlMode.Position,angle * (4096 / 360));
 
 

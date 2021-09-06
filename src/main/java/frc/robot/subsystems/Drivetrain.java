@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.util.SwerveModule;
 
@@ -150,5 +151,11 @@ public class Drivetrain extends SubsystemBase {
             drivetrain = new Drivetrain();
         }
         return drivetrain;
+    }
+    public static double getMaxDriveVel(){
+        if(OI.getInstance().getDriverGamepad().getButtonBumperLeftState() 
+        && OI.getInstance().getDriverGamepad().getButtonBumperRightState())
+            return MAX_DRIVE_VEL;
+        return MAX_DRIVE_VEL*0.3;
     }
 }

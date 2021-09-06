@@ -40,9 +40,9 @@ public class OI {
             Shooter.getInstance().invertSolenoid();
         }, Shooter.getInstance()));
         
-        driverGamepad.getButtonBumperRight().whilePressed(new ParallelCommandGroup(
-            new MoveBallsToShooter(), new ShooterManual()
-        ));
+        // driverGamepad.getButtonBumperRight().whilePressed(new ParallelCommandGroup(
+        //     new MoveBallsToShooter(), new ShooterManual()
+        // ));
 
         driverGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
             new Jumble()

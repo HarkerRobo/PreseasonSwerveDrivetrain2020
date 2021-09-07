@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
+import frc.robot.RobotMap;
 
 public class SwerveManual extends IndefiniteCommand {
     private static final double OUTPUT_MULTIPLIER= 1;
@@ -50,6 +51,10 @@ public class SwerveManual extends IndefiniteCommand {
         translationx *= Drivetrain.MAX_DRIVE_VEL * OUTPUT_MULTIPLIER;
         translationy *= Drivetrain.MAX_DRIVE_VEL * OUTPUT_MULTIPLIER;
 
+        if(RobotMap.DEMO_MODE && !(OI.getInstance().getDriverGamepad().getButtonBumperLeftState() && OI.getInstance().getDriverGamepad().getButtonBumperRightState())){
+            translationx *= 0.3;
+            translationy *= 0.3;
+        }
        // System.out.println(translationx + " " + translationy);
         // double rotation =
         // MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(),

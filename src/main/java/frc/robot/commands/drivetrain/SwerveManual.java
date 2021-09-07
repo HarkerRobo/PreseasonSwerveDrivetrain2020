@@ -47,9 +47,16 @@ public class SwerveManual extends IndefiniteCommand {
         }
         SmartDashboard.putNumber("limelight tx", Limelight.getTx());
         SmartDashboard.putNumber("limelight ang vel", angularVelocity);
-        translationx *= Drivetrain.getMaxDriveVel() * OUTPUT_MULTIPLIER;
-        translationy *= Drivetrain.getMaxDriveVel() * OUTPUT_MULTIPLIER;
-
+        translationx *= (
+            OI.getInstance().getDriverGamepad().getButtonBumperLeftState() && OI.getInstance().getDriverGamepad().getButtonBumperRightState() 
+            ? Drivetrain.MAX_DRIVE_VEL
+            : Drivetrain.MAX_DRIVE_VEL * 0.3 ) 
+            * OUTPUT_MULTIPLIER;
+        translationy *= (
+            OI.getInstance().getDriverGamepad().getButtonBumperLeftState() && OI.getInstance().getDriverGamepad().getButtonBumperRightState() 
+            ? Drivetrain.MAX_DRIVE_VEL 
+            : Drivetrain.MAX_DRIVE_VEL * 0.3) 
+            * OUTPUT_MULTIPLIER;
        // System.out.println(translationx + " " + translationy);
         // double rotation =
         // MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(),

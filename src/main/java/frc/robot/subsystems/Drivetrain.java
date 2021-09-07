@@ -152,10 +152,4 @@ public class Drivetrain extends SubsystemBase {
         }
         return drivetrain;
     }
-    public static double getMaxDriveVel(){
-        if(OI.getInstance().getDriverGamepad().getButtonBumperLeftState() 
-        && OI.getInstance().getDriverGamepad().getButtonBumperRightState())
-            return MAX_DRIVE_VEL;
-        return MAX_DRIVE_VEL*0.3;
-    }
 }

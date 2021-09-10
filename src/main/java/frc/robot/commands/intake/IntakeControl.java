@@ -9,7 +9,7 @@ import harkerrobolib.commands.IndefiniteCommand;
 public class IntakeControl extends IndefiniteCommand {
     Command runForward = new IntakeManualPID(0.5, false);
     Command runBackward = new IntakeManualPID(-0.8, true);
-
+    
     public IntakeControl() {
         addRequirements(Intake.getInstance());
 

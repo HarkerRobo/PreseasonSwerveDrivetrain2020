@@ -18,7 +18,7 @@ public final double VELOCITY=110;
         SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());
         double distance = (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy()));
 
-        Shooter.getInstance().setVelocity(VELOCITY*Shooter.getInstance().GEAR_RATIO);
+        Shooter.getInstance().setVelocity(VELOCITY);
 
     }
 

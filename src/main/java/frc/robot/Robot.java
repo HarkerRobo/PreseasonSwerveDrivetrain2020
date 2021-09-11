@@ -7,23 +7,16 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.intake.IntakeControl;
-import frc.robot.commands.intake.IntakeManualPID;
-import frc.robot.commands.shooter.ShooterManual;
 import frc.robot.commands.drivetrain.SwerveManual;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
 import frc.robot.util.Limelight;
-import harkerrobolib.util.Conversions.SpeedUnit;
 
 /**
  * The VM is configured to automatically run this class, and to call the

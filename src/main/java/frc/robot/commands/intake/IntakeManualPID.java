@@ -1,17 +1,9 @@
 package frc.robot.commands.intake;
 
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import harkerrobolib.commands.IndefiniteCommand;
-import harkerrobolib.util.MathUtil;
-
-import frc.robot.util.Vector;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.OI;
 
 public class IntakeManualPID extends IndefiniteCommand {
     private static final double MAX_VELOCITY = 15;

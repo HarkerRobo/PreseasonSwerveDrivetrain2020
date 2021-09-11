@@ -1,8 +1,6 @@
-package frc.robot.auto.shooter;
+package frc.robot.commands.shooter;
 import harkerrobolib.commands.IndefiniteCommand;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Shooter;
-import frc.robot.util.Limelight;
 
 public class ShooterAutonControl extends IndefiniteCommand {
     public double velocity;
@@ -14,7 +12,7 @@ public class ShooterAutonControl extends IndefiniteCommand {
 
     @Override
     public void execute(){
-        Shooter.getInstance().setVelocity(velocity * Shooter.getInstance().GEAR_RATIO);
+        Shooter.getInstance().setVelocity(velocity);
     }
 
     @Override

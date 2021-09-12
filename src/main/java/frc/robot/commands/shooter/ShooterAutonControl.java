@@ -3,7 +3,7 @@ import harkerrobolib.commands.IndefiniteCommand;
 import frc.robot.subsystems.Shooter;
 
 public class ShooterAutonControl extends IndefiniteCommand {
-    public double velocity;
+    private double velocity;
 
     public ShooterAutonControl(double velocity){
         this.velocity = velocity;

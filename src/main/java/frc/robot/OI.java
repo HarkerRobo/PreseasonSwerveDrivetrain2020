@@ -1,10 +1,12 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.auto.Trajectories;
 import frc.robot.commands.drivetrain.HSSwerveDriveController;
+import frc.robot.commands.intake.IntakeAutonControlForward;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShooterManual;
 import frc.robot.commands.shooter.ShooterVelocityManual;
@@ -50,7 +52,10 @@ public class OI {
         operatorGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
             new ShooterVelocityManual()
         ));
-        driverGamepad.getUpDPadButton().whenPressed(new HSSwerveDriveController(Trajectories.sShaped));
+        driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
+            new HSSwerveDriveController(Trajectories.rightAndBackward, Rotation2d.fromDegrees(0)),
+            new IntakeAutonControlForward(0.5)
+        ));
     }
     
     public HSGamepad getDriverGamepad(){

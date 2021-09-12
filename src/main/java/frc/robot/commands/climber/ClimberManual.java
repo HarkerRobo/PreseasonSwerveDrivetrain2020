@@ -1,11 +1,12 @@
 package frc.robot.commands.climber;
 
 import harkerrobolib.commands.IndefiniteCommand;
+import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
 public class ClimberManual extends IndefiniteCommand
 {
-    public double OUTPUT_MAGNITUDE = 0.5;
+    private static final double OUTPUT_MAGNITUDE = 0.7;
 
     public ClimberManual() {
         addRequirements(Climber.getInstance());
@@ -13,9 +14,15 @@ public class ClimberManual extends IndefiniteCommand
 
     @Override
     public void execute(){
-        double output = 0.7;
-        output *= OUTPUT_MAGNITUDE;
-        Climber.getInstance().setPercentOutput(output);
+        if(OI.getInstance().getDriverGamepad().getUpDPadButton().get()){
+            Climber.getInstance().setPercentOutput(OUTPUT_MAGNITUDE);
+        }
+        else if(OI.getInstance().getDriverGamepad().getDownDPadButton().get()){
+            Climber.getInstance().setPercentOutput(-OUTPUT_MAGNITUDE);
+        }
+        else{
+            Climber.getInstance().setPercentOutput(0);
+        }
     }
 
     @Override

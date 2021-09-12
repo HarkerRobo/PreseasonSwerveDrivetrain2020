@@ -8,14 +8,14 @@ public class IntakeAutonControlReverse extends IndefiniteCommand {
     private Command runBackward;
     
     IntakeAutonControlReverse(double velocity) {    
-        runBackward= new IntakeManualPID(velocity, false);    
+        runBackward= new IntakeManualPID(velocity, true);    
         addRequirements(Intake.getInstance());
     }
 
     @Override
     public void initialize() {
-
-    }
+        runBackward.initialize();
+    }   
 
     @Override
     public void execute() {

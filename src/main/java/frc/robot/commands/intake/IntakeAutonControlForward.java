@@ -8,14 +8,14 @@ import harkerrobolib.commands.IndefiniteCommand;
 public class IntakeAutonControlForward extends IndefiniteCommand {
     private Command runForward;
 
-    IntakeAutonControlForward(double velocity) {       
+    public IntakeAutonControlForward(double velocity) {       
         runForward = new IntakeManualPID(velocity, false); 
         addRequirements(Intake.getInstance());
     }
 
     @Override
     public void initialize() {
-
+        runForward.initialize();
     }
 
     @Override

@@ -48,5 +48,5 @@ public class RobotMap {
     public static final int CLIMBER_MASTER=14;
     public static final int CLIMBER_FOLLOWER=15;
     
-    public static final boolean DEMO_MODE=true;
+    public static final boolean DEMO_MODE=false;
 }

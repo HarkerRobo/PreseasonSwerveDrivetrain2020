@@ -29,9 +29,15 @@ public class Trajectories {
                     new Pose2d(2, 0, Rotation2d.fromDegrees(90)), 
                     new Pose2d(4, 0, Rotation2d.fromDegrees(-90))),
             config);
-        public static Trajectory rightAndBackward = TrajectoryGenerator.generateTrajectory(
+        public static Trajectory goToTrench = TrajectoryGenerator.generateTrajectory(
                 List.of(new Pose2d(4,0, Rotation2d.fromDegrees(180)),
                         new Pose2d(0, 1, Rotation2d.fromDegrees(90)),
-                        new Pose2d(0, 5, Rotation2d.fromDegrees(90))), 
+                        new Pose2d(0, 5, Rotation2d.fromDegrees(90))),
+                config);
+
+                public static Trajectory returnFromTrench = TrajectoryGenerator.generateTrajectory(
+                List.of(new Pose2d(0,5, Rotation2d.fromDegrees(270)),
+                        new Pose2d(0, 2, Rotation2d.fromDegrees(270)),
+                        new Pose2d(2, 0, Rotation2d.fromDegrees(0))),
                 config);
 }

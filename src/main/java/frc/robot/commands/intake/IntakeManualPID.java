@@ -61,6 +61,7 @@ public class IntakeManualPID extends IndefiniteCommand {
     @Override
     public void end(boolean a) {
         Intake.getInstance().setVelocity(0);
+        System.out.println("dsnajkdhaskjdah");
         Indexer.getInstance().setLinearPercentOutput(0);
 
         Indexer.getInstance().setAgitatorPercentOutput(0);

@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.auto.Autons;
 import frc.robot.auto.Trajectories;
 import frc.robot.commands.drivetrain.HSSwerveDriveController;
 import frc.robot.commands.intake.IntakeAutonControlForward;
@@ -53,8 +54,7 @@ public class OI {
             new ShooterVelocityManual()
         ));
         driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
-            new HSSwerveDriveController(Trajectories.rightAndBackward, Rotation2d.fromDegrees(0)),
-            new IntakeAutonControlForward(0.5)
+            Autons.autoPath1
         ));
     }
     

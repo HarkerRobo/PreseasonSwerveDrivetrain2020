@@ -18,6 +18,10 @@ public class SwerveManual extends IndefiniteCommand {
     private static final double kD=0.008;
     private static final double TX_SETPOINT=0;
     private static final double I_ZONE = 1;
+    private static final double angleKP=1;
+
+    private static double pigeonAngle=Drivetrain.getInstance().getPigeon().getFusedHeading();
+
     private PIDController pid;
     public SwerveManual() {
         addRequirements(Drivetrain.getInstance());
@@ -31,6 +35,7 @@ public class SwerveManual extends IndefiniteCommand {
         double translationx = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftX(), OI.DEADBAND);
         double translationy = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftY(), OI.DEADBAND);
         double chasisMagnitude=Math.sqrt(translationx*translationx + translationy*translationy);
+        
 
         if(chasisMagnitude<(Drivetrain.MIN_OUTPUT)){
             translationx=0;
@@ -57,6 +62,13 @@ public class SwerveManual extends IndefiniteCommand {
         // double rotation =
         // MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(),
         // OI.DEADBAND);
+
+    
+    if(Math.abs(MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(), OI.DEADBAND))<0.05){
+        angularVelocity=angleKP*(pigeonAngle - Drivetrain.getInstance().getPigeon().getFusedHeading());
+    }
+
+    pigeonAngle=Drivetrain.getInstance().getPigeon().getFusedHeading();
 
         ChassisSpeeds chassis = ChassisSpeeds.fromFieldRelativeSpeeds(translationx, translationy, -angularVelocity, new Rotation2d(Math.toRadians(Drivetrain.getInstance().getPigeon().getFusedHeading())));
 

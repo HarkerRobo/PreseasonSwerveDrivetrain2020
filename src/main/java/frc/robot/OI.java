@@ -39,7 +39,7 @@ public class OI {
             Intake.getInstance().invertSolenoid();
         }, Intake.getInstance()));
 
-        operatorGamepad.getButtonB().whenPressed(new InstantCommand(() -> {
+        driverGamepad.getButtonB().whenPressed(new InstantCommand(() -> {
             Shooter.getInstance().invertSolenoid();
         }, Shooter.getInstance()));
         
@@ -48,10 +48,11 @@ public class OI {
         // ));
 
         driverGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
-            new Jumble()
+           // new Jumble()
         ));
-        operatorGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
-            new ShooterVelocityManual()
+        driverGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
+            new ShooterVelocityManual(),
+            new MoveBallsToShooter()
         ));
         driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
             Autons.autoPath1

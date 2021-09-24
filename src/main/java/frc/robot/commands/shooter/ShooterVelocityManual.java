@@ -1,7 +1,9 @@
 package frc.robot.commands.shooter;
 
 import harkerrobolib.commands.IndefiniteCommand;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.util.Limelight;
 
@@ -10,6 +12,7 @@ public final double VELOCITY=110;
 
     public ShooterVelocityManual(){
         addRequirements(Shooter.getInstance());
+        Indexer.getInstance().getSolenoid().set(Value.kReverse);
     }
 
     @Override

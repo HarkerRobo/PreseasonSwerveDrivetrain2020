@@ -1,5 +1,6 @@
 package frc.robot.commands.shooter;
 
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import harkerrobolib.commands.IndefiniteCommand;
 

@@ -37,6 +37,9 @@ public class SwerveModule {
 	private static final double ANGLE_P = 1.1;
 	private static final double ANGLE_I = 0;
 	private static final double ANGLE_D = 11;
+	private static final double ENCODER_TICKS = 4096.0;
+	private static final double EPSILON_OUTPUT = 1e-4;
+	private static final int DRIVE_TICKS_PER_REV = 2048;
 
 	private boolean ROTATION_SENSOR_PHASE;
 	private boolean TRANSLATION_SENSOR_PHASE;
@@ -157,5 +160,56 @@ public class SwerveModule {
 
 
 	}
+
+	/**
+     * Sets the module's output to have the desired angle and output. 90 degree optimizations are performed if needed.
+     * 
+     * @param targetAngle The angle in degrees for the module's angle motor to have. Zero degrees is in the positive x direction.
+     * @param output The output for the module's drive motor to have, with units corresponding to isPercentOutput.
+     * @param isPercentOutput True if the output's units are a percentage of maximum output, false if the units are meters per second.
+     * @param isMotionProfile True if the robot is currently in a motion profile and should not perform 90 degree optimizations, false if otherwise.
+     */
+    public void setAngleAndDriveVelocity(double targetAngle, double output, boolean isPercentOutput, boolean isMotionProfile) {
+        boolean shouldReverse = !isMotionProfile && Math.abs(targetAngle - getRotationAngle()) > 90;
+        
+        if (shouldReverse) {
+            setDriveOutput(-output, isPercentOutput);
+            if (targetAngle - getAngleDegrees() > 90) {
+                targetAngle -= 180;
+            }
+            else {
+                targetAngle += 180;
+            }
+        } else {
+            setDriveOutput(output, isPercentOutput);
+        }
+        
+        int targetPos = (int)((targetAngle / 360) * 4096);
+
+        if(output > EPSILON_OUTPUT || isMotionProfile) 
+            rotation.set(ControlMode.Position, targetPos);
+	}
+	
+	/**
+     * Sets the drive output of the swerve module in either percent output or velocity in feet per second.
+     * 
+     * @param output The output of the swerve module, with units corresponding to isPercentOutput.
+     * @param isPercentOutput True if the output's units are a percentage of maximum output, false if the units are meters per second.
+     */
+    public void setDriveOutput(double output, boolean isPercentOutput) {
+        if(isPercentOutput) {
+            translation.set(TalonFXControlMode.PercentOutput, output);
+        } else {
+            translation.set(TalonFXControlMode.Velocity, Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND, output * Drivetrain.FEET_PER_METER,
+					SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, DRIVE_TICKS_PER_REV) * Drivetrain.GEAR_RATIO);
+        }
+	}
+	
+	/**
+     * Returns the current angle in degrees
+     */
+    public double getAngleDegrees() {
+        return rotation.getSelectedSensorPosition() * 360.0 / SwerveModule.ENCODER_TICKS; //Convert encoder ticks to degrees
+    }
 
 }

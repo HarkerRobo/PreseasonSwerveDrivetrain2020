@@ -1,5 +1,9 @@
 package frc.robot.subsystems;
 
+import java.util.function.Consumer;
+
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -14,6 +18,7 @@ import frc.robot.util.SwerveModule;
 import frc.robot.util.Vector;
 
 import harkerrobolib.wrappers.HSPigeon;
+import harkerrobolib.wrappers.HSTalon;
 
 public class Drivetrain extends SubsystemBase {
     private static Drivetrain drivetrain;
@@ -73,6 +78,18 @@ public class Drivetrain extends SubsystemBase {
 
     public static final double AUTO_MAX_SPEED_ACCELERATION = 1;
     public static final double AUTO_MAX_ANGULAR_VEL_ACCELERATION = 0.5 * Math.PI;
+
+	public static final double MANUAL_HEADING_KP = 0.012;
+
+	public static final double MANUAL_HEADING_KI = 0;
+
+	public static final double MANUAL_HEADING_KD = 0.14;
+
+	public static final int DRIVE_VELOCITY_SLOT = 0;
+
+	public static final int ANGLE_POSITION_SLOT = 0;
+
+	public static final double FEET_PER_METER = 0.30488;
 
     private HSPigeon pigeon;
 
@@ -151,4 +168,94 @@ public class Drivetrain extends SubsystemBase {
         }
         return drivetrain;
     }
+
+	/**
+     * Calls a method on the drive motor of each swerve module.
+     */
+    public void applyToAllDrive(Consumer<TalonFX> consumer) {
+        consumer.accept(topLeft.getTranslationMotor());
+        consumer.accept(topRight.getTranslationMotor());
+        consumer.accept(bottomLeft.getTranslationMotor());
+        consumer.accept(bottomRight.getTranslationMotor());
+    }
+
+     /**
+     * Calls a method on the angle motor of each swerve module.
+     */
+    public void applyToAllAngle(Consumer<HSTalon> consumer) {
+        consumer.accept(topLeft.getRotationMotor());
+        consumer.accept(topRight.getRotationMotor());
+        consumer.accept(bottomLeft.getRotationMotor());
+        consumer.accept(bottomRight.getRotationMotor());
+    }
+
+    /**
+     * Converts the target angle from the desired Vectors into the actual angle for
+     * the motors to hold. Angle modification for Field sensitive drive should have
+     * already been handled.
+     * 
+     * Steps:
+     * 
+     * 1. Subtract 90 degrees. 0 degrees on the Joysticks and desired Vectors points
+     * to the right (positive x axis) while 0 degrees on the robot points forward
+     * (positive y axis). The subtraction deals with this offset. 2.
+     * Increase/Decrease the targetAngle by 360 degrees until it is within +- 180
+     * degrees of the current angle
+     * 
+     * @return The desired angle after all modifications
+     */
+    public static double convertAngle(SwerveModule module, double targetAngle) {
+        // Step 1
+        // targetAngle += 90;
+
+        double currDegrees = module.getRotationAngle();
+
+        // Step 2
+        while (currDegrees - targetAngle > 180) {
+            targetAngle += 360;
+        }
+        while (currDegrees - targetAngle < -180) {
+            targetAngle -= 360;
+        }
+
+        return targetAngle;
+    }
+
+	/**
+     * Sets the output of the drivetrain based on desired output vectors for each
+     * swerve module
+     */
+    public void setDrivetrainVelocity(SwerveModuleState tl, SwerveModuleState tr, SwerveModuleState bl,
+            SwerveModuleState br, boolean isPercentOutput, boolean isMotionProfile) {
+        double tlOutput = tl.speedMetersPerSecond;
+        double trOutput = tr.speedMetersPerSecond;
+        double blOutput = bl.speedMetersPerSecond;
+        double brOutput = br.speedMetersPerSecond;
+        
+        setSwerveModuleVelocity(topLeft, tlOutput, convertAngle(topLeft, tl.angle.getDegrees()), isPercentOutput,
+                isMotionProfile);
+        setSwerveModuleVelocity(topRight, trOutput, convertAngle(topRight, tr.angle.getDegrees()), isPercentOutput,
+                isMotionProfile);
+        setSwerveModuleVelocity(bottomLeft, blOutput, convertAngle(bottomLeft, bl.angle.getDegrees()), isPercentOutput,
+                isMotionProfile);
+        setSwerveModuleVelocity(bottomRight, brOutput, convertAngle(bottomRight, br.angle.getDegrees()), isPercentOutput,
+                isMotionProfile);
+    }
+
+    public void setSwerveModuleVelocity(SwerveModule module, double output, double angle, boolean isPercentOutput,
+            boolean isMotionProfile) {
+        
+        module.setAngleAndDriveVelocity(angle, output, isPercentOutput, isMotionProfile);
+    }
+
+	/**
+     * Stops all drive motors while holding the current angle
+     */
+    public void stopAllDrive() {
+        setSwerveModuleVelocity(topLeft, 0, topLeft.getAngleDegrees(), true, false);
+        setSwerveModuleVelocity(topRight, 0, topRight.getAngleDegrees(), true, false);
+        setSwerveModuleVelocity(bottomLeft, 0, bottomLeft.getAngleDegrees(), true, false);
+        setSwerveModuleVelocity(bottomRight, 0, bottomRight.getAngleDegrees(), true, false);
+    }
+
 }

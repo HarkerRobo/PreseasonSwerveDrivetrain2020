@@ -16,7 +16,7 @@ import frc.robot.RobotMap;
 import frc.robot.util.SwerveModule;
 
 import frc.robot.util.Vector;
-
+import harkerrobolib.wrappers.HSFalcon;
 import harkerrobolib.wrappers.HSPigeon;
 import harkerrobolib.wrappers.HSTalon;
 
@@ -65,8 +65,8 @@ public class Drivetrain extends SubsystemBase {
     public static final double TALON_CONTINUOUS_LIMIT = 15;
     public static final double VOLTAGE_COMP = 10;
 
-    public static final double MAX_DRIVE_VEL = 2;
-    public static final double MAX_ANGULAR_VEL = 1 * Math.PI;
+    public static final double MAX_DRIVE_VEL = 4;
+    public static final double MAX_ANGULAR_VEL = 2 * Math.PI;
 
     public static final double FEET_TO_METER=3.281;
     public static final int WHEEL_DIAMETER=4;
@@ -172,7 +172,7 @@ public class Drivetrain extends SubsystemBase {
 	/**
      * Calls a method on the drive motor of each swerve module.
      */
-    public void applyToAllDrive(Consumer<TalonFX> consumer) {
+    public void applyToAllDrive(Consumer<HSFalcon> consumer) {
         consumer.accept(topLeft.getTranslationMotor());
         consumer.accept(topRight.getTranslationMotor());
         consumer.accept(bottomLeft.getTranslationMotor());

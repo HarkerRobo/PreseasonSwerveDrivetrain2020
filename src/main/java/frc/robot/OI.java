@@ -7,13 +7,17 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.auto.Autons;
 import frc.robot.auto.Trajectories;
 import frc.robot.commands.drivetrain.HSSwerveDriveController;
+import frc.robot.commands.drivetrain.SwerveTranslationAlign;
 import frc.robot.commands.intake.IntakeAutonControlForward;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShooterManual;
 import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.commands.spine.Jumble;
+import frc.robot.commands.spinner.RotationControlTimed;
+import frc.robot.commands.spinner.SpinnerPositionColorSensor;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Spinner;
 import harkerrobolib.commands.CallMethodCommand;
 import harkerrobolib.wrappers.HSGamepad;
 import harkerrobolib.wrappers.XboxGamepad;
@@ -47,16 +51,26 @@ public class OI {
         //     new MoveBallsToShooter(), new ShooterManual()
         // ));
 
-        driverGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
-           // new Jumble()
-        ));
-        driverGamepad.getButtonY().whilePressed(new ParallelCommandGroup(
-            new ShooterVelocityManual(),
+        driverGamepad.getButtonY().whilePressed(new SwerveTranslationAlign());
+
+        operatorGamepad.getButtonBumperRight().whilePressed(new ParallelCommandGroup(
+            new ShooterVelocityManual(200),
             new MoveBallsToShooter()
         ));
         driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
             Autons.autoPath1
         ));
+        operatorGamepad.getButtonY().whenPressed(new SpinnerPositionColorSensor());
+        operatorGamepad.getButtonX().whenPressed(new RotationControlTimed());
+        operatorGamepad.getButtonB().whenPressed(new InstantCommand(() -> Shooter.getInstance().invertSolenoid(), Shooter.getInstance()));
+        operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> Intake.getInstance().invertSolenoid(), Intake.getInstance()));
+        operatorGamepad.getButtonStart().whilePressed(new ShooterVelocityManual(90));
+        operatorGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> Spinner.getInstance().invertSolenoid(), Spinner.getInstance()));
+
+
+
+        
+
     }
     
     public HSGamepad getDriverGamepad(){

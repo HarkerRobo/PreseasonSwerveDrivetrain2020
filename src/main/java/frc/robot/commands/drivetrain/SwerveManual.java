@@ -14,10 +14,10 @@ import frc.robot.RobotMap;
 public class SwerveManual extends IndefiniteCommand {
     private static final double OUTPUT_MULTIPLIER= 1;
     private static final double kP=0.03;
-    private static final double kI=0.0002;
-    private static final double kD=0.008;
+    private static final double kI=0.0;//00002;
+    private static final double kD=0.0;//02;
     private static final double TX_SETPOINT=0;
-    private static final double I_ZONE = 1;
+    private static final double I_ZONE = 0;
     private static final double angleKP=1;
 
     private static double pigeonAngle=Drivetrain.getInstance().getPigeon().getFusedHeading();
@@ -45,14 +45,19 @@ public class SwerveManual extends IndefiniteCommand {
         }
     
 
-        angularVelocity *= Drivetrain.MAX_ANGULAR_VEL;
-        if(OI.getInstance().getDriverGamepad().getButtonBumperLeftState()){
+        if(OI.getInstance().getDriverGamepad().getButtonBumperRightState()){
             angularVelocity = -pid.calculate(Limelight.getTx(), TX_SETPOINT);
         }
+        angularVelocity *= Drivetrain.MAX_ANGULAR_VEL;
         SmartDashboard.putNumber("limelight tx", Limelight.getTx());
         SmartDashboard.putNumber("limelight ang vel", angularVelocity);
         translationx *= Drivetrain.MAX_DRIVE_VEL * OUTPUT_MULTIPLIER;
         translationy *= Drivetrain.MAX_DRIVE_VEL * OUTPUT_MULTIPLIER;
+
+        if (OI.getInstance().getDriverGamepad().getButtonBumperLeftState()) {
+            translationx *= 0.4;
+            translationy *= 0.4;
+        }
 
         if(RobotMap.DEMO_MODE && !(OI.getInstance().getDriverGamepad().getButtonBumperLeftState() && OI.getInstance().getDriverGamepad().getButtonBumperRightState())){
             translationx *= 0.3;
@@ -64,9 +69,9 @@ public class SwerveManual extends IndefiniteCommand {
         // OI.DEADBAND);
 
     
-    if(Math.abs(MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(), OI.DEADBAND))<0.05){
-        angularVelocity=angleKP*(pigeonAngle - Drivetrain.getInstance().getPigeon().getFusedHeading());
-    }
+    // if(Math.abs(MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightX(), OI.DEADBAND))<0.05){
+    //     angularVelocity=angleKP*(pigeonAngle - Drivetrain.getInstance().getPigeon().getFusedHeading());
+    // }
 
     pigeonAngle=Drivetrain.getInstance().getPigeon().getFusedHeading();
 

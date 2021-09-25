@@ -178,7 +178,7 @@ public class Spinner extends SubsystemBase {
         return curVal; 
     }
 
-    public void toggleSolenoid() {
+    public void invertSolenoid() {
         solenoid.set(solenoid.get() == Value.kReverse ? Value.kForward : Value.kReverse);
     }
 

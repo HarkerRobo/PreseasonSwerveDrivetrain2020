@@ -1,11 +1,12 @@
 package frc.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.subsystems.Indexer;
 import harkerrobolib.commands.IndefiniteCommand;
 
 public class MoveBallsToShooter extends IndefiniteCommand{
     private static final double AGITATOR_MAX_SPEED = 0.8;
-    private static final double LINEAR_MAX_SPEED = 0.4;
+    private static final double LINEAR_MAX_SPEED = 0.8;
     private static final long MIN_DELAY = 2000;
     private long commandTime;
 
@@ -16,6 +17,7 @@ public class MoveBallsToShooter extends IndefiniteCommand{
     @Override
     public void initialize() {
         commandTime = System.currentTimeMillis();
+        Indexer.getInstance().getSolenoid().set(Value.kReverse);
     }
 
     @Override

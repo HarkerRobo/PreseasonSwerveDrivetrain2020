@@ -9,6 +9,7 @@ package frc.robot;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,6 +20,8 @@ import frc.robot.commands.drivetrain.SwerveManualHeadingControl;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Spinner;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Indexer;
 import frc.robot.util.Limelight;
 
 /**
@@ -90,6 +93,18 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("angle pos br", drivetrain.getBottomRight().getRotationMotor().getSelectedSensorPosition());
 
     SmartDashboard.putNumber("Pigeon Heading", drivetrain.getPigeon().getFusedHeading());
+
+    // SmartDashboard.putString("cd color spinner current color", Spinner.getInstance().getCurrentColor().toString());
+    SmartDashboard.putString("cd color spinner desired color", DriverStation.getInstance().getGameSpecificMessage());
+    SmartDashboard.putBoolean("cd hood sol", Shooter.getInstance().getSolenoid().get() == Value.kReverse);
+    SmartDashboard.putBoolean("cd intake sol", Intake.getInstance().getSolenoid().get() == Value.kForward);
+    SmartDashboard.putBoolean("cd indexer sol", Indexer.getInstance().getSolenoid().get() == Indexer.BLOCKER_OPEN);
+    SmartDashboard.putBoolean("cd spinner sol", Spinner.getInstance().getSolenoid().get() == Spinner.UP);
+    SmartDashboard.putNumber("cd pigeon angle", Drivetrain.getInstance().getPigeon().getFusedHeading());
+    // SmartDashboard.putString("cd current auton", isTeleop ? Autons.curAuton.toString() : "Teleop Running");
+    SmartDashboard.putString("cd current auton", "Teleop Running");
+    SmartDashboard.putBoolean("cd shooter isStalling", Shooter.getInstance().isStalling());
+    SmartDashboard.putBoolean("cd intake isStalling", Intake.getInstance().isStalling());
   }
 
   /**

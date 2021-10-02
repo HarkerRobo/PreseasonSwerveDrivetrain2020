@@ -40,6 +40,8 @@ public class Shooter extends SubsystemBase {
     public static final double GEAR_RATIO = 0.675;
     public static final double POWER_PORT_HEIGHT=8.1875;
 
+    private static final int CURRENT_DRAW_MIN = 10;
+    private static final int STALL_VELOCITY = 100;
 
 
 
@@ -84,6 +86,11 @@ public class Shooter extends SubsystemBase {
     public void setVelocity(double output){
         rotation.set(ControlMode.Velocity, Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND, output, SpeedUnit.ENCODER_UNITS, WHEEL_DIAMETER, 2048) * GEAR_RATIO);
 		
+    }
+
+    public boolean isStalling() {
+        return (rotation.getStatorCurrent() > CURRENT_DRAW_MIN && rotation.getSelectedSensorVelocity() < STALL_VELOCITY) || 
+                (rotation_follower.getStatorCurrent() > CURRENT_DRAW_MIN && rotation_follower.getSelectedSensorVelocity() < STALL_VELOCITY);
     }
 
     public HSFalcon getRotation(){

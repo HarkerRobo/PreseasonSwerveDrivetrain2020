@@ -30,6 +30,9 @@ public class Intake extends SubsystemBase {
     public static final int WHEEL_DIAMETER=2;
     public static final boolean INTAKE_INVERTED=true;
 
+    private static final double CURRENT_DRAW_MIN = 10;
+    private static final int JAMMED_VELOCITY = 100;
+
 
     private Intake() {
         rotation=new HSFalcon(RobotMap.INTAKE);
@@ -65,6 +68,10 @@ public class Intake extends SubsystemBase {
     public void setVelocity(double output){
         rotation.set(ControlMode.Velocity, Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  output, SpeedUnit.ENCODER_UNITS, WHEEL_DIAMETER, 4096));
 		
+    }
+
+    public boolean isStalling() {
+        return rotation.getStatorCurrent() > CURRENT_DRAW_MIN && rotation.getSelectedSensorVelocity() < JAMMED_VELOCITY;
     }
 
     public HSFalcon getRotation(){

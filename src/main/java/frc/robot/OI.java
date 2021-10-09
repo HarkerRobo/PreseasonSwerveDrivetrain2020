@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.auto.Autons;
 import frc.robot.auto.Trajectories;
 import frc.robot.commands.drivetrain.HSSwerveDriveController;
+import frc.robot.commands.drivetrain.SwerveManualHeadingControl;
 import frc.robot.commands.drivetrain.SwerveTranslationAlign;
 import frc.robot.commands.intake.IntakeAutonControlForward;
 import frc.robot.commands.intake.MoveBallsToShooter;
@@ -15,6 +16,7 @@ import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.commands.spine.Jumble;
 import frc.robot.commands.spinner.RotationControlTimed;
 import frc.robot.commands.spinner.SpinnerPositionColorSensor;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Spinner;
@@ -68,9 +70,10 @@ public class OI {
         operatorGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> Spinner.getInstance().invertSolenoid(), Spinner.getInstance()));
 
 
-
-        
-
+        driverGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> {Drivetrain.getInstance().getPigeon().addFusedHeading(-63.9886 * Drivetrain.getInstance().getPigeon().getFusedHeading()); 
+            SwerveManualHeadingControl.headingFlag = false;
+            SwerveManualHeadingControl.flag = false;}));
+    
     }
     
     public HSGamepad getDriverGamepad(){

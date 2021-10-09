@@ -42,9 +42,10 @@ public class SpinnerPositionColorSensor extends CommandBase {
             stationVal = ColorValue.GREEN;
         else if (info.equals("G")) 
             stationVal = ColorValue.YELLOW;
-        else 
-            CommandScheduler.getInstance().cancel(this);
-
+        else {
+            cancel();
+            return;
+}
         Spinner.getInstance().getSpinnerMotor().setNeutralMode(NeutralMode.Brake);
         Spinner.getInstance().getSpinnerMotor().configOpenloopRamp(0);
         

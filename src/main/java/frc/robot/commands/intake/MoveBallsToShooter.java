@@ -2,6 +2,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import frc.robot.subsystems.Indexer;
+import frc.robot.subsystems.Intake;
 import harkerrobolib.commands.IndefiniteCommand;
 
 public class MoveBallsToShooter extends IndefiniteCommand{
@@ -12,12 +13,12 @@ public class MoveBallsToShooter extends IndefiniteCommand{
 
     public MoveBallsToShooter(){
         addRequirements(Indexer.getInstance());
+        addRequirements(Intake.getInstance());
     }
     
     @Override
     public void initialize() {
         commandTime = System.currentTimeMillis();
-        Indexer.getInstance().getSolenoid().set(Value.kReverse);
     }
 
     @Override

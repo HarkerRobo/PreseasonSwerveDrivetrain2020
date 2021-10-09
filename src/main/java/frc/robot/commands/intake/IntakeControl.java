@@ -21,13 +21,20 @@ public class IntakeControl extends IndefiniteCommand {
         
         double magnitudeRight = 0; // MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightTrigger(), OI.DEADBAND);
         double magnitudeLeft = 0; // MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftTrigger(),OI.DEADBAND);
+        if(magnitudeRight==0 && magnitudeLeft ==0){
+            magnitudeRight = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getRightTrigger(),
+            OI.DEADBAND);
+            magnitudeLeft = MathUtil.mapJoystickOutput(OI.getInstance().getDriverGamepad().getLeftTrigger(),
+            OI.DEADBAND);
+        }   
 
         if(magnitudeRight==0 && magnitudeLeft ==0){
             magnitudeRight = MathUtil.mapJoystickOutput(OI.getInstance().getOperatorGamepad().getRightTrigger(),
             OI.DEADBAND);
             magnitudeLeft = MathUtil.mapJoystickOutput(OI.getInstance().getOperatorGamepad().getLeftTrigger(),
             OI.DEADBAND);
-        }        
+        }       
+        
         
                 
         double magnitude;

@@ -75,7 +75,7 @@ public class SwerveManualHeadingControl extends IndefiniteCommand {
     
     public static boolean isNotOptimized;
 
-    private static final double kP=0.01;
+    private static final double kP=0.02;
     private static final double kI=0.0;//00002;
     private static final double kD=0.0;//02;
     private static final double TX_SETPOINT=0;
@@ -169,7 +169,7 @@ public class SwerveManualHeadingControl extends IndefiniteCommand {
         turnMagnitude *= -1 * OUTPUT_MULTIPLIER * Drivetrain.MAX_ANGULAR_VEL;
         
         if(OI.getInstance().getDriverGamepad().getButtonBumperRightState()){
-            turnMagnitude = -pid.calculate(Limelight.getTx(), TX_SETPOINT);
+            turnMagnitude = pid.calculate(Limelight.getTx(), TX_SETPOINT);
             turnMagnitude *= Drivetrain.MAX_ANGULAR_VEL;
         }
 

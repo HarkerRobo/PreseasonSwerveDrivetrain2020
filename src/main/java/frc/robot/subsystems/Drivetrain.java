@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.util.SwerveModule;
 
@@ -28,30 +29,30 @@ public class Drivetrain extends SubsystemBase {
     private SwerveModule bottomLeft;
     private SwerveModule bottomRight;
 
-    private static final boolean TOP_LEFT_ROTATION_SENSOR_PHASE = true;//false;
-    private static final boolean TOP_LEFT_TRANSLATION_SENSOR_PHASE = false;
-    private static final boolean TOP_LEFT_ROTATION_INVERTED = true;
+    private static final boolean TOP_LEFT_ROTATION_SENSOR_PHASE = RobotMap.IS_COMP ? true : false;//false;
+    private static final boolean TOP_LEFT_TRANSLATION_SENSOR_PHASE = RobotMap.IS_COMP ? false : false;
+    private static final boolean TOP_LEFT_ROTATION_INVERTED = RobotMap.IS_COMP ? true : false;
     private static final boolean TOP_LEFT_TRANSLATION_INVERTED = false;
 
     private static final boolean TOP_RIGHT_ROTATION_SENSOR_PHASE = true;
-    private static final boolean TOP_RIGHT_TRANSLATION_SENSOR_PHASE = false;
-    private static final boolean TOP_RIGHT_ROTATION_INVERTED = true;
+    private static final boolean TOP_RIGHT_TRANSLATION_SENSOR_PHASE = RobotMap.IS_COMP ? false : true;
+    private static final boolean TOP_RIGHT_ROTATION_INVERTED = RobotMap.IS_COMP ? true : true;
     private static final boolean TOP_RIGHT_TRANSLATION_INVERTED = false;
 
-    private static final boolean BOTTOM_LEFT_ROTATION_SENSOR_PHASE = true;
-    private static final boolean BOTTOM_LEFT_TRANSLATION_SENSOR_PHASE = false;
-    private static final boolean BOTTOM_LEFT_ROTATION_INVERTED = true; //true;
+    private static final boolean BOTTOM_LEFT_ROTATION_SENSOR_PHASE = RobotMap.IS_COMP ? true : false;
+    private static final boolean BOTTOM_LEFT_TRANSLATION_SENSOR_PHASE = RobotMap.IS_COMP ? true : true;
+    private static final boolean BOTTOM_LEFT_ROTATION_INVERTED = RobotMap.IS_COMP ? true : false; //true;
     private static final boolean BOTTOM_LEFT_TRANSLATION_INVERTED = false;
 
-    private static final boolean BOTTOM_RIGHT_ROTATION_SENSOR_PHASE = false;
-    private static final boolean BOTTOM_RIGHT_TRANSLATION_SENSOR_PHASE = false;
-    private static final boolean BOTTOM_RIGHT_ROTATION_INVERTED = false; //false;
+    private static final boolean BOTTOM_RIGHT_ROTATION_SENSOR_PHASE = RobotMap.IS_COMP ? false : true;
+    private static final boolean BOTTOM_RIGHT_TRANSLATION_SENSOR_PHASE = RobotMap.IS_COMP ? true : true;
+    private static final boolean BOTTOM_RIGHT_ROTATION_INVERTED =  RobotMap.IS_COMP ? false : true;; //false;
     private static final boolean BOTTOM_RIGHT_TRANSLATION_INVERTED = false;
 
-    public static final int TL_OFFSET = 2327-2048+40;
-    public static final int TR_OFFSET = 1538+2048;
-    public static final int BL_OFFSET = 408+2048-20;
-    public static final int BR_OFFSET = 1465+2048;
+    public static final int TL_OFFSET =  RobotMap.IS_COMP ? (2327-2048+40) : 915+15;
+    public static final int TR_OFFSET = RobotMap.IS_COMP ? (1538+2048): 2969-12;
+    public static final int BL_OFFSET = RobotMap.IS_COMP ? (408+2048-20): 905-20;
+    public static final int BR_OFFSET = RobotMap.IS_COMP ? (1465+2048): 3672-30;
 
     private Translation2d frontLeftLocation;
     private Translation2d frontRightLocation;
@@ -79,11 +80,11 @@ public class Drivetrain extends SubsystemBase {
     public static final double AUTO_MAX_SPEED_ACCELERATION = 1;
     public static final double AUTO_MAX_ANGULAR_VEL_ACCELERATION = 0.5 * Math.PI;
 
-	public static final double MANUAL_HEADING_KP = 0.012;
+	public static final double MANUAL_HEADING_KP = 0.015;
 
 	public static final double MANUAL_HEADING_KI = 0;
 
-	public static final double MANUAL_HEADING_KD = 0.14;
+	public static final double MANUAL_HEADING_KD = 0.0;
 
 	public static final int DRIVE_VELOCITY_SLOT = 0;
 

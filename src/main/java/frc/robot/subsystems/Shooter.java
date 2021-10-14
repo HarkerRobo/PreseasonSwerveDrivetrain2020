@@ -18,7 +18,7 @@ import harkerrobolib.wrappers.HSFalcon;
 public class Shooter extends SubsystemBase {
     private static Shooter instance;
     private HSFalcon rotation;
-    private HSFalcon rotation_follower;
+    private HSFalcon rotationFollower;
 
     private Servo hoodServo;
 
@@ -46,8 +46,8 @@ public class Shooter extends SubsystemBase {
     private static final int STALL_VELOCITY = 100;
 
     private Shooter() {
-        rotation=new HSFalcon(RobotMap.SHOOTER_MASTER);
-        rotation_follower=new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
+        rotation = new HSFalcon(RobotMap.SHOOTER_MASTER);
+        rotationFollower = new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
 
         hoodServo = new Servo(RobotMap.HOOD_SERVO_CHANNEL);
         
@@ -73,9 +73,9 @@ public class Shooter extends SubsystemBase {
         rotation.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, RobotMap.SLOT_INDEX, 100);
         rotation.setInverted(ROTATION_INVERTED);
 
-        rotation_follower.configFactoryDefault();
-        rotation_follower.follow(rotation);
-        rotation_follower.setInverted(ROTATION_FOLLOWER_INVERTED);
+        rotationFollower.configFactoryDefault();
+        rotationFollower.follow(rotation);
+        rotationFollower.setInverted(ROTATION_FOLLOWER_INVERTED);
     }
 
 
@@ -88,21 +88,53 @@ public class Shooter extends SubsystemBase {
 		
     }
 
+    /**
+     * @param servopos servo position from 0 to 0.8
+     * @return angle in degrees (25-73)
+     */
+    public double servoToAngle(double servoPos){
+        double x = servoPos;
+        double angle = 72.0788 - 81.8362 * x + 22.8979 * x*x - 32.9049 * x*x*x + 7.46943 * x*x*x*x; 
+        return angle;
+    }
+
+    /**
+     * @param angle angle in degrees (25-73)
+     * @return servo position from 0 to 0.8
+     */
+    public double angleToServo(double angle){
+        double x = angle / 100;
+        double servopos = 0.871253 - 0.961424 * x - 0.487348 * x*x - 0.0612509 * x*x*x + 0.3629 * x*x*x*x,
+        return servopos;
+    }
+
+    /**
+     * @return servo angle in degrees (25-73)
+     */
+    public double getHoodAngle() {
+        return servoToAngle(hoodServo.get());
+    }
+
+    /**
+     * @param angle hood angle in degrees (25-73)
+     */
+    public void setHoodAngle(double angle) {
+        hoodServo.set(angleToServo(angle));
+    }
+
     public boolean isStalling() {
         return (rotation.getStatorCurrent() > CURRENT_DRAW_MIN && rotation.getSelectedSensorVelocity() < STALL_VELOCITY) || 
-                (rotation_follower.getStatorCurrent() > CURRENT_DRAW_MIN && rotation_follower.getSelectedSensorVelocity() < STALL_VELOCITY);
+                (rotationFollower.getStatorCurrent() > CURRENT_DRAW_MIN && rotationFollower.getSelectedSensorVelocity() < STALL_VELOCITY);
     }
 
     public HSFalcon getRotation(){
         return rotation;
     }
-
-    public void setAutoHoodAngle(){
-        double distance = (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy()));
-        double angle =  0.0310901 * Math.pow(distance, 4) - 0.539215 * Math.pow(distance, 3)  + 1.47728 * Math.pow(distance, 2)  - 20.7864 * distance + 72.0788;
-        
-        hoodServo.setAngle(angle);
+    
+    public Servo getHoodServo() {
+        return hoodServo;
     }
+  
 
     public static Shooter getInstance() {
         if (instance == null) {

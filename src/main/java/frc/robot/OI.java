@@ -46,7 +46,7 @@ public class OI {
         }, Intake.getInstance()));
 
         driverGamepad.getButtonB().whenPressed(new InstantCommand(() -> {
-            Shooter.getInstance().invertSolenoid();
+            Shooter.getInstance().invertHood();
         }, Shooter.getInstance()));
         
         // driverGamepad.getButtonBumperRight().whilePressed(new ParallelCommandGroup(
@@ -64,7 +64,7 @@ public class OI {
         ));
         operatorGamepad.getButtonY().whenPressed(new SpinnerPositionColorSensor());
         operatorGamepad.getButtonX().whenPressed(new RotationControlTimed());
-        operatorGamepad.getButtonB().whenPressed(new InstantCommand(() -> Shooter.getInstance().invertSolenoid(), Shooter.getInstance()));
+        operatorGamepad.getButtonB().whenPressed(new InstantCommand(() -> Shooter.getInstance().invertHood(), Shooter.getInstance()));
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> Intake.getInstance().invertSolenoid(), Intake.getInstance()));
         operatorGamepad.getButtonStart().whilePressed(new ShooterVelocityManual(90));
         operatorGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> Spinner.getInstance().invertSolenoid(), Spinner.getInstance()));

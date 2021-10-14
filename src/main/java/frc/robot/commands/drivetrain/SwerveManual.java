@@ -1,6 +1,7 @@
 package frc.robot.commands.drivetrain;
 
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Shooter;
 import harkerrobolib.commands.IndefiniteCommand;
 import harkerrobolib.util.MathUtil;
 import frc.robot.util.Limelight;
@@ -47,6 +48,7 @@ public class SwerveManual extends IndefiniteCommand {
 
         if(OI.getInstance().getDriverGamepad().getButtonBumperRightState()){
             angularVelocity = -pid.calculate(Limelight.getTx(), TX_SETPOINT);
+            Shooter.getInstance().setAutoHoodAngle();
         }
         angularVelocity *= Drivetrain.MAX_ANGULAR_VEL;
         SmartDashboard.putNumber("limelight tx", Limelight.getTx());

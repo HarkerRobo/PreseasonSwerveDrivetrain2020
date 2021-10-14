@@ -1,14 +1,18 @@
 package frc.robot.subsystems;
 
+import javax.swing.text.html.HiddenAction;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.util.Limelight;
 import harkerrobolib.util.Conversions;
 import harkerrobolib.util.Conversions.SpeedUnit;
 import harkerrobolib.wrappers.HSFalcon;
@@ -18,7 +22,8 @@ public class Shooter extends SubsystemBase {
     private HSFalcon rotation;
     private HSFalcon rotation_follower;
 
-    private DoubleSolenoid solenoid;
+    private Servo hoodServo;
+
     private static final double ROTATION_P = 0.05;
     private static final double ROTATION_I = 0.0001;
     private static final double ROTATION_I_ZONE = 1700;
@@ -43,13 +48,15 @@ public class Shooter extends SubsystemBase {
     private static final int CURRENT_DRAW_MIN = 10;
     private static final int STALL_VELOCITY = 100;
 
+    private static final double HIGH_HOOD_ANGLE = 50;
+
 
 
     private Shooter() {
         rotation=new HSFalcon(RobotMap.SHOOTER_MASTER);
         rotation_follower=new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
 
-        solenoid = new DoubleSolenoid(RobotMap.Shooter_SOLENOID_REVERSE, RobotMap.Shooter_SOLENOID_FORWARD);
+        hoodServo = new Servo(RobotMap.HOOD_SERVO_CHANNEL);
         
         intakeInit();
     }
@@ -97,22 +104,27 @@ public class Shooter extends SubsystemBase {
         return rotation;
     }
 
-    public DoubleSolenoid getSolenoid(){
-        return solenoid;
+    public void setAutoHoodAngle(){
+        double distance = (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy()));
+        double angle =  0.0310901 * Math.pow(distance, 4) - 0.539215 * Math.pow(distance, 3)  + 1.47728 * Math.pow(distance, 2)  - 20.7864 * distance + 72.0788;
+        
+        hoodServo.setAngle(angle);
     }
 
-    public void invertSolenoid(){
-        if(solenoid.get()==Value.kReverse){
-            solenoid.set(Value.kForward);
+    public void invertHood(){
+        if(hoodServo.get()==HIGH_HOOD_ANGLE){
+            hoodServo.set(0);
             return;
         }
-        solenoid.set(Value.kReverse);
+        hoodServo.set(HIGH_HOOD_ANGLE);
     }
-    public void setShooterForward(){
-        solenoid.set(Value.kForward);
+
+    public void setHighHood(){
+        hoodServo.setAngle(HIGH_HOOD_ANGLE);
     }
-    public void setShooterReverse(){
-        solenoid.set(Value.kReverse);
+
+    public void setLowHood(){
+        hoodServo.setAngle(0);
     }
 
     public static Shooter getInstance() {

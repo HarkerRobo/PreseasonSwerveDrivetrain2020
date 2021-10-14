@@ -14,14 +14,12 @@ private double velocity;
         addRequirements(Shooter.getInstance());
         Indexer.getInstance().getSolenoid().set(Value.kReverse);
         this.velocity = velocity;
-
     }
 
     @Override
     public void execute(){
         SmartDashboard.putNumber("Shooter V error", Shooter.getInstance().getRotation().getClosedLoopError());
         SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());
-        double distance = (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy()));
 
         Shooter.getInstance().setVelocity(velocity);
 

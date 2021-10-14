@@ -22,25 +22,26 @@ public class Shooter extends SubsystemBase {
 
     private Servo hoodServo;
 
-    private static final double ROTATION_P = 0.05;
-    private static final double ROTATION_I = 0.0001;
-    private static final double ROTATION_I_ZONE = 1700;
+    private static final double ROTATION_P = 0;
+    private static final double ROTATION_I = 0;
+    private static final double ROTATION_I_ZONE = 0;
+    private static final double ROTATION_D = 0;
+    private static final double ROTATION_F = 0.04697602371;
 
-    
-    private static final double ROTATION_D = 1;
-    private static final double ROTATION_F = 0.064;
     private static final double RAMP_RATE = 0;
     private static final double VOLTAGE_COMP = 10;
+
     private static final double ANGLE_CURRENT_CONTINUOUS = 40;
     private static final double ANGLE_CURRENT_PEAK = 50;
     private static final double ANGLE_CURRENT_PEAK_DUR = 0.1;
-    public static final int WHEEL_DIAMETER=4;
+ 
+    public static final int WHEEL_DIAMETER= 6;
 
     public static final boolean ROTATION_INVERTED=true;
 
     public static final boolean ROTATION_FOLLOWER_INVERTED=false;
-    public static final double GEAR_RATIO = 0.675;
-    public static final double POWER_PORT_HEIGHT=8.1875;
+    public static final double GEAR_RATIO = 2.0/3.0;
+    public static final double POWER_PORT_HEIGHT= 8.1875;
 
     private static final int CURRENT_DRAW_MIN = 10;
     private static final int STALL_VELOCITY = 100;
@@ -104,7 +105,7 @@ public class Shooter extends SubsystemBase {
      */
     public double angleToServo(double angle){
         double x = angle / 100;
-        double servopos = 0.871253 - 0.961424 * x - 0.487348 * x*x - 0.0612509 * x*x*x + 0.3629 * x*x*x*x,
+        double servopos = 0.871253 - 0.961424 * x - 0.487348 * x*x - 0.0612509 * x*x*x + 0.3629 * x*x*x*x;
         return servopos;
     }
 

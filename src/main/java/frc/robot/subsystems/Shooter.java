@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import javax.swing.text.html.HiddenAction;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
@@ -37,7 +35,6 @@ public class Shooter extends SubsystemBase {
     private static final double ANGLE_CURRENT_PEAK = 50;
     private static final double ANGLE_CURRENT_PEAK_DUR = 0.1;
     public static final int WHEEL_DIAMETER=4;
-    public static final boolean INTAKE_INVERTED=true;
 
     public static final boolean ROTATION_INVERTED=true;
 
@@ -47,10 +44,6 @@ public class Shooter extends SubsystemBase {
 
     private static final int CURRENT_DRAW_MIN = 10;
     private static final int STALL_VELOCITY = 100;
-
-    private static final double HIGH_HOOD_ANGLE = 50;
-
-
 
     private Shooter() {
         rotation=new HSFalcon(RobotMap.SHOOTER_MASTER);
@@ -109,22 +102,6 @@ public class Shooter extends SubsystemBase {
         double angle =  0.0310901 * Math.pow(distance, 4) - 0.539215 * Math.pow(distance, 3)  + 1.47728 * Math.pow(distance, 2)  - 20.7864 * distance + 72.0788;
         
         hoodServo.setAngle(angle);
-    }
-
-    public void invertHood(){
-        if(hoodServo.get()==HIGH_HOOD_ANGLE){
-            hoodServo.set(0);
-            return;
-        }
-        hoodServo.set(HIGH_HOOD_ANGLE);
-    }
-
-    public void setHighHood(){
-        hoodServo.setAngle(HIGH_HOOD_ANGLE);
-    }
-
-    public void setLowHood(){
-        hoodServo.setAngle(0);
     }
 
     public static Shooter getInstance() {

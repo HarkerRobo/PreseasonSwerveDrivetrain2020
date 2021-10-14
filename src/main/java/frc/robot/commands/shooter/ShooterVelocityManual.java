@@ -14,7 +14,6 @@ private double velocity;
         addRequirements(Shooter.getInstance());
         Indexer.getInstance().getSolenoid().set(Value.kReverse);
         this.velocity = velocity;
-
     }
 
     @Override

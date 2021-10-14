@@ -48,6 +48,8 @@ public class SwerveManual extends IndefiniteCommand {
 
         if(OI.getInstance().getDriverGamepad().getButtonBumperRightState()){
             angularVelocity = -pid.calculate(Limelight.getTx(), TX_SETPOINT);
+        }
+        if(OI.getInstance().getDriverGamepad().getButtonBState() || OI.getInstance().getOperatorGamepad().getButtonBState()){
             Shooter.getInstance().setAutoHoodAngle();
         }
         angularVelocity *= Drivetrain.MAX_ANGULAR_VEL;

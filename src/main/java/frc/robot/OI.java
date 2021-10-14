@@ -44,10 +44,6 @@ public class OI {
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> {
             Intake.getInstance().invertSolenoid();
         }, Intake.getInstance()));
-
-        driverGamepad.getButtonB().whenPressed(new InstantCommand(() -> {
-            Shooter.getInstance().invertSolenoid();
-        }, Shooter.getInstance()));
         
         // driverGamepad.getButtonBumperRight().whilePressed(new ParallelCommandGroup(
         //     new MoveBallsToShooter(), new ShooterManual()
@@ -64,7 +60,6 @@ public class OI {
         ));
         operatorGamepad.getButtonY().whenPressed(new SpinnerPositionColorSensor());
         operatorGamepad.getButtonX().whenPressed(new RotationControlTimed());
-        operatorGamepad.getButtonB().whenPressed(new InstantCommand(() -> Shooter.getInstance().invertSolenoid(), Shooter.getInstance()));
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> Intake.getInstance().invertSolenoid(), Intake.getInstance()));
         operatorGamepad.getButtonStart().whilePressed(new ShooterVelocityManual(90));
         operatorGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> Spinner.getInstance().invertSolenoid(), Spinner.getInstance()));
@@ -73,7 +68,6 @@ public class OI {
         driverGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> {Drivetrain.getInstance().getPigeon().addFusedHeading(-63.9886 * Drivetrain.getInstance().getPigeon().getFusedHeading()); 
             SwerveManualHeadingControl.headingFlag = false;
             SwerveManualHeadingControl.flag = false;}));
-    
     }
     
     public HSGamepad getDriverGamepad(){

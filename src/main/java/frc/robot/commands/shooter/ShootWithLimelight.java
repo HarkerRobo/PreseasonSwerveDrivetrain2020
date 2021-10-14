@@ -7,22 +7,23 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Shooter;
 import frc.robot.util.Limelight;
 
-public class ShooterVelocityManual extends IndefiniteCommand {
-    private double velocity;
+public class ShootWithLimelight extends IndefiniteCommand {
 
-    public ShooterVelocityManual(double velocity){
+    public ShootWithLimelight() {
         addRequirements(Shooter.getInstance());
         Indexer.getInstance().getSolenoid().set(Value.kReverse);
-        this.velocity = velocity;
     }
 
     @Override
     public void execute(){
         SmartDashboard.putNumber("Shooter V error", Shooter.getInstance().getRotation().getClosedLoopError());
         SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());
+        double distance = (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy()));
 
+        double velocity = distance; //TODO
+        double hoodAngle = distance; // TODO
         Shooter.getInstance().setVelocity(velocity);
-
+        Shooter.getInstance().setHoodAngle(hoodAngle);
     }
 
     @Override
@@ -33,3 +34,6 @@ public class ShooterVelocityManual extends IndefiniteCommand {
     }
     
 }
+
+
+

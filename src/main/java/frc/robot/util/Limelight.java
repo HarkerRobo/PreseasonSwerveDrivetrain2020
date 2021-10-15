@@ -47,7 +47,7 @@ public class Limelight {
     public static final int LIMELIGHT_ANGLE=18;
     
     private static double[] nullArr;    
-    public static final double LIMELIGHT_HEIGHT=1.54;
+    public static final double LIMELIGHT_HEIGHT=1.69;
 
 
     /**

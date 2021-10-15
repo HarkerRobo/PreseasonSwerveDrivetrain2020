@@ -11,7 +11,6 @@ import frc.robot.commands.drivetrain.SwerveManualHeadingControl;
 import frc.robot.commands.drivetrain.SwerveTranslationAlign;
 import frc.robot.commands.intake.IntakeAutonControlForward;
 import frc.robot.commands.intake.MoveBallsToShooter;
-import frc.robot.commands.shooter.ShooterManual;
 import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.commands.spine.Jumble;
 import frc.robot.commands.spinner.RotationControlTimed;
@@ -52,16 +51,16 @@ public class OI {
         driverGamepad.getButtonY().whilePressed(new SwerveTranslationAlign());
 
         operatorGamepad.getButtonBumperRight().whilePressed(new ParallelCommandGroup(
-            new ShooterVelocityManual(200),
+            new ShooterVelocityManual(78.5),
             new MoveBallsToShooter()
         ));
-        driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
-            Autons.autoPath1
-        ));
+        // driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
+        //     Autons.autoPath1
+        // ));
         operatorGamepad.getButtonY().whenPressed(new SpinnerPositionColorSensor());
         operatorGamepad.getButtonX().whenPressed(new RotationControlTimed());
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> Intake.getInstance().invertSolenoid(), Intake.getInstance()));
-        operatorGamepad.getButtonStart().whilePressed(new ShooterVelocityManual(90));
+        operatorGamepad.getButtonStart().whilePressed(new ShooterVelocityManual(78.5));
         operatorGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> Spinner.getInstance().invertSolenoid(), Spinner.getInstance()));
 
 

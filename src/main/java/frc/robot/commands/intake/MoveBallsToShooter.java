@@ -8,7 +8,8 @@ import harkerrobolib.commands.IndefiniteCommand;
 public class MoveBallsToShooter extends IndefiniteCommand{
     private static final double AGITATOR_MAX_SPEED = 0.8;
     private static final double LINEAR_MAX_SPEED = 0.8;
-    private static final long MIN_DELAY = 2000;
+    private static final long MIN_DELAY = 5000;
+    private static final long OUT_DELAY = 100;
     private long commandTime;
 
     public MoveBallsToShooter(){
@@ -24,7 +25,13 @@ public class MoveBallsToShooter extends IndefiniteCommand{
     @Override
     public void execute(){
         long currentTime = System.currentTimeMillis();
-        if(currentTime - commandTime > MIN_DELAY) {
+
+        if(currentTime - commandTime < OUT_DELAY) {
+            Indexer.getInstance().setLinearPercentOutput(-LINEAR_MAX_SPEED);
+            Indexer.getInstance().setAgitatorPercentOutput(AGITATOR_MAX_SPEED);
+        }
+
+        else if(currentTime - commandTime > MIN_DELAY) {
             Indexer.getInstance().getSolenoid().set(Indexer.BLOCKER_OPEN);
             Indexer.getInstance().setLinearPercentOutput(LINEAR_MAX_SPEED);
             
@@ -35,6 +42,10 @@ public class MoveBallsToShooter extends IndefiniteCommand{
                 Indexer.getInstance().setAgitatorPercentOutput(-AGITATOR_MAX_SPEED);
             }
     
+        }
+        else{
+            Indexer.getInstance().setLinearPercentOutput(0);
+            Indexer.getInstance().setAgitatorPercentOutput(0);
         }
     }
 

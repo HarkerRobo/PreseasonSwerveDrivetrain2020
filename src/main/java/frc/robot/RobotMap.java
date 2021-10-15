@@ -36,7 +36,7 @@ public class RobotMap {
     public static final int Shooter_SOLENOID_REVERSE=6;
     public static final int Shooter_SOLENOID_FORWARD=1;
 
-    public static final int HOOD_SERVO_CHANNEL=0;
+    public static final int HOOD_SERVO_CHANNEL=9;
 
     public static final int INDEXER_LINEAR=12;
     public static final int INDEXER_AGITATOR=13;
@@ -51,5 +51,5 @@ public class RobotMap {
     public static final int CLIMBER_FOLLOWER=15;
     
     public static final boolean DEMO_MODE=false;
-	public static final boolean IS_COMP = false;
+	public static final boolean IS_COMP = true;
 }

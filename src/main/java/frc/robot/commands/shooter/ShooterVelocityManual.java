@@ -12,21 +12,28 @@ public class ShooterVelocityManual extends IndefiniteCommand {
 
     public ShooterVelocityManual(double velocity){
         addRequirements(Shooter.getInstance());
-        Indexer.getInstance().getSolenoid().set(Value.kReverse);
         this.velocity = velocity;
+        SmartDashboard.putNumber("desired shooter vel", 40);
+        SmartDashboard.putNumber("Shooter V error", Shooter.getInstance().getRotation().getClosedLoopError());
+        SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());  
+
+    }
+
+    public void initialize() {
+        // Indexer.getInstance().getSolenoid().set(Value.kReverse);
     }
 
     @Override
     public void execute(){
         SmartDashboard.putNumber("Shooter V error", Shooter.getInstance().getRotation().getClosedLoopError());
         SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());
-
-        Shooter.getInstance().setVelocity(velocity);
+        Shooter.getInstance().setVelocity(SmartDashboard.getNumber("desired shooter vel", 220));
 
     }
 
     @Override
     public void end(boolean a){
+        // Indexer.getInstance().getSolenoid().set(Value.kForward);
 
         Shooter.getInstance().setVelocity(0);;
 

@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 import frc.robot.util.Limelight;
@@ -22,7 +23,7 @@ public class Shooter extends SubsystemBase {
 
     private Servo hoodServo;
 
-    private static final double ROTATION_P = 0;
+    private static final double ROTATION_P = 0.05;
     private static final double ROTATION_I = 0;
     private static final double ROTATION_I_ZONE = 0;
     private static final double ROTATION_D = 0;
@@ -51,8 +52,12 @@ public class Shooter extends SubsystemBase {
         rotationFollower = new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
 
         hoodServo = new Servo(RobotMap.HOOD_SERVO_CHANNEL);
-        
+        SmartDashboard.putNumber("desired hood angle", 40);
         intakeInit();
+    }
+
+    public void periodic() {
+        setHoodAngle(0);
     }
 
     public void intakeInit(){
@@ -90,37 +95,18 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * @param servopos servo position from 0 to 0.8
-     * @return angle in degrees (25-73)
-     */
-    public double servoToAngle(double servoPos){
-        double x = servoPos;
-        double angle = 72.0788 - 81.8362 * x + 22.8979 * x*x - 32.9049 * x*x*x + 7.46943 * x*x*x*x; 
-        return angle;
-    }
-
-    /**
-     * @param angle angle in degrees (25-73)
-     * @return servo position from 0 to 0.8
-     */
-    public double angleToServo(double angle){
-        double x = angle / 100;
-        double servopos = 0.871253 - 0.961424 * x - 0.487348 * x*x - 0.0612509 * x*x*x + 0.3629 * x*x*x*x;
-        return servopos;
-    }
-
-    /**
      * @return servo angle in degrees (25-73)
      */
     public double getHoodAngle() {
-        return servoToAngle(hoodServo.get());
+        return (hoodServo.get());
     }
 
     /**
      * @param angle hood angle in degrees (25-73)
      */
     public void setHoodAngle(double angle) {
-        hoodServo.set(angleToServo(angle));
+        // SmartDashboard.putNumber("desired hood angle", angle);
+        hoodServo.set(SmartDashboard.getNumber("desired hood angle", 40));
     }
 
     public boolean isStalling() {

@@ -42,16 +42,17 @@ public class SwerveManual extends IndefiniteCommand {
             translationx=0;
             translationy=0;
             if(Math.abs(angularVelocity)<(Drivetrain.MIN_OUTPUT)){
-            angularVelocity=0.01;}
+            angularVelocity=0.000001;}
         }
     
 
         if(OI.getInstance().getDriverGamepad().getButtonBumperRightState()){
             angularVelocity = -pid.calculate(Limelight.getTx(), TX_SETPOINT);
         }
-        if(OI.getInstance().getDriverGamepad().getButtonBState() || OI.getInstance().getOperatorGamepad().getButtonBState()){
-            Shooter.getInstance().setAutoHoodAngle();
-        }
+        // if(OI.getInstance().getDriverGamepad().getButtonBState() || OI.getInstance().getOperatorGamepad().getButtonBState()){
+        //     Shooter.getInstance().setAutoHoodAngle();
+        // }
+
         angularVelocity *= Drivetrain.MAX_ANGULAR_VEL;
         SmartDashboard.putNumber("limelight tx", Limelight.getTx());
         SmartDashboard.putNumber("limelight ang vel", angularVelocity);

@@ -97,7 +97,7 @@ public class Robot extends TimedRobot {
 
     // SmartDashboard.putString("cd color spinner current color", Spinner.getInstance().getCurrentColor().toString());
     SmartDashboard.putString("cd color spinner desired color", DriverStation.getInstance().getGameSpecificMessage());
-    SmartDashboard.putBoolean("cd hood sol", Shooter.getInstance().getSolenoid().get() == Value.kReverse);
+    // SmartDashboard.putBoolean("cd hood sol", Shooter.getInstance().getSolenoid().get() == Value.kReverse);
     SmartDashboard.putBoolean("cd intake sol", Intake.getInstance().getSolenoid().get() == Value.kForward);
     SmartDashboard.putBoolean("cd indexer sol", Indexer.getInstance().getSolenoid().get() == Indexer.BLOCKER_OPEN);
     SmartDashboard.putBoolean("cd spinner sol", Spinner.getInstance().getSolenoid().get() == Spinner.UP);

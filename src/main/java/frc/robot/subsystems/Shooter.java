@@ -23,10 +23,10 @@ public class Shooter extends SubsystemBase {
 
     private Servo hoodServo;
 
-    private static final double ROTATION_P = 0.05;
-    private static final double ROTATION_I = 0;
-    private static final double ROTATION_I_ZONE = 0;
-    private static final double ROTATION_D = 0;
+    private static final double ROTATION_P = 6;
+    private static final double ROTATION_I = 0.001;
+    private static final double ROTATION_I_ZONE = 200;
+    private static final double ROTATION_D = 0.5;
     private static final double ROTATION_F = 0.04697602371;
 
     private static final double RAMP_RATE = 0;
@@ -39,6 +39,7 @@ public class Shooter extends SubsystemBase {
     public static final int WHEEL_DIAMETER= 6;
 
     public static final boolean ROTATION_INVERTED=true;
+    public static boolean isPercentOutput = false;
 
     public static final boolean ROTATION_FOLLOWER_INVERTED=false;
     public static final double GEAR_RATIO = 2.0/3.0;
@@ -58,6 +59,7 @@ public class Shooter extends SubsystemBase {
 
     public void periodic() {
         setHoodAngle(0);
+        SmartDashboard.putNumber("limelight distance", (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy())));
     }
 
     public void intakeInit(){
@@ -90,8 +92,15 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setVelocity(double output){
-        rotation.set(ControlMode.Velocity, Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND, output, SpeedUnit.ENCODER_UNITS, WHEEL_DIAMETER, 2048) * GEAR_RATIO);
-		
+        double velocity = Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND, output, SpeedUnit.ENCODER_UNITS, WHEEL_DIAMETER, 2048) * GEAR_RATIO;
+        if(rotation.getSelectedSensorVelocity() < 0.95 * velocity){
+            rotation.set(ControlMode.PercentOutput, 1);
+            isPercentOutput = true;
+        }
+        else {
+            rotation.set(ControlMode.Velocity, velocity);
+            isPercentOutput = false;
+        }
     }
 
     /**
@@ -120,6 +129,10 @@ public class Shooter extends SubsystemBase {
     
     public Servo getHoodServo() {
         return hoodServo;
+    }
+
+    public double getSpeed(){
+        return rotation.getClosedLoopError();
     }
   
 

@@ -11,6 +11,7 @@ import frc.robot.commands.drivetrain.SwerveManualHeadingControl;
 import frc.robot.commands.drivetrain.SwerveTranslationAlign;
 import frc.robot.commands.intake.IntakeAutonControlForward;
 import frc.robot.commands.intake.MoveBallsToShooter;
+import frc.robot.commands.shooter.ShootWithLimelight;
 import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.commands.spine.Jumble;
 import frc.robot.commands.spinner.RotationControlTimed;
@@ -51,7 +52,7 @@ public class OI {
         driverGamepad.getButtonY().whilePressed(new SwerveTranslationAlign());
 
         operatorGamepad.getButtonBumperRight().whilePressed(new ParallelCommandGroup(
-            new ShooterVelocityManual(78.5),
+            new ShootWithLimelight(),
             new MoveBallsToShooter()
         ));
         // driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
@@ -62,6 +63,7 @@ public class OI {
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> Intake.getInstance().invertSolenoid(), Intake.getInstance()));
         operatorGamepad.getButtonStart().whilePressed(new ShooterVelocityManual(78.5));
         operatorGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> Spinner.getInstance().invertSolenoid(), Spinner.getInstance()));
+
 
 
         driverGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> {Drivetrain.getInstance().getPigeon().addFusedHeading(-63.9886 * Drivetrain.getInstance().getPigeon().getFusedHeading()); 

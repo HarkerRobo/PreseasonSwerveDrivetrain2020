@@ -23,10 +23,10 @@ public class Shooter extends SubsystemBase {
 
     private Servo hoodServo;
 
-    private static final double ROTATION_P = 6;
+    private static final double ROTATION_P = 3;
     private static final double ROTATION_I = 0.001;
-    private static final double ROTATION_I_ZONE = 200;
-    private static final double ROTATION_D = 0.5;
+    private static final double ROTATION_I_ZONE = 100;
+    private static final double ROTATION_D = 0.9;
     private static final double ROTATION_F = 0.04697602371;
 
     private static final double RAMP_RATE = 0;

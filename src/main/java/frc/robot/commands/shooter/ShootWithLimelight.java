@@ -19,9 +19,9 @@ public class ShootWithLimelight extends IndefiniteCommand {
         SmartDashboard.putNumber("Shooter V error", Shooter.getInstance().getRotation().getClosedLoopError());
         SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());
         double distance = (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy()));
-
-        double velocity = distance; //TODO
-        double hoodAngle = distance; // TODO
+        double limelightDistance = (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy()));
+        double velocity = 55.3576 + (1.3285*limelightDistance) + (0.00182129 * Math.pow(limelightDistance,2));
+        double hoodAngle = 0.376581 + (0.00635765 * limelightDistance) + (-0.00001741 * Math.pow(limelightDistance, 2));
         Shooter.getInstance().setVelocity(velocity);
         Shooter.getInstance().setHoodAngle(hoodAngle);
     }
@@ -29,7 +29,7 @@ public class ShootWithLimelight extends IndefiniteCommand {
     @Override
     public void end(boolean a){
 
-        Shooter.getInstance().setVelocity(0);;
+        Shooter.getInstance().setPercentOutput(0);;
 
     }
     

@@ -24,8 +24,8 @@ public class Shooter extends SubsystemBase {
     private Servo hoodServo;
 
     private static final double ROTATION_P = 3;
-    private static final double ROTATION_I = 0.001;
-    private static final double ROTATION_I_ZONE = 100;
+    private static final double ROTATION_I = 0.0001;
+    private static final double ROTATION_I_ZONE = 150;
     private static final double ROTATION_D = 0.9;
     private static final double ROTATION_F = 0.04697602371;
 
@@ -48,6 +48,8 @@ public class Shooter extends SubsystemBase {
     private static final int CURRENT_DRAW_MIN = 10;
     private static final int STALL_VELOCITY = 100;
 
+    public static final double MAX_VEL = 220;
+
     private Shooter() {
         rotation = new HSFalcon(RobotMap.SHOOTER_MASTER);
         rotationFollower = new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
@@ -58,8 +60,10 @@ public class Shooter extends SubsystemBase {
     }
 
     public void periodic() {
-        setHoodAngle(0);
-        SmartDashboard.putNumber("limelight distance", (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy())));
+        SmartDashboard.putNumber("limelight distance", getDistance());
+        double limelightDistance = Shooter.getInstance().getDistance();
+        double hoodAngle = 0.376581 + (0.00635765 * limelightDistance) + (-0.00001741 * Math.pow(limelightDistance, 2));
+        Shooter.getInstance().setHoodAngle(hoodAngle);
     }
 
     public void intakeInit(){
@@ -114,8 +118,7 @@ public class Shooter extends SubsystemBase {
      * @param angle hood angle in degrees (25-73)
      */
     public void setHoodAngle(double angle) {
-        // SmartDashboard.putNumber("desired hood angle", angle);
-        hoodServo.set(SmartDashboard.getNumber("desired hood angle", 40));
+        hoodServo.set(angle);
     }
 
     public boolean isStalling() {
@@ -131,7 +134,15 @@ public class Shooter extends SubsystemBase {
         return hoodServo;
     }
 
-    public double getSpeed(){
+    public double getDistance() {
+        if(Limelight.isTargetVisible()) {
+            return (POWER_PORT_HEIGHT - Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE + Limelight.getTy()));
+        } else {
+            return 0;
+        }
+    }
+
+    public double getVelocityError (){
         return rotation.getClosedLoopError();
     }
   

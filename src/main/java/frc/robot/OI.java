@@ -14,8 +14,6 @@ import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShootWithLimelight;
 import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.commands.spine.Jumble;
-import frc.robot.commands.spinner.RotationControlTimed;
-import frc.robot.commands.spinner.SpinnerPositionColorSensor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -58,8 +56,6 @@ public class OI {
         // driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
         //     Autons.autoPath1
         // ));
-        operatorGamepad.getButtonY().whenPressed(new SpinnerPositionColorSensor());
-        operatorGamepad.getButtonX().whenPressed(new RotationControlTimed());
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> Intake.getInstance().invertSolenoid(), Intake.getInstance()));
         operatorGamepad.getButtonStart().whilePressed(new ShooterVelocityManual(78.5));
         operatorGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> Spinner.getInstance().invertSolenoid(), Spinner.getInstance()));

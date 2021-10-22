@@ -11,7 +11,7 @@ public class MoveBallsToShooter extends IndefiniteCommand{
     private static final double LINEAR_MAX_SPEED = 0.5;
     private static final long MIN_DELAY = 5000;
     private static final long OUT_DELAY = 100;
-    private static final long PID_DELAY = 800;
+    private static final long PID_DELAY = 1000;
     private long commandTime;
     private long pidTime=-1;
 
@@ -38,8 +38,8 @@ public class MoveBallsToShooter extends IndefiniteCommand{
         
         else if(!Shooter.isPercentOutput) {
                 if(pidTime==-1){
-                    pidTime = System.currentTimeMillis()
-                ;}
+                    pidTime = System.currentTimeMillis();
+                }
                 if(currentTime - pidTime > PID_DELAY) {
                     Indexer.getInstance().getSolenoid().set(Indexer.BLOCKER_OPEN);
                     Indexer.getInstance().setLinearPercentOutput(LINEAR_MAX_SPEED);

@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.auto.Autons;
 import frc.robot.auto.Trajectories;
 import frc.robot.commands.drivetrain.HSSwerveDriveController;
-import frc.robot.commands.drivetrain.SwerveManualHeadingControl;
 import frc.robot.commands.drivetrain.SwerveTranslationAlign;
 import frc.robot.commands.intake.IntakeAutonControlForward;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShootWithLimelight;
+import frc.robot.commands.shooter.ShootWithHighHood;
 import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.commands.spine.Jumble;
 import frc.robot.subsystems.Drivetrain;
@@ -53,18 +53,27 @@ public class OI {
             new ShootWithLimelight(),
             new MoveBallsToShooter()
         ));
-        // driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
-        //     Autons.autoPath1
-        // ));
+
+        driverGamepad.getButtonX().whilePressed(new ParallelCommandGroup(
+            new ShootWithLimelight(),
+            new MoveBallsToShooter()
+        ));
+
+        driverGamepad.getButtonB().whilePressed(
+
+            new ParallelCommandGroup(
+                new ShootWithHighHood(),
+                new MoveBallsToShooter()
+            )
+        );
+
+        driverGamepad.getRightDPadButton().whenPressed(new ParallelCommandGroup(
+            Autons.throughTrench
+        ));
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> Intake.getInstance().invertSolenoid(), Intake.getInstance()));
         operatorGamepad.getButtonStart().whilePressed(new ShooterVelocityManual(78.5));
         operatorGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> Spinner.getInstance().invertSolenoid(), Spinner.getInstance()));
 
-
-
-        driverGamepad.getButtonSelect().whenPressed(new InstantCommand(() -> {Drivetrain.getInstance().getPigeon().addFusedHeading(-63.9886 * Drivetrain.getInstance().getPigeon().getFusedHeading()); 
-            SwerveManualHeadingControl.headingFlag = false;
-            SwerveManualHeadingControl.flag = false;}));
     }
     
     public HSGamepad getDriverGamepad(){

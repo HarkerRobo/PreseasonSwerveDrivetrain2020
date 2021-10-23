@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.intake.IntakeControl;
+import frc.robot.auto.Autons;
 import frc.robot.commands.drivetrain.SwerveManual;
 import frc.robot.commands.drivetrain.SwerveManualHeadingControl;
 import frc.robot.subsystems.Drivetrain;
@@ -121,8 +122,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    Limelight.setLEDS(false);
-    // m_autoSelected = m_chooser.getSelected();
+    Limelight.setLEDS(true);
+    CommandScheduler.getInstance().schedule(Autons.autonCommand);
+        // m_autoSelected = m_chooser.getSelected();
     // // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     // System.out.println("Auto selected: " + m_autoSelected);
   }
@@ -148,6 +150,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopInit() {
+    CommandScheduler.getInstance().cancelAll();
+    Drivetrain.getInstance().getPigeon().addFusedHeading(0);
     Limelight.setLEDS(true);
     Spinner.getInstance().getSolenoid().set(Value.kReverse);
   }

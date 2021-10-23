@@ -67,4 +67,52 @@ public class Trajectories {
                 List.of(new Pose2d(7.4574, 3.0533, Rotation2d.fromDegrees(270)),
                         new Pose2d(2.4656, 0.6633, Rotation2d.fromDegrees(180))),
                 config);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                public static Trajectory chezy_setUpLeftTrench = TrajectoryGenerator.generateTrajectory(
+                List.of(new Pose2d(3.0382, 2.4354, Rotation2d.fromDegrees(90)),
+                        new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(180))),
+                config);
+                public static Trajectory chezy_moveThroughTrench = TrajectoryGenerator.generateTrajectory(
+                List.of(new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(180)),
+                        new Pose2d(0.832, 9.5728, Rotation2d.fromDegrees(90))),
+                config);
+
+                public static Trajectory chezy_moveBackThroughTrench = TrajectoryGenerator.generateTrajectory(
+                List.of(new Pose2d(0.832, 9.5728, Rotation2d.fromDegrees(270)),
+                        new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(270))),
+                config);
+
+                public static Trajectory chezy_shootTrenchBalls = TrajectoryGenerator.generateTrajectory(
+                List.of(
+                        new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(0)),
+                        new Pose2d(2.4354, 0.7087, Rotation2d.fromDegrees(270))
+                        ),
+                config);
 }

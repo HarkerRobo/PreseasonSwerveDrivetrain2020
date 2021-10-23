@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.Drivetrain;
 
 public class HSSwerveDriveController extends SwerveControllerCommand {
-    private static final double kP=6;
+    private static final double kP=4;
     private static final double kI=0;
     private static final double kD=4;
 
-    private static final double THETA_kP=7;
+    private static final double THETA_kP=4;
     private static final double THETA_kI=0;
     private static final double THETA_kD=4;
 

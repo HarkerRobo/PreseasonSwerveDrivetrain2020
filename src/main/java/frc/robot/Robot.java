@@ -15,10 +15,11 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.intake.IntakeControl;
+import frc.robot.commands.climber.ClimberManual;
 import frc.robot.auto.Autons;
 import frc.robot.commands.drivetrain.SwerveManual;
-import frc.robot.commands.drivetrain.SwerveManualHeadingControl;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.Shooter;
@@ -33,10 +34,12 @@ import frc.robot.util.Limelight;
  * project.
  */
 public class Robot extends TimedRobot {
-
+  private boolean wasTeleop; 
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
+   * 
+   *
    */
   @Override
   public void robotInit() {
@@ -50,6 +53,8 @@ public class Robot extends TimedRobot {
     // Indexer.getInstance().getSolenoid().set(Indexer.BLOCKER_CLOSED);
     // CommandScheduler.getInstance().setDefaultCommand(Shooter.getInstance(), new ShooterManual());
     // CommandScheduler.getInstance().setDefaultCommand(Indexer.getInstance(), new LinearManual());
+    CommandScheduler.getInstance().setDefaultCommand(Climber.getInstance(), new ClimberManual());
+    wasTeleop = true;
 
   }
 
@@ -123,10 +128,11 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Limelight.setLEDS(true);
-    CommandScheduler.getInstance().schedule(Autons.autonCommand);
+    CommandScheduler.getInstance().schedule(Autons.throughTrench);
         // m_autoSelected = m_chooser.getSelected();
     // // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     // System.out.println("Auto selected: " + m_autoSelected);
+    wasTeleop = false;
   }
 
   /**
@@ -151,10 +157,20 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     CommandScheduler.getInstance().cancelAll();
-    Drivetrain.getInstance().getPigeon().addFusedHeading(0);
+    Drivetrain.getInstance().getPigeon().zero();
     Limelight.setLEDS(true);
+
+    if (!wasTeleop)
+      Drivetrain.getInstance().getPigeon().addFusedHeading(11517.95);
+
+    Drivetrain drivetrain = Drivetrain.getInstance();
+    drivetrain.getTopLeft().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getTopLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.TL_OFFSET));
+    drivetrain.getTopRight().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getTopRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.TR_OFFSET));
+    drivetrain.getBottomLeft().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BL_OFFSET));
+    drivetrain.getBottomRight().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BR_OFFSET));
+    wasTeleop = true;    
     Spinner.getInstance().getSolenoid().set(Value.kReverse);
-  }
+}
 
   /**
    * This function is called periodically during operator control.

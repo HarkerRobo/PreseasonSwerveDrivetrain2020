@@ -5,8 +5,8 @@ import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
 public class ClimberManual extends IndefiniteCommand
-{
-    private static final double OUTPUT_MAGNITUDE = 0.7;
+{ 
+    private static final double OUTPUT_MAGNITUDE = 1;
 
     public ClimberManual() {
         addRequirements(Climber.getInstance());
@@ -18,7 +18,7 @@ public class ClimberManual extends IndefiniteCommand
             Climber.getInstance().setPercentOutput(OUTPUT_MAGNITUDE);
         }
         else if(OI.getInstance().getDriverGamepad().getDownDPadButton().get()){
-            Climber.getInstance().setPercentOutput(-OUTPUT_MAGNITUDE);
+            Climber.getInstance().setPercentOutput(-OUTPUT_MAGNITUDE / 2.0);
         }
         else{
             Climber.getInstance().setPercentOutput(0);

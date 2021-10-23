@@ -63,6 +63,8 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("limelight distance", getDistance());
         double limelightDistance = Shooter.getInstance().getDistance();
         double hoodAngle = 0.376581 + (0.00635765 * limelightDistance) + (-0.00001741 * Math.pow(limelightDistance, 2));
+        if(limelightDistance==0) return;
+       
         Shooter.getInstance().setHoodAngle(hoodAngle);
     }
 

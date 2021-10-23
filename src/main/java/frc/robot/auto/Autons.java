@@ -29,6 +29,14 @@ public class Autons {
         new HSSwerveDriveController(Trajectories.chezy_rightInitiationToScoringZone, Rotation2d.fromDegrees(0))
     );
 
+    public static SequentialCommandGroup throughTrench = new SequentialCommandGroup(
+        new HSSwerveDriveController(Trajectories.chezy_setUpLeftTrench, Rotation2d.fromDegrees(0)),
+        new HSSwerveDriveController(Trajectories.chezy_moveThroughTrench, Rotation2d.fromDegrees(0)),
+        new HSSwerveDriveController(Trajectories.chezy_moveBackThroughTrench, Rotation2d.fromDegrees(0)),
+        new HSSwerveDriveController(Trajectories.chezy_shootTrenchBalls, Rotation2d.fromDegrees(0))
+
+    );
+
     public static SequentialCommandGroup autonCommand = centerToShoot;
 
 

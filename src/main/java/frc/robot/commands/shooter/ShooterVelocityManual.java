@@ -15,9 +15,6 @@ public class ShooterVelocityManual extends IndefiniteCommand {
     public ShooterVelocityManual(double velocity){
         addRequirements(Shooter.getInstance());
         this.velocity = velocity;
-        SmartDashboard.putNumber("desired shooter vel", 40);
-        SmartDashboard.putNumber("Shooter V error", Shooter.getInstance().getRotation().getClosedLoopError());
-        SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());  
 
     }
 
@@ -27,12 +24,7 @@ public class ShooterVelocityManual extends IndefiniteCommand {
 
     @Override
     public void execute(){
-        SmartDashboard.putNumber("Shooter V error", Shooter.getInstance().getRotation().getClosedLoopError());
-        SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());
-
-        SmartDashboard.putNumber("Shooter vel", Conversions.convertSpeed(SpeedUnit.ENCODER_UNITS, Shooter.getInstance().getRotation().getSelectedSensorVelocity(), SpeedUnit.FEET_PER_SECOND, Shooter.WHEEL_DIAMETER, 2048) / Shooter.GEAR_RATIO);
-        SmartDashboard.putNumber("limelight distance", (Shooter.POWER_PORT_HEIGHT-Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE+Limelight.getTy())));
-        Shooter.getInstance().setVelocity(SmartDashboard.getNumber("desired shooter vel", 220));
+        Shooter.getInstance().setVelocity(velocity);
 
     }
 
@@ -40,7 +32,7 @@ public class ShooterVelocityManual extends IndefiniteCommand {
     public void end(boolean a){
         // Indexer.getInstance().getSolenoid().set(Value.kForward);
 
-        Shooter.getInstance().setPercentOutput(0);;
+        Shooter.getInstance().setPercentOutput(0);
 
     }
     

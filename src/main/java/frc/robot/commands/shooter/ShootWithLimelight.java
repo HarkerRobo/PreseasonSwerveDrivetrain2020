@@ -19,7 +19,7 @@ public class ShootWithLimelight extends IndefiniteCommand {
         SmartDashboard.putNumber("Shooter V error", Shooter.getInstance().getRotation().getClosedLoopError());
         SmartDashboard.putNumber("Shooter % output", Shooter.getInstance().getRotation().getMotorOutputPercent());
         double limelightDistance = Shooter.getInstance().getDistance();
-        double velocity = 55.3576 + (1.3285*limelightDistance) + (0.00182129 * limelightDistance * limelightDistance);
+        double velocity = 55.3576 + (1.3285*limelightDistance) + (0.00182129 * limelightDistance * limelightDistance) + Shooter.getInstance().velAdjustment;
         velocity = Math.min(Math.max(velocity, 0), Shooter.MAX_VEL);
         Shooter.getInstance().setVelocity(velocity);
     }

@@ -7,25 +7,25 @@ import frc.robot.commands.drivetrain.HSSwerveDriveController;
 import frc.robot.commands.intake.IntakeAutonControlForward;
 
 public class Autons {
-    public static SequentialCommandGroup autoPath1 = new SequentialCommandGroup(
-        new ParallelCommandGroup(
-            new HSSwerveDriveController(Trajectories.goToTrench, Rotation2d.fromDegrees(0))), 
-        new HSSwerveDriveController(Trajectories.returnFromTrench, Rotation2d.fromDegrees(0)));
+    // public static SequentialCommandGroup autoPath1 = new SequentialCommandGroup(
+    //     new ParallelCommandGroup(
+    //         new HSSwerveDriveController(Trajectories.goToTrench, Rotation2d.fromDegrees(0))), 
+    //     new HSSwerveDriveController(Trajectories.returnFromTrench, Rotation2d.fromDegrees(0)));
 
-    public static SequentialCommandGroup autopath2 = new SequentialCommandGroup(
+    public static SequentialCommandGroup stealBallsFromTrench = new SequentialCommandGroup(
         new HSSwerveDriveController(Trajectories.chezy_moveToBalls, Rotation2d.fromDegrees(0)),
         new HSSwerveDriveController(Trajectories.chezy_moveToShootingLocation, Rotation2d.fromDegrees(0)
     ));
 
-    public static SequentialCommandGroup leftToShoot = new SequentialCommandGroup(
+    public static SequentialCommandGroup leftToUpAgainstGoal = new SequentialCommandGroup(
         new HSSwerveDriveController(Trajectories.chezy_leftInitiationToScoringZone, Rotation2d.fromDegrees(0))
     );
 
-    public static SequentialCommandGroup centerToShoot = new SequentialCommandGroup(
+    public static SequentialCommandGroup centerToUpAgainstGoal = new SequentialCommandGroup(
         new HSSwerveDriveController(Trajectories.chezy_centerInitiationToScoringZone, Rotation2d.fromDegrees(0))
     );
 
-    public static SequentialCommandGroup rightToShoot = new SequentialCommandGroup(
+    public static SequentialCommandGroup rightToUpAgainstGoal = new SequentialCommandGroup(
         new HSSwerveDriveController(Trajectories.chezy_rightInitiationToScoringZone, Rotation2d.fromDegrees(0))
     );
 
@@ -37,7 +37,7 @@ public class Autons {
 
     );
 
-    public static SequentialCommandGroup autonCommand = centerToShoot;
+    public static SequentialCommandGroup autonCommand = centerToUpAgainstGoal;
 
 
 }

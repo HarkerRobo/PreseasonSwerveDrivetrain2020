@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.MedianFilter;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,9 +33,9 @@ public class Shooter extends SubsystemBase {
     private static final double RAMP_RATE = 0;
     private static final double VOLTAGE_COMP = 10;
 
-    private static final double ANGLE_CURRENT_CONTINUOUS = 40;
-    private static final double ANGLE_CURRENT_PEAK = 50;
-    private static final double ANGLE_CURRENT_PEAK_DUR = 0.1;
+    private static final double ANGLE_CURRENT_CONTINUOUS = 50;
+    private static final double ANGLE_CURRENT_PEAK = 60;
+    private static final double ANGLE_CURRENT_PEAK_DUR = 0.2;
  
     public static final int WHEEL_DIAMETER= 6;
 
@@ -49,6 +50,12 @@ public class Shooter extends SubsystemBase {
     private static final int STALL_VELOCITY = 100;
 
     public static final double MAX_VEL = 220;
+
+    private static final int NUM_SAMPLES = 30;
+    public static MedianFilter medianFilter = new MedianFilter(NUM_SAMPLES);
+
+    public int velAdjustment = 0;
+    public int highVelAdjustment = 0;
 
     private Shooter() {
         rotation = new HSFalcon(RobotMap.SHOOTER_MASTER);
@@ -138,8 +145,9 @@ public class Shooter extends SubsystemBase {
 
     public double getDistance() {
         if(Limelight.isTargetVisible()) {
-            return (POWER_PORT_HEIGHT - Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE + Limelight.getTy()));
+            return medianFilter.calculate(POWER_PORT_HEIGHT - Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE + Limelight.getTy()));
         } else {
+            medianFilter.reset();
             return 0;
         }
     }

@@ -21,7 +21,6 @@ import frc.robot.commands.drivetrain.SwerveManual;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Spinner;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Indexer;
 import frc.robot.util.Limelight;
@@ -106,7 +105,6 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putBoolean("cd hood sol", Shooter.getInstance().getSolenoid().get() == Value.kReverse);
     SmartDashboard.putBoolean("cd intake sol", Intake.getInstance().getSolenoid().get() == Value.kForward);
     SmartDashboard.putBoolean("cd indexer sol", Indexer.getInstance().getSolenoid().get() == Indexer.BLOCKER_OPEN);
-    SmartDashboard.putBoolean("cd spinner sol", Spinner.getInstance().getSolenoid().get() == Spinner.UP);
     SmartDashboard.putNumber("cd pigeon angle", Drivetrain.getInstance().getPigeon().getFusedHeading());
     // SmartDashboard.putString("cd current auton", isTeleop ? Autons.curAuton.toString() : "Teleop Running");
     SmartDashboard.putString("cd current auton", "Teleop Running");
@@ -169,8 +167,7 @@ public class Robot extends TimedRobot {
     drivetrain.getBottomLeft().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BL_OFFSET));
     drivetrain.getBottomRight().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BR_OFFSET));
     wasTeleop = true;    
-    Spinner.getInstance().getSolenoid().set(Value.kReverse);
-}
+  }
 
   /**
    * This function is called periodically during operator control.

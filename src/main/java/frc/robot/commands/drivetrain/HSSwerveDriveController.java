@@ -11,17 +11,17 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.Drivetrain;
 
 public class HSSwerveDriveController extends SwerveControllerCommand {
-    private static final double kP=4;
+    private static final double kP=6;
     private static final double kI=0;
-    private static final double kD=4;
+    private static final double kD=6;
 
-    private static final double THETA_kP=4;
+    private static final double THETA_kP=7;
     private static final double THETA_kI=0;
     private static final double THETA_kD=4;
 
     private static PIDController xController = new PIDController(kP, kI, kD);
     private static PIDController yController = new PIDController(kP, kI, kD);
-    private static ProfiledPIDController thetaController = new ProfiledPIDController(THETA_kP, THETA_kI, THETA_kD, new Constraints(Drivetrain.AUTO_MAX_SPEED, Drivetrain.AUTO_MAX_SPEED_ACCELERATION));
+    private static ProfiledPIDController thetaController = new ProfiledPIDController(THETA_kP, THETA_kI, THETA_kD, new Constraints(2 * Math.PI, 3 * Math.PI));
     
     private Trajectory trajectory;
 

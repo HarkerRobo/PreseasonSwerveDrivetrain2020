@@ -11,18 +11,17 @@ public class ShootWithHighHood extends IndefiniteCommand {
 
     public ShootWithHighHood() {
         addRequirements(Shooter.getInstance());
-        Indexer.getInstance().getSolenoid().set(Value.kReverse);
     }
 
     @Override
     public void execute(){
-        Shooter.getInstance().setVelocity(150);
-                Shooter.getInstance().setHoodAngle(0.27);
+        Shooter.getInstance().setVelocity(150 + Shooter.getInstance().highVelAdjustment);
+        Shooter.getInstance().setHoodAngle(0.27);
     }
 
     @Override
     public void end(boolean interrupted){
-        Shooter.getInstance().setPercentOutput(0);;
+        Shooter.getInstance().setPercentOutput(0);
     }
     
 }

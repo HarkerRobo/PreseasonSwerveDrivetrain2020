@@ -12,15 +12,6 @@ public class RobotMap {
     public static final int DRIVER_PORT = 0;
     public static final int OPERATOR_PORT = 1;
 
-    public static final int FLOWER_FORWARD_PORT = 0;
-    public static final int FLOWER_REVERSE_PORT = 0;
-    public static final int EXTENDER_FORWARD_PORT = 0;
-    public static final int EXTENDER_REVERSE_PORT = 0;
-
-    public static final int INTAKE_FORWARD_PORT = 0;
-    public static final int INTAKE_REVERSE_PORT = 0;
-
-    // public static final int INTAKE = 0;
 
     public static final int PIGEON_ID=0;
 

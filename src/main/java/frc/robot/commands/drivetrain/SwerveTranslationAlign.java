@@ -18,7 +18,6 @@ public class SwerveTranslationAlign extends IndefiniteCommand {
     private static final double kD=0.0;//02;
     private static final double TX_SETPOINT=0;
     private static final double I_ZONE = 0;
-    private static double pigeonAngle = Drivetrain.getInstance().getPigeon().getFusedHeading();
 
     private PIDController pid;
     public SwerveTranslationAlign() {
@@ -36,9 +35,7 @@ public class SwerveTranslationAlign extends IndefiniteCommand {
 
         SmartDashboard.putNumber("translational Velocity", translationalVelocity);
 
-        pigeonAngle = Drivetrain.getInstance().getPigeon().getFusedHeading();
-
-        ChassisSpeeds chassis = ChassisSpeeds.fromFieldRelativeSpeeds(translationalVelocity, 0, 0, new Rotation2d(Math.toRadians(Drivetrain.getInstance().getPigeon().getFusedHeading())));
+        ChassisSpeeds chassis = new ChassisSpeeds(translationalVelocity, 0, 0);
 
         Drivetrain.getInstance().setAngleAndDriveVelocity(Drivetrain.getInstance().getKinematics().toSwerveModuleStates(chassis));
     }

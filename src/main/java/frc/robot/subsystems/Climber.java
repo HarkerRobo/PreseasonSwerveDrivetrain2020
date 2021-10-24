@@ -30,6 +30,7 @@ public class Climber extends SubsystemBase {
         master.configFactoryDefault();
         follower.configFactoryDefault();
         master.setNeutralMode(NeutralMode.Brake);
+        follower.setNeutralMode(NeutralMode.Brake);
 		master.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, ANGLE_CURRENT_CONTINUOUS, ANGLE_CURRENT_PEAK, ANGLE_CURRENT_PEAK_DUR));
 		// master.configVoltageCompSaturation(VOLTAGE_COMP);
         // master.configForwardSoftLimitEnable(true);

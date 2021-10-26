@@ -8,7 +8,7 @@ import frc.robot.commands.intake.IntakeAutonControlForward;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShootWithHighHood;
 import frc.robot.commands.shooter.ShootWithLimelight;
-import frc.robot.commands.shooter.ShooterRevUp;
+import frc.robot.commands.shooter.ShooterVelocityManual;
 
 public class Autons {
     // public static SequentialCommandGroup autoPath1 = new SequentialCommandGroup(
@@ -20,7 +20,7 @@ public class Autons {
         new HSSwerveDriveController(Trajectories.chezy_moveToBalls, Rotation2d.fromDegrees(0)),
         new ParallelCommandGroup(
             new HSSwerveDriveController(Trajectories.chezy_moveToShootingLocation, Rotation2d.fromDegrees(0)),
-            new ShooterRevUp()
+            new ShooterVelocityManual(65)
         ),
         new ParallelCommandGroup(
             new ShootWithHighHood(),
@@ -31,7 +31,7 @@ public class Autons {
     public static SequentialCommandGroup leftToUpAgainstGoal = new SequentialCommandGroup(
         new ParallelCommandGroup(
             new HSSwerveDriveController(Trajectories.chezy_leftInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-            new ShooterRevUp()
+            new ShooterVelocityManual(65)
         ),
         new ParallelCommandGroup(
             new ShootWithHighHood(),
@@ -42,7 +42,7 @@ public class Autons {
     public static SequentialCommandGroup centerToUpAgainstGoal = new SequentialCommandGroup(
         new ParallelCommandGroup(
             new HSSwerveDriveController(Trajectories.chezy_centerInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-            new ShooterRevUp()
+            new ShooterVelocityManual(65)
         ),
         new ParallelCommandGroup(
             new ShootWithHighHood(),
@@ -53,7 +53,7 @@ public class Autons {
     public static SequentialCommandGroup rightToUpAgainstGoal = new SequentialCommandGroup(
         new ParallelCommandGroup(
             new HSSwerveDriveController(Trajectories.chezy_rightInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-            new ShooterRevUp()
+            new ShooterVelocityManual(65)
         ),
         new ParallelCommandGroup(
             new ShootWithHighHood(),
@@ -71,7 +71,7 @@ public class Autons {
         new HSSwerveDriveController(Trajectories.chezy_moveBackThroughTrench, Rotation2d.fromDegrees(0)),
         new ParallelCommandGroup(
             new HSSwerveDriveController(Trajectories.chezy_shootTrenchBalls, Rotation2d.fromDegrees(0)),
-            new ShooterRevUp()
+            new ShooterVelocityManual(65)
         ),
         new ParallelCommandGroup(
             new ShootWithHighHood(),

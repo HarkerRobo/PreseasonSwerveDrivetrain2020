@@ -21,7 +21,9 @@ public class ShootWithLimelight extends IndefiniteCommand {
         double limelightDistance = Shooter.getInstance().getDistance();
         double velocity = 55.3576 + (1.3285*limelightDistance) + (0.00182129 * limelightDistance * limelightDistance) + Shooter.getInstance().velAdjustment;
         velocity = Math.min(Math.max(velocity, 0), Shooter.MAX_VEL);
-        Shooter.getInstance().setVelocity(velocity);
+        if(Limelight.isTargetVisible()) Shooter.getInstance().setVelocity(velocity);
+        else Shooter.getInstance().setVelocity(80);
+        
     }
 
     @Override

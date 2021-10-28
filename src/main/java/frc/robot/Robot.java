@@ -34,6 +34,7 @@ import frc.robot.util.Limelight;
  */
 public class Robot extends TimedRobot {
   private boolean wasTeleop; 
+  private long llThrottle = System.currentTimeMillis();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -104,6 +105,16 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("ODOMOTER ANGLE", drivetrain.getOdometry().getPoseMeters().getRotation().getDegrees());    
 
     SmartDashboard.putNumber("Pigeon Heading", drivetrain.getPigeon().getFusedHeading());
+
+    double clampedHeading = (Drivetrain.getInstance().getPigeon().getFusedHeading() % 360 + 360) % 360;
+    if(System.currentTimeMillis() - llThrottle > 500) { // toggling limelight LEDs is an expensive operation
+      llThrottle = System.currentTimeMillis();
+      if(120 < clampedHeading && clampedHeading < 240) {
+        Limelight.setLEDS(false);
+      } else {
+        Limelight.setLEDS(true);
+     }
+    }
   }
 
   /**

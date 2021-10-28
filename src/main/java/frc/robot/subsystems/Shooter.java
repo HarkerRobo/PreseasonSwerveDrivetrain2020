@@ -62,12 +62,10 @@ public class Shooter extends SubsystemBase {
         rotationFollower = new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
 
         hoodServo = new Servo(RobotMap.HOOD_SERVO_CHANNEL);
-        SmartDashboard.putNumber("desired hood angle", 40);
         intakeInit();
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("limelight distance", getDistance());
         double limelightDistance = Shooter.getInstance().getDistance();
         double hoodAngle = 0.376581 + (0.00635765 * limelightDistance) + (-0.00001741 * Math.pow(limelightDistance, 2));
         if(limelightDistance==0) return;
@@ -114,6 +112,10 @@ public class Shooter extends SubsystemBase {
             rotation.set(ControlMode.Velocity, velocity);
             isPercentOutput = false;
         }
+    }
+
+    public double getVelocity() {
+        return Conversions.convertSpeed(SpeedUnit.ENCODER_UNITS, rotation.getSelectedSensorVelocity(), SpeedUnit.FEET_PER_SECOND, WHEEL_DIAMETER, 2048) / GEAR_RATIO;
     }
 
     /**

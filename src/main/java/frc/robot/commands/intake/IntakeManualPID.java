@@ -37,9 +37,6 @@ public class IntakeManualPID extends IndefiniteCommand {
 
 
         boolean blocked = Indexer.getInstance().shooterSensorBlocked() && Indexer.getInstance().linearSensorBlocked();
-        SmartDashboard.putBoolean("Blocked", blocked);
-        SmartDashboard.putBoolean("Shooter Blocked", Indexer.getInstance().shooterSensorBlocked());
-        SmartDashboard.putBoolean("Linear Blocked", Indexer.getInstance().linearSensorBlocked());
 
 
         if (!blocked || reverse) {

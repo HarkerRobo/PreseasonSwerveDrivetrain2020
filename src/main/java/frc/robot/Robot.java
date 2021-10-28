@@ -115,6 +115,16 @@ public class Robot extends TimedRobot {
         Limelight.setLEDS(true);
      }
     }
+
+    if(Limelight.isTargetVisible()) {
+      double distance = Shooter.getInstance().getDistance();
+      if (distance > Shooter.DAY_FAR_DISTANCE_THRESHOLD) 
+          Limelight.setPipeline(RobotMap.DAY_FAR);
+      else if (distance > Shooter.DAY_MEDIUM_DISTANCE_THRESHOLD) 
+          Limelight.setPipeline(RobotMap.DAY_MEDIUM);
+      else 
+          Limelight.setPipeline(RobotMap.DAY_CLOSE);
+    }
   }
 
   /**

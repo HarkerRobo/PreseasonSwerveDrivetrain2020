@@ -54,6 +54,9 @@ public class Shooter extends SubsystemBase {
     private static final int NUM_SAMPLES = 30;
     public static MedianFilter medianFilter = new MedianFilter(NUM_SAMPLES);
 
+    public static final double DAY_FAR_DISTANCE_THRESHOLD = 26.706;    
+    public static final double DAY_MEDIUM_DISTANCE_THRESHOLD = 11.753;
+
     public int velAdjustment = 0;
     public int highVelAdjustment = 0;
 

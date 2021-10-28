@@ -139,7 +139,6 @@ public class Drivetrain extends SubsystemBase {
 
     public void setAngleAndDriveVelocity(SwerveModuleState[] states){
         topLeft.setSwerveManual(states[0]);
-        SmartDashboard.putNumber("TL VEL", states[0].speedMetersPerSecond);
         topRight.setSwerveManual(states[1]);
         bottomLeft.setSwerveManual(states[2]);
         bottomRight.setSwerveManual(states[3]);

@@ -42,5 +42,10 @@ public class RobotMap {
     public static final int CLIMBER_FOLLOWER=15;
     
     public static final boolean DEMO_MODE=false;
-	public static final boolean IS_COMP = true;
+    public static final boolean IS_COMP = true;
+    
+    public static final int DAY_CLOSE = 0;
+	public static final int DAY_MEDIUM = 1;
+	public static final int DAY_FAR = 2;
+
 }

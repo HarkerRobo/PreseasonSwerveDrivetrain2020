@@ -34,6 +34,7 @@ import frc.robot.util.Limelight;
  */
 public class Robot extends TimedRobot {
   private boolean wasTeleop; 
+  private long llThrottle = System.currentTimeMillis();
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -78,38 +79,52 @@ public class Robot extends TimedRobot {
       drivetrain.getBottomRight().getState()
     );
 
-    
-    
-    SmartDashboard.putNumber("angle pos tl pulse width", drivetrain.getTopLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
-    SmartDashboard.putNumber("angle pos tr pulse width", drivetrain.getTopRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
-    SmartDashboard.putNumber("angle pos bl pulse width", drivetrain.getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
-    SmartDashboard.putNumber("angle pos br pulse width", drivetrain.getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
+    if(Limelight.isTargetVisible()) {
+      SmartDashboard.putString("cd limelight tx", "ur mom");
+    } else {
+      SmartDashboard.putNumber("cd limelight tx", Limelight.getTx());
+    }
+    SmartDashboard.putNumber("cd pigeon heading", Drivetrain.getInstance().getPigeon().getFusedHeading());
+    SmartDashboard.putNumber("cd shooter manual adj normal hood", Shooter.getInstance().velAdjustment);
+    SmartDashboard.putNumber("cd shooter manual adj high hood", Shooter.getInstance().highVelAdjustment);
+    SmartDashboard.putNumber("cd shooter speed", Shooter.getInstance().getVelocity());
+    SmartDashboard.putBoolean("cd intake solenoid", Intake.getInstance().getSolenoid().get() == Value.kForward);
+    SmartDashboard.putBoolean("cd indexer solenoid", Indexer.getInstance().getSolenoid().get() == Indexer.BLOCKER_OPEN);
+    SmartDashboard.putBoolean("cd intake stalling", Intake.getInstance().isStalling());
+    SmartDashboard.putBoolean("cd shooter blocked", Indexer.getInstance().shooterSensorBlocked());
+    SmartDashboard.putBoolean("cd linear blocked", Indexer.getInstance().linearSensorBlocked());
+
+
+    // SmartDashboard.putNumber("angle pos tl pulse width", drivetrain.getTopLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
+    // SmartDashboard.putNumber("angle pos tr pulse width", drivetrain.getTopRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
+    // SmartDashboard.putNumber("angle pos bl pulse width", drivetrain.getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
+    // SmartDashboard.putNumber("angle pos br pulse width", drivetrain.getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
 
     SmartDashboard.putNumber("ODOMOTER X", drivetrain.getOdometry().getPoseMeters().getX());
     SmartDashboard.putNumber("ODOMOTER Y", drivetrain.getOdometry().getPoseMeters().getY());
-    SmartDashboard.putNumber("ODOMOTER ANGLE", drivetrain.getOdometry().getPoseMeters().getRotation().getDegrees());
-    SmartDashboard.putNumber("STATE SPEED", drivetrain.getBottomLeft().getState().speedMetersPerSecond);
-    SmartDashboard.putNumber("SENSOR SPEEDs", drivetrain.getBottomLeft().getTranslationMotor().getSelectedSensorVelocity());
-    SmartDashboard.putNumber("STATE ANGLE", drivetrain.getBottomLeft().getState().angle.getDegrees());
-    
-
-    SmartDashboard.putNumber("angle pos tl", drivetrain.getTopLeft().getRotationMotor().getSelectedSensorPosition());
-    SmartDashboard.putNumber("angle pos tr", drivetrain.getTopRight().getRotationMotor().getSelectedSensorPosition());
-    SmartDashboard.putNumber("angle pos bl", drivetrain.getBottomLeft().getRotationMotor().getSelectedSensorPosition());
-    SmartDashboard.putNumber("angle pos br", drivetrain.getBottomRight().getRotationMotor().getSelectedSensorPosition());
+    SmartDashboard.putNumber("ODOMOTER ANGLE", drivetrain.getOdometry().getPoseMeters().getRotation().getDegrees());    
 
     SmartDashboard.putNumber("Pigeon Heading", drivetrain.getPigeon().getFusedHeading());
 
-    // SmartDashboard.putString("cd color spinner current color", Spinner.getInstance().getCurrentColor().toString());
-    SmartDashboard.putString("cd color spinner desired color", DriverStation.getInstance().getGameSpecificMessage());
-    // SmartDashboard.putBoolean("cd hood sol", Shooter.getInstance().getSolenoid().get() == Value.kReverse);
-    SmartDashboard.putBoolean("cd intake sol", Intake.getInstance().getSolenoid().get() == Value.kForward);
-    SmartDashboard.putBoolean("cd indexer sol", Indexer.getInstance().getSolenoid().get() == Indexer.BLOCKER_OPEN);
-    SmartDashboard.putNumber("cd pigeon angle", Drivetrain.getInstance().getPigeon().getFusedHeading());
-    // SmartDashboard.putString("cd current auton", isTeleop ? Autons.curAuton.toString() : "Teleop Running");
-    SmartDashboard.putString("cd current auton", "Teleop Running");
-    SmartDashboard.putBoolean("cd shooter isStalling", Shooter.getInstance().isStalling());
-    SmartDashboard.putBoolean("cd intake isStalling", Intake.getInstance().isStalling());
+    double clampedHeading = (Drivetrain.getInstance().getPigeon().getFusedHeading() % 360 + 360) % 360;
+    if(System.currentTimeMillis() - llThrottle > 500) { // toggling limelight LEDs is an expensive operation
+      llThrottle = System.currentTimeMillis();
+      if(120 < clampedHeading && clampedHeading < 240) {
+        Limelight.setLEDS(false);
+      } else {
+        Limelight.setLEDS(true);
+     }
+    }
+
+    if(Limelight.isTargetVisible()) {
+      double distance = Shooter.getInstance().getDistance();
+      if (distance > Shooter.DAY_FAR_DISTANCE_THRESHOLD) 
+          Limelight.setPipeline(RobotMap.DAY_FAR);
+      else if (distance > Shooter.DAY_MEDIUM_DISTANCE_THRESHOLD) 
+          Limelight.setPipeline(RobotMap.DAY_MEDIUM);
+      else 
+          Limelight.setPipeline(RobotMap.DAY_CLOSE);
+    }
   }
 
   /**
@@ -128,7 +143,6 @@ public class Robot extends TimedRobot {
     Limelight.setLEDS(true);
     CommandScheduler.getInstance().schedule(Autons.throughTrench);
         // m_autoSelected = m_chooser.getSelected();
-    // // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     // System.out.println("Auto selected: " + m_autoSelected);
     wasTeleop = false;
   }
@@ -190,7 +204,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledPeriodic() {
-    Limelight.setLEDS(false);
   }
 
   /**

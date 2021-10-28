@@ -54,6 +54,9 @@ public class Shooter extends SubsystemBase {
     private static final int NUM_SAMPLES = 30;
     public static MedianFilter medianFilter = new MedianFilter(NUM_SAMPLES);
 
+    public static final double DAY_FAR_DISTANCE_THRESHOLD = 26.706;    
+    public static final double DAY_MEDIUM_DISTANCE_THRESHOLD = 11.753;
+
     public int velAdjustment = 0;
     public int highVelAdjustment = 0;
 
@@ -62,12 +65,10 @@ public class Shooter extends SubsystemBase {
         rotationFollower = new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
 
         hoodServo = new Servo(RobotMap.HOOD_SERVO_CHANNEL);
-        SmartDashboard.putNumber("desired hood angle", 40);
         intakeInit();
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("limelight distance", getDistance());
         double limelightDistance = Shooter.getInstance().getDistance();
         double hoodAngle = 0.376581 + (0.00635765 * limelightDistance) + (-0.00001741 * Math.pow(limelightDistance, 2));
         if(limelightDistance==0) return;
@@ -114,6 +115,10 @@ public class Shooter extends SubsystemBase {
             rotation.set(ControlMode.Velocity, velocity);
             isPercentOutput = false;
         }
+    }
+
+    public double getVelocity() {
+        return Conversions.convertSpeed(SpeedUnit.ENCODER_UNITS, rotation.getSelectedSensorVelocity(), SpeedUnit.FEET_PER_SECOND, WHEEL_DIAMETER, 2048) / GEAR_RATIO;
     }
 
     /**

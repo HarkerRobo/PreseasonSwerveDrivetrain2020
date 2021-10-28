@@ -97,7 +97,7 @@ public class Autons {
         ),
         new ParallelDeadlineGroup(
             new WaitCommand(5),
-            new ShootWithHighHood(),
+            new ShootWithLimelight(),
             new MoveBallsToShooter()
         )
 

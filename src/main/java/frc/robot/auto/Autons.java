@@ -71,20 +71,17 @@ public class Autons {
     );
 
     public static SequentialCommandGroup throughTrench = new SequentialCommandGroup(
-        new ParallelRaceGroup(
-            new HSSwerveDriveController(Trajectories.chezy_leftInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-            new ShooterVelocityManual(65)
-        ),
+
         new ParallelDeadlineGroup(
             new WaitCommand(5),
-            new ShootWithHighHood(),
+            new ShootWithLimelight(),
             new MoveBallsToShooter()
         ),
-        new HSSwerveDriveController(Trajectories.chezy_leftScoringBackToStarting, Rotation2d.fromDegrees(0)),
-        new HSSwerveDriveController(Trajectories.chezy_setUpLeftTrench, Rotation2d.fromDegrees(0)),
         new InstantCommand(() -> {
             Intake.getInstance().invertSolenoid();
         }),
+        //new HSSwerveDriveController(Trajectories.chezy_setUpLeftTrench, Rotation2d.fromDegrees(0)),
+
         new ParallelRaceGroup(
             new HSSwerveDriveController(Trajectories.chezy_moveThroughTrench, Rotation2d.fromDegrees(0)),
             new IntakeAutonControlForward(0.5)
@@ -103,7 +100,7 @@ public class Autons {
 
     );
 
-    public static SequentialCommandGroup autonCommand = centerToUpAgainstGoal;
+    public static SequentialCommandGroup autonCommand = throughTrench;
 
 
 }

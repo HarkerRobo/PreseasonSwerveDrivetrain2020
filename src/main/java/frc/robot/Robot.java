@@ -10,6 +10,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.LinearFilter;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +37,10 @@ import frc.robot.util.Limelight;
 public class Robot extends TimedRobot {
   private boolean wasTeleop; 
   private long llThrottle = System.currentTimeMillis();
+  private PowerDistributionPanel pdp = new PowerDistributionPanel();
+  private double cnt = 0;
+  private int tot = 0;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -80,12 +86,13 @@ public class Robot extends TimedRobot {
     );
 
     if(Limelight.isTargetVisible()) {
-      SmartDashboard.putString("cd limelight tx", "ur mom");
+      SmartDashboard.putNumber("cd limelight tx", -100);
     } else {
       SmartDashboard.putNumber("cd limelight tx", Limelight.getTx());
     }
     SmartDashboard.putNumber("cd pigeon heading", Drivetrain.getInstance().getPigeon().getFusedHeading());
     SmartDashboard.putNumber("cd shooter manual adj normal hood", Shooter.getInstance().velAdjustment);
+    System.out.println(Shooter.getInstance().velAdjustment);
     SmartDashboard.putNumber("cd shooter manual adj high hood", Shooter.getInstance().highVelAdjustment);
     SmartDashboard.putNumber("cd shooter speed", Shooter.getInstance().getVelocity());
     SmartDashboard.putBoolean("cd intake solenoid", Intake.getInstance().getSolenoid().get() == Value.kForward);
@@ -93,6 +100,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("cd intake stalling", Intake.getInstance().isStalling());
     SmartDashboard.putBoolean("cd shooter blocked", Indexer.getInstance().shooterSensorBlocked());
     SmartDashboard.putBoolean("cd linear blocked", Indexer.getInstance().linearSensorBlocked());
+    SmartDashboard.putBoolean("arjun dixit", false);
 
 
     // SmartDashboard.putNumber("angle pos tl pulse width", drivetrain.getTopLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());
@@ -107,24 +115,31 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Pigeon Heading", drivetrain.getPigeon().getFusedHeading());
 
     double clampedHeading = (Drivetrain.getInstance().getPigeon().getFusedHeading() % 360 + 360) % 360;
+
+    SmartDashboard.putNumber("clamped heading", clampedHeading);  
     if(System.currentTimeMillis() - llThrottle > 500) { // toggling limelight LEDs is an expensive operation
       llThrottle = System.currentTimeMillis();
-      if(120 < clampedHeading && clampedHeading < 240) {
+      if(clampedHeading < 60 || clampedHeading > 300) {
         Limelight.setLEDS(false);
       } else {
         Limelight.setLEDS(true);
      }
     }
+    
+    SmartDashboard.putNumber("pdp currenet", pdp.getTotalCurrent());
+    tot += pdp.getTotalCurrent();
+    cnt++;
+    SmartDashboard.putNumber("pdp avg", cnt / tot);
 
-    if(Limelight.isTargetVisible()) {
-      double distance = Shooter.getInstance().getDistance();
-      if (distance > Shooter.DAY_FAR_DISTANCE_THRESHOLD) 
-          Limelight.setPipeline(RobotMap.DAY_FAR);
-      else if (distance > Shooter.DAY_MEDIUM_DISTANCE_THRESHOLD) 
-          Limelight.setPipeline(RobotMap.DAY_MEDIUM);
-      else 
-          Limelight.setPipeline(RobotMap.DAY_CLOSE);
-    }
+    // if(Limelight.isTargetVisible()) {
+    //   double distance = Shooter.getInstance().getDistance();
+    //   if (distance > Shooter.DAY_FAR_DISTANCE_THRESHOLD) 
+    //       Limelight.setPipeline(RobotMap.DAY_FAR);
+    //   else if (distance > Shooter.DAY_MEDIUM_DISTANCE_THRESHOLD) 
+    //       Limelight.setPipeline(RobotMap.DAY_MEDIUM);
+    //   else 
+    //       Limelight.setPipeline(RobotMap.DAY_CLOSE);
+    // }
   }
 
   /**
@@ -141,7 +156,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Limelight.setLEDS(true);
-    CommandScheduler.getInstance().schedule(Autons.throughTrench);
+    CommandScheduler.getInstance().schedule(Autons.autonCommand);
         // m_autoSelected = m_chooser.getSelected();
     // System.out.println("Auto selected: " + m_autoSelected);
     wasTeleop = false;

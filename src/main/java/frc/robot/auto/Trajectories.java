@@ -76,11 +76,13 @@ public class Trajectories {
 
 
                 public static Trajectory chezy_setUpLeftTrench = TrajectoryGenerator.generateTrajectory(
-                List.of(new Pose2d(3.0382, 2.4354, Rotation2d.fromDegrees(90)),
+                List.of(
                         new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(180))),
                 config);
                 public static Trajectory chezy_moveThroughTrench = TrajectoryGenerator.generateTrajectory(
-                List.of(new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(180)),
+                List.of(
+                        new Pose2d(3.0382, 2.4354, Rotation2d.fromDegrees(90)),
+                        new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(180)),
                         new Pose2d(0.832, 9.5728, Rotation2d.fromDegrees(90))),
                 config);
 

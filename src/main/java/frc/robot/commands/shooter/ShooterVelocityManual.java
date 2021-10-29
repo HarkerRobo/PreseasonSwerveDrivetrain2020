@@ -34,6 +34,7 @@ public class ShooterVelocityManual extends IndefiniteCommand {
 
         Shooter.getInstance().setPercentOutput(0);
 
+        
     }
     
 }

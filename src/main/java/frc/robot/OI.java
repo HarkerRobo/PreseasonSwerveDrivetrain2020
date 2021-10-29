@@ -47,7 +47,7 @@ public class OI {
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> {
             Intake.getInstance().invertSolenoid();
         }, Intake.getInstance()));
-        operatorGamepad.getButtonB().whenPressed(new ShooterVelocityManual(70));
+        operatorGamepad.getButtonB().whilePressed(new ShooterVelocityManual(70));
         operatorGamepad.getButtonBumperLeft().whilePressed(new ParallelCommandGroup(
             new ShootWithHighHood(),
             new MoveBallsToShooter()
@@ -65,9 +65,10 @@ public class OI {
             drivetrain.getBottomRight().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BR_OFFSET));
         }));
         operatorGamepad.getButtonStart().whenPressed(new InstantCommand(() -> {
-            Drivetrain.getInstance().getPigeon().zero();
+            Drivetrain.getInstance().getPigeon().addFusedHeading(-Drivetrain.getInstance().getPigeon().getFusedHeading()*63.9886111111111);
+            System.out.println("hfueirryfhiuajknc980qehweo  ");
         }));
-
+        
         operatorGamepad.getDownDPadButton().whenPressed(new InstantCommand(() -> {
             Shooter.getInstance().velAdjustment -= 0.2;
         }));

@@ -1,6 +1,7 @@
 package frc.robot.commands.climber;
 
 import harkerrobolib.commands.IndefiniteCommand;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.OI;
 import frc.robot.subsystems.Climber;
 
@@ -14,6 +15,8 @@ public class ClimberManual extends IndefiniteCommand
 
     @Override
     public void execute(){
+
+        if(Timer.getMatchTime()<45){
         if(OI.getInstance().getDriverGamepad().getUpDPadButton().get()){
             Climber.getInstance().setPercentOutput(OUTPUT_MAGNITUDE);
         }
@@ -22,6 +25,7 @@ public class ClimberManual extends IndefiniteCommand
         }
         else{
             Climber.getInstance().setPercentOutput(0);
+        }
         }
     }
 

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.util.Vector;
 
 public class HSSwerveDriveController extends SwerveControllerCommand {
     private static final double kP=6;
@@ -51,5 +52,11 @@ public class HSSwerveDriveController extends SwerveControllerCommand {
         SmartDashboard.putNumber("mp x error", xController.getPositionError());
         SmartDashboard.putNumber("mp y error", yController.getPositionError());
         SmartDashboard.putNumber("mp theta error", thetaController.getPositionError());
+    }
+
+    @Override
+    public void end(boolean dhsak){
+        super.end(dhsak);
+        Drivetrain.getInstance().setPercentOutput(new Vector(0, 0));
     }
 }

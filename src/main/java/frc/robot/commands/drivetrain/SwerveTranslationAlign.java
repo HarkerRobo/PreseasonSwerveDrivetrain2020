@@ -35,7 +35,7 @@ public class SwerveTranslationAlign extends IndefiniteCommand {
 
         SmartDashboard.putNumber("translational Velocity", translationalVelocity);
 
-        ChassisSpeeds chassis = new ChassisSpeeds(translationalVelocity, 0, 0);
+        ChassisSpeeds chassis = new ChassisSpeeds(-translationalVelocity, 0, 0);
 
         Drivetrain.getInstance().setAngleAndDriveVelocity(Drivetrain.getInstance().getKinematics().toSwerveModuleStates(chassis));
     }

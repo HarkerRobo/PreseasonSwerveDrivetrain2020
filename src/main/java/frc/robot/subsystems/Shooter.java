@@ -57,8 +57,8 @@ public class Shooter extends SubsystemBase {
     public static final double DAY_FAR_DISTANCE_THRESHOLD = 26.706;    
     public static final double DAY_MEDIUM_DISTANCE_THRESHOLD = 11.753;
 
-    public int velAdjustment = 0;
-    public int highVelAdjustment = 0;
+    public double velAdjustment = 0;
+    public double highVelAdjustment = 0;
 
     private Shooter() {
         rotation = new HSFalcon(RobotMap.SHOOTER_MASTER);

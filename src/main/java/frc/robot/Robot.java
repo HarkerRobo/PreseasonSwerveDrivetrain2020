@@ -125,11 +125,6 @@ public class Robot extends TimedRobot {
         Limelight.setLEDS(true);
      }
     }
-    
-    SmartDashboard.putNumber("pdp currenet", pdp.getTotalCurrent());
-    tot += pdp.getTotalCurrent();
-    cnt++;
-    SmartDashboard.putNumber("pdp avg", cnt / tot);
 
     // if(Limelight.isTargetVisible()) {
     //   double distance = Shooter.getInstance().getDistance();
@@ -196,6 +191,8 @@ public class Robot extends TimedRobot {
     drivetrain.getBottomLeft().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BL_OFFSET));
     drivetrain.getBottomRight().getRotationMotor().setSelectedSensorPosition((Drivetrain.getInstance().getBottomRight().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs() - Drivetrain.BR_OFFSET));
     wasTeleop = true;    
+
+    pdp.resetTotalEnergy();
   }
 
   /**
@@ -204,6 +201,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
+
+    for(int i = 0;i < 16;i ++) {
+      SmartDashboard.putNumber("pdp current " + i, pdp.getCurrent(i));
+    }
+    SmartDashboard.putNumber("pdp tot energy", pdp.getTotalEnergy());
   }
 
   /**

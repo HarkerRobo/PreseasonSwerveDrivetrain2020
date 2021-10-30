@@ -18,15 +18,13 @@ public class RotateInPlace extends IndefiniteCommand {
     private static final double kD=0.0;//02;
     private static final double TX_SETPOINT=0;
     private static final double I_ZONE = 0;
-    private static double angularVelocity;
 
 
     private PIDController pid;
-    public RotateInPlace(double angVel) {
+    public RotateInPlace() {
         addRequirements(Drivetrain.getInstance());
         pid = new PIDController(kP, kI, kD);
         pid.setIntegratorRange(-I_ZONE, I_ZONE);
-        angularVelocity=angVel;
     }
 
     @Override

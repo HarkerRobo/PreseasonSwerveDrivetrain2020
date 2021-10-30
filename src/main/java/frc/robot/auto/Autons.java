@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drivetrain.HSSwerveDriveController;
+import frc.robot.commands.drivetrain.RotateInPlace;
 import frc.robot.commands.intake.IntakeAutonControlForward;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShootWithHighHood;
@@ -33,8 +34,13 @@ public class Autons {
         ),
 
         new ParallelDeadlineGroup(
+            new WaitCommand(2),
+            new RotateInPlace()
+        ),
+
+        new ParallelDeadlineGroup(
             new WaitCommand(8),
-            new ShootWithHighHood(),
+            new ShootWithLimelight(),
             new MoveBallsToShooter()
         )
     );
@@ -66,7 +72,7 @@ public class Autons {
             new ShooterVelocityManual(65)
         ),
         new ParallelDeadlineGroup(
-            new WaitCommand(5),
+            new WaitCommand(8),
             new ShootWithHighHood(),
             new MoveBallsToShooter()
         )
@@ -84,35 +90,35 @@ public class Autons {
         )
     );
 
-    public static SequentialCommandGroup throughTrench = new SequentialCommandGroup(
+    // public static SequentialCommandGroup throughTrench = new SequentialCommandGroup(
 
-        new ParallelDeadlineGroup(
-            new WaitCommand(5),
-            new ShootWithLimelight(),
-            new MoveBallsToShooter()
-        ),
-        new InstantCommand(() -> {
-            Intake.getInstance().invertSolenoid();
-        }),
-        //new HSSwerveDriveController(Trajectories.chezy_setUpLeftTrench, Rotation2d.fromDegrees(0)),
+    //     new ParallelDeadlineGroup(
+    //         new WaitCommand(5),
+    //         new ShootWithLimelight(),
+    //         new MoveBallsToShooter()
+    //     ),
+    //     new InstantCommand(() -> {
+    //         Intake.getInstance().invertSolenoid();
+    //     }),
+    //     //new HSSwerveDriveController(Trajectories.chezy_setUpLeftTrench, Rotation2d.fromDegrees(0)),
 
-        new ParallelRaceGroup(
-            new HSSwerveDriveController(Trajectories.chezy_moveThroughTrench, Rotation2d.fromDegrees(0)),
-            new IntakeAutonControlForward(0.5)
-        ),
+    //     new ParallelRaceGroup(
+    //         new HSSwerveDriveController(Trajectories.chezy_moveThroughTrench, Rotation2d.fromDegrees(0)),
+    //         new IntakeAutonControlForward(0.5)
+    //     ),
         
-        new HSSwerveDriveController(Trajectories.chezy_moveBackThroughTrench, Rotation2d.fromDegrees(0)),
-        new ParallelRaceGroup(
-            new HSSwerveDriveController(Trajectories.chezy_shootTrenchBalls, Rotation2d.fromDegrees(0)),
-            new ShooterVelocityManual(65)
-        ),
-        new ParallelDeadlineGroup(
-            new WaitCommand(5),
-            new ShootWithLimelight(),
-            new MoveBallsToShooter()
-        )
+    //     new HSSwerveDriveController(Trajectories.chezy_moveBackThroughTrench, Rotation2d.fromDegrees(0)),
+    //     new ParallelRaceGroup(
+    //         new HSSwerveDriveController(Trajectories.chezy_shootTrenchBalls, Rotation2d.fromDegrees(0)),
+    //         new ShooterVelocityManual(65)
+    //     ),
+    //     new ParallelDeadlineGroup(
+    //         new WaitCommand(5),
+    //         new ShootWithLimelight(),
+    //         new MoveBallsToShooter()
+    //     )
 
-    );
+    // );
 
     public static SequentialCommandGroup autonCommand = rightToUpAgainstGoal;
 

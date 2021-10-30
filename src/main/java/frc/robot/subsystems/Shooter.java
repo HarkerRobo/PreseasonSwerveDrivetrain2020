@@ -57,7 +57,7 @@ public class Shooter extends SubsystemBase {
     public static final double DAY_FAR_DISTANCE_THRESHOLD = 14.55;    
     public static final double DAY_MEDIUM_DISTANCE_THRESHOLD = 11.753;
 
-    public double velAdjustment = 0;
+    public double velAdjustment = -1;
     public double highVelAdjustment = 0;
 
     private Shooter() {

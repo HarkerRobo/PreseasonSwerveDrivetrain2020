@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeManualPID extends IndefiniteCommand {
     private static final double MAX_VELOCITY = 15;
-    private static final double AGITATOR_MAX_SPEED = 1;
-    private static final double LINEAR_MAX_SPEED = 0.54;
+    private static final double AGITATOR_MAX_SPEED = 0.32;//0.65
+    private static final double LINEAR_MAX_SPEED = 0.27; //0.54
     private long commandTime;
     private double magnitude;
     private boolean reverse;
@@ -26,7 +26,8 @@ public class IntakeManualPID extends IndefiniteCommand {
 
     @Override
     public void execute() {
-        Intake.getInstance().setVelocity(magnitude*MAX_VELOCITY);
+        //Intake.getInstance().setVelocity(magnitude*MAX_VELOCITY);
+        Intake.getInstance().setPercentOutput(magnitude);
 
         if(reverse)
 

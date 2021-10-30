@@ -13,24 +13,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.RobotMap;
 
-public class RotateInPlace extends IndefiniteCommand {
+public class RotateToAngle extends IndefiniteCommand {
     private static final double kP=0.03;
     private static final double kI=0.0;//00002;
     private static final double kD=0.0;//02;
     private static final double TX_SETPOINT=0;
     private static final double I_ZONE = 0;
+    private double angle=0;
 
 
     private PIDController pid;
-    public RotateInPlace() {
+    public RotateToAngle(double angle) {
         addRequirements(Drivetrain.getInstance());
         pid = new PIDController(kP, kI, kD);
         pid.setIntegratorRange(-I_ZONE, I_ZONE);
+        this.angle=angle;
     }
 
     @Override
     public void execute() {
-        double angVel = -pid.calculate(Limelight.getTx(), TX_SETPOINT);
+        double angVel = -pid.calculate(Drivetrain.getInstance().getPigeon().getFusedHeading(), -angle);
 
         angVel *= Drivetrain.MAX_ANGULAR_VEL;
 

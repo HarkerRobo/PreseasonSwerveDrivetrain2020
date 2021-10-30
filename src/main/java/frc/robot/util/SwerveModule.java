@@ -100,6 +100,7 @@ public class SwerveModule {
 		translation.setNeutralMode(NeutralMode.Brake);
 		translation.setInverted(TRANSLATION_INVERT);
 
+		translation.configClosedloopRamp(0.1);
 		translation.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true, DRIVE_CURRENT_CONTINUOUS, DRIVE_CURRENT_PEAK, DRIVE_CURRENT_PEAK_DUR));
 
 		translation.config_kP(RobotMap.SLOT_INDEX, TRANSLATION_P);

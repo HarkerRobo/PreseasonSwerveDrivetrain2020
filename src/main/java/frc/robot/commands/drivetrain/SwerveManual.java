@@ -46,7 +46,7 @@ public class SwerveManual extends IndefiniteCommand {
         }
     
 
-        if(OI.getInstance().getDriverGamepad().getButtonBumperRightState()){
+        if(OI.getInstance().getOperatorGamepad().getButtonXState()){
             angularVelocity = -pid.calculate(Limelight.getTx(), TX_SETPOINT);
         }
         // if(OI.getInstance().getDriverGamepad().getButtonBState() || OI.getInstance().getOperatorGamepad().getButtonBState()){

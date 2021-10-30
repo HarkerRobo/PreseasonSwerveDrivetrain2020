@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.drivetrain.SwerveTranslationAlign;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShootWithLimelight;
+import frc.robot.commands.shooter.Rev;
 import frc.robot.commands.shooter.ShootWithHighHood;
 import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.subsystems.Drivetrain;
@@ -47,7 +48,9 @@ public class OI {
         operatorGamepad.getButtonA().whenPressed(new InstantCommand(() -> {
             Intake.getInstance().invertSolenoid();
         }, Intake.getInstance()));
-        operatorGamepad.getButtonB().whilePressed(new ShooterVelocityManual(70));
+        operatorGamepad.getButtonB().whilePressed(
+            new Rev(70)
+        );
         operatorGamepad.getButtonBumperLeft().whilePressed(new ParallelCommandGroup(
             new ShootWithHighHood(),
             new MoveBallsToShooter()

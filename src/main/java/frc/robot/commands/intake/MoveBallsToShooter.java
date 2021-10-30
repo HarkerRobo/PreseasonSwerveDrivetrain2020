@@ -10,6 +10,7 @@ public class MoveBallsToShooter extends IndefiniteCommand{
     private static final double LINEAR_MAX_SPEED = 0.5;
     private static final long OUT_DELAY = 100;
     private static final long PID_DELAY = 1000;
+    private static final long MIN_DELAY = 1000;
     private long commandTime;
     private long pidTime=-1;
 
@@ -29,11 +30,16 @@ public class MoveBallsToShooter extends IndefiniteCommand{
         long currentTime = System.currentTimeMillis();
         
 
+
         if(currentTime - commandTime < OUT_DELAY) {
             Indexer.getInstance().setLinearPercentOutput(-LINEAR_MAX_SPEED);
             Indexer.getInstance().setAgitatorPercentOutput(AGITATOR_MAX_SPEED);
         }
-        
+        else if(currentTime - commandTime < MIN_DELAY) {
+            Indexer.getInstance().setLinearPercentOutput(0);
+            Indexer.getInstance().setAgitatorPercentOutput(0);
+            return;
+        }
         else if(!Shooter.isPercentOutput) {
                 if(pidTime==-1){
                     pidTime = System.currentTimeMillis();

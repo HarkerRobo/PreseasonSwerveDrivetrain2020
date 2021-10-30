@@ -116,17 +116,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Pigeon Heading", drivetrain.getPigeon().getFusedHeading());
 
-    double clampedHeading = (Drivetrain.getInstance().getPigeon().getFusedHeading() % 360 + 360) % 360;
 
-    SmartDashboard.putNumber("clamped heading", clampedHeading);  
-    if(System.currentTimeMillis() - llThrottle > 500) { // toggling limelight LEDs is an expensive operation
-      llThrottle = System.currentTimeMillis();
-      if(clampedHeading < 60 || clampedHeading > 300) {
-        Limelight.setLEDS(false);
-      } else {
-        Limelight.setLEDS(true);
-     }
-    }
+    // SmartDashboard.putNumber("clamped heading", clampedHeading);  
 
     if(Limelight.isTargetVisible()) {
       double distance = Shooter.getInstance().getDistance();
@@ -150,7 +141,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Drivetrain.getInstance().getPigeon().zero();
     Drivetrain.getInstance().getPigeon().addFusedHeading(-Drivetrain.getInstance().getPigeon().getFusedHeading()*63.9886111111111);
+    Drivetrain.getInstance().getPigeon().zero();
 
     Limelight.setLEDS(true);
     CommandScheduler.getInstance().schedule(Autons.autonCommand);
@@ -208,6 +201,17 @@ public class Robot extends TimedRobot {
       SmartDashboard.putNumber("pdp current " + i, pdp.getCurrent(i));
     }
     SmartDashboard.putNumber("pdp tot energy", pdp.getTotalEnergy());
+    SmartDashboard.putNumber("pdp tot current", pdp.getTotalCurrent());
+
+    double clampedHeading = (Drivetrain.getInstance().getPigeon().getFusedHeading() % 360 + 360) % 360;
+    if(System.currentTimeMillis() - llThrottle > 500) { // toggling limelight LEDs is an expensive operation
+      llThrottle = System.currentTimeMillis();
+      if(clampedHeading < 60 || clampedHeading > 300) {
+        Limelight.setLEDS(false);
+      } else {
+        Limelight.setLEDS(true);
+     }
+    }
   }
 
   /**

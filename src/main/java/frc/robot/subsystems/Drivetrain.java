@@ -98,6 +98,7 @@ public class Drivetrain extends SubsystemBase {
         bottomRight = new SwerveModule(BOTTOM_RIGHT_ROTATION_SENSOR_PHASE, BOTTOM_RIGHT_TRANSLATION_SENSOR_PHASE,
                 RobotMap.ROTATION_IDS[3], RobotMap.TRANSLATION_IDS[3], BOTTOM_RIGHT_ROTATION_INVERTED, BOTTOM_RIGHT_TRANSLATION_INVERTED);
         
+
         pigeon = new HSPigeon(RobotMap.PIGEON_ID);
         pigeon.setFusedHeading(0);
 

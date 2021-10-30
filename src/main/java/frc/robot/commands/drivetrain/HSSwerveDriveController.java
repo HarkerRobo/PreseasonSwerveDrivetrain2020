@@ -12,13 +12,13 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.util.Vector;
 
 public class HSSwerveDriveController extends SwerveControllerCommand {
-    private static final double kP=0.5;
+    private static final double kP=0.1;
     private static final double kI=0;
-    private static final double kD=3;
+    private static final double kD=0.5;
 
-    private static final double THETA_kP=0.5;
+    private static final double THETA_kP=0.1;
     private static final double THETA_kI=0;
-    private static final double THETA_kD=2;
+    private static final double THETA_kD=0.5;
 
     private static PIDController xController = new PIDController(kP, kI, kD);
     private static PIDController yController = new PIDController(kP, kI, kD);

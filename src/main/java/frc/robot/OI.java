@@ -66,7 +66,7 @@ public class OI {
         }));
         operatorGamepad.getButtonStart().whenPressed(new InstantCommand(() -> {
             Drivetrain.getInstance().getPigeon().addFusedHeading(-Drivetrain.getInstance().getPigeon().getFusedHeading()*63.9886111111111);
-            System.out.println("hfueirryfhiuajknc980qehweo  ");
+            // System.out.println("hfueirryfhiuajknc980qehweo  ");
         }));
         
         operatorGamepad.getDownDPadButton().whenPressed(new InstantCommand(() -> {

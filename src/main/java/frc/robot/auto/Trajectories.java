@@ -43,42 +43,42 @@ public class Trajectories {
 
 
                 public static Trajectory chezy_moveToBalls = TrajectoryGenerator.generateTrajectory(
-                List.of(new Pose2d(7.5179, 3.0533, Rotation2d.fromDegrees(90)),
-                        new Pose2d(7.4876, 5.8063, Rotation2d.fromDegrees(90))),
+                List.of(new Pose2d(7.4423, 2.5692, Rotation2d.fromDegrees(90)),
+                        new Pose2d(7.4423, 5.7458, Rotation2d.fromDegrees(90))),
                 config);
 
                 public static Trajectory chezy_moveToShootingLocation = TrajectoryGenerator.generateTrajectory(
-                List.of(new Pose2d(7.4876, 5.8063, Rotation2d.fromDegrees(270)),
-                        new Pose2d(6.2019, 4.2634, Rotation2d.fromDegrees(180)),
-                        new Pose2d(3.222, 4.3239, Rotation2d.fromDegrees(180))),
+                List.of(new Pose2d(7.4423, 5.7458, Rotation2d.fromDegrees(270)),
+                        new Pose2d(7.4423, 2.5692, Rotation2d.fromDegrees(180)),
+                        new Pose2d(2.3144, 3.0835, Rotation2d.fromDegrees(180))),
                 config);
 
                 public static Trajectory chezy_leftInitiationToScoringZone = TrajectoryGenerator.generateTrajectory(
-                List.of(new Pose2d(2.4959, 3.023, Rotation2d.fromDegrees(270)),
+                List.of(new Pose2d(7.4423, 2.5692, Rotation2d.fromDegrees(90)),
                         new Pose2d(2.4656, 0.6633, Rotation2d.fromDegrees(270))),
                 config);
 
                 public static Trajectory chezy_leftScoringBackToStarting = TrajectoryGenerator.generateTrajectory(
                 List.of(new Pose2d(2.4656, 0.6633, Rotation2d.fromDegrees(270)),
-                        new Pose2d(3.0382, 2.4354, Rotation2d.fromDegrees(90)
-                )),
+                         new Pose2d(2.3144, 3.0835, Rotation2d.fromDegrees(180))),
                 config);
 
                 public static Trajectory chezy_centerInitiationToScoringZone = TrajectoryGenerator.generateTrajectory(
-                List.of(new Pose2d(4.2959, 3.0533, Rotation2d.fromDegrees(270)),
-                        new Pose2d(2.4656, 0.6633, Rotation2d.fromDegrees(180))),
+                List.of(new Pose2d(3.948, 3.0987, Rotation2d.fromDegrees(270)),
+                new Pose2d(2.4354, 0.5423, Rotation2d.fromDegrees(0))),
                 config);
 
                 public static Trajectory chezy_rightInitiationToScoringZone = TrajectoryGenerator.generateTrajectory(
-                List.of(new Pose2d(7.4574, 3.0533, Rotation2d.fromDegrees(270)),
-                        new Pose2d(2.4656, 0.6633, Rotation2d.fromDegrees(180))),
+                List.of(new Pose2d(0.484, 2.539, Rotation2d.fromDegrees(270)),
+                        new Pose2d(2.4354, 0.5423, Rotation2d.fromDegrees(0))),
                 config);
+                
 
 
-                public static Trajectory chezy_setUpLeftTrench = TrajectoryGenerator.generateTrajectory(
-                List.of(
-                        new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(180))),
-                config);
+                // public static Trajectory chezy_setUpLeftTrench = TrajectoryGenerator.generateTrajectory(
+                //         List.of(
+                //         new Pose2d(0.832, 4.1122, Rotation2d.fromDegrees(180))),
+                //         config);
                 public static Trajectory chezy_moveThroughTrench = TrajectoryGenerator.generateTrajectory(
                 List.of(
                         new Pose2d(3.0382, 2.4354, Rotation2d.fromDegrees(90)),

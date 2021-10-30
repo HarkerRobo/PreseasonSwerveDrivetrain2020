@@ -22,13 +22,18 @@ public class Autons {
     //     new HSSwerveDriveController(Trajectories.returnFromTrench, Rotation2d.fromDegrees(0)));
 
     public static SequentialCommandGroup stealBallsFromTrench = new SequentialCommandGroup(
-        new HSSwerveDriveController(Trajectories.chezy_moveToBalls, Rotation2d.fromDegrees(0)),
+        
+        new ParallelRaceGroup(
+            new HSSwerveDriveController(Trajectories.chezy_moveToBalls, Rotation2d.fromDegrees(0)),
+            new IntakeAutonControlForward(0.5)
+        ),
         new ParallelRaceGroup(
             new HSSwerveDriveController(Trajectories.chezy_moveToShootingLocation, Rotation2d.fromDegrees(0)),
             new ShooterVelocityManual(65)
         ),
+
         new ParallelDeadlineGroup(
-            new WaitCommand(5),
+            new WaitCommand(8),
             new ShootWithHighHood(),
             new MoveBallsToShooter()
         )
@@ -41,6 +46,15 @@ public class Autons {
         ),
         new ParallelDeadlineGroup(
             new WaitCommand(5),
+            new ShootWithHighHood(),
+            new MoveBallsToShooter()
+        )
+    );
+
+    public static SequentialCommandGroup justShooting = new SequentialCommandGroup(
+
+        new ParallelDeadlineGroup(
+            new WaitCommand(8),
             new ShootWithHighHood(),
             new MoveBallsToShooter()
         )
@@ -100,7 +114,7 @@ public class Autons {
 
     );
 
-    public static SequentialCommandGroup autonCommand = throughTrench;
+    public static SequentialCommandGroup autonCommand = rightToUpAgainstGoal;
 
 
 }

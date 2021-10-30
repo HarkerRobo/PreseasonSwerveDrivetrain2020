@@ -17,15 +17,20 @@ public class ClimberManual extends IndefiniteCommand
     public void execute(){
 
         if(Timer.getMatchTime()<45){
-        if(OI.getInstance().getDriverGamepad().getUpDPadButton().get()){
-            Climber.getInstance().setPercentOutput(OUTPUT_MAGNITUDE);
-        }
-        else if(OI.getInstance().getDriverGamepad().getDownDPadButton().get()){
-            Climber.getInstance().setPercentOutput(-OUTPUT_MAGNITUDE / 2.0);
-        }
-        else{
-            Climber.getInstance().setPercentOutput(0);
-        }
+            if(OI.getInstance().getDriverGamepad().getUpDPadButton().get()){
+                Climber.getInstance().setPercentOutput(OUTPUT_MAGNITUDE);
+            }
+            else if(OI.getInstance().getDriverGamepad().getDownDPadButton().get()){
+                Climber.getInstance().setPercentOutput(-OUTPUT_MAGNITUDE);
+            }
+
+
+            else if(OI.getInstance().getDriverGamepad().getLeftDPadButton().get()){
+                Climber.getInstance().setPercentOutput(-OUTPUT_MAGNITUDE/3);
+            }
+            else{
+                Climber.getInstance().setPercentOutput(0);
+            }
         }
     }
 

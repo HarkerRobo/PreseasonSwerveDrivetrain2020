@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    // Limelight.setLEDS(true);
     CommandScheduler.getInstance().run();
     Drivetrain drivetrain = Drivetrain.getInstance();
 
@@ -92,7 +93,7 @@ public class Robot extends TimedRobot {
     }
     SmartDashboard.putNumber("cd pigeon heading", Drivetrain.getInstance().getPigeon().getFusedHeading());
     SmartDashboard.putNumber("cd shooter manual adj normal hood", Shooter.getInstance().velAdjustment);
-    System.out.println(Shooter.getInstance().velAdjustment);
+    // System.out.println(Shooter.getInstance().velAdjustment);
     SmartDashboard.putNumber("cd shooter manual adj high hood", Shooter.getInstance().highVelAdjustment);
     SmartDashboard.putNumber("cd shooter speed", Shooter.getInstance().getVelocity());
     SmartDashboard.putBoolean("cd intake solenoid", Intake.getInstance().getSolenoid().get() == Value.kForward);
@@ -126,15 +127,13 @@ public class Robot extends TimedRobot {
      }
     }
 
-    // if(Limelight.isTargetVisible()) {
-    //   double distance = Shooter.getInstance().getDistance();
-    //   if (distance > Shooter.DAY_FAR_DISTANCE_THRESHOLD) 
-    //       Limelight.setPipeline(RobotMap.DAY_FAR);
-    //   else if (distance > Shooter.DAY_MEDIUM_DISTANCE_THRESHOLD) 
-    //       Limelight.setPipeline(RobotMap.DAY_MEDIUM);
-    //   else 
-    //       Limelight.setPipeline(RobotMap.DAY_CLOSE);
-    // }
+    if(Limelight.isTargetVisible()) {
+      double distance = Shooter.getInstance().getDistance();
+      if (distance > Shooter.DAY_FAR_DISTANCE_THRESHOLD) 
+          Limelight.setPipeline(RobotMap.DAY_FAR);
+      else
+          Limelight.setPipeline(RobotMap.DAY_MEDIUM);
+    }
   }
 
   /**
@@ -150,6 +149,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    Drivetrain.getInstance().getPigeon().addFusedHeading(-Drivetrain.getInstance().getPigeon().getFusedHeading()*63.9886111111111);
+
     Limelight.setLEDS(true);
     CommandScheduler.getInstance().schedule(Autons.autonCommand);
         // m_autoSelected = m_chooser.getSelected();

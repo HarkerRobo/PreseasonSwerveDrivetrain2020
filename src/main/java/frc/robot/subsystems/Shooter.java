@@ -54,7 +54,7 @@ public class Shooter extends SubsystemBase {
     private static final int NUM_SAMPLES = 30;
     public static MedianFilter medianFilter = new MedianFilter(NUM_SAMPLES);
 
-    public static final double DAY_FAR_DISTANCE_THRESHOLD = 26.706;    
+    public static final double DAY_FAR_DISTANCE_THRESHOLD = 14.55;    
     public static final double DAY_MEDIUM_DISTANCE_THRESHOLD = 11.753;
 
     public double velAdjustment = 0;
@@ -72,7 +72,7 @@ public class Shooter extends SubsystemBase {
         double limelightDistance = Shooter.getInstance().getDistance();
         double hoodAngle = 0.376581 + (0.00635765 * limelightDistance) + (-0.00001741 * Math.pow(limelightDistance, 2));
         if(limelightDistance==0) return;
-       
+       SmartDashboard.putNumber("limelight dist", limelightDistance);
         Shooter.getInstance().setHoodAngle(hoodAngle);
     }
 

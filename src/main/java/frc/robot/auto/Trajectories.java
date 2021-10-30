@@ -49,8 +49,7 @@ public class Trajectories {
 
                 public static Trajectory chezy_moveToShootingLocation = TrajectoryGenerator.generateTrajectory(
                 List.of(new Pose2d(7.4423, 5.7458, Rotation2d.fromDegrees(270)),
-                        new Pose2d(7.4423, 2.5692, Rotation2d.fromDegrees(180)),
-                        new Pose2d(2.3144, 3.0835, Rotation2d.fromDegrees(180))),
+                        new Pose2d(2.4656, 2.4656, Rotation2d.fromDegrees(180))),
                 config);
 
                 public static Trajectory chezy_leftInitiationToScoringZone = TrajectoryGenerator.generateTrajectory(

@@ -87,9 +87,10 @@ public class Robot extends TimedRobot {
     );
 
     if(Limelight.isTargetVisible()) {
-      SmartDashboard.putNumber("cd limelight tx", -100);
-    } else {
       SmartDashboard.putNumber("cd limelight tx", Limelight.getTx());
+      
+    } else {
+      SmartDashboard.putNumber("cd limelight tx", -100);
     }
     SmartDashboard.putNumber("cd pigeon heading", Drivetrain.getInstance().getPigeon().getFusedHeading());
     SmartDashboard.putNumber("cd shooter manual adj normal hood", Shooter.getInstance().velAdjustment);

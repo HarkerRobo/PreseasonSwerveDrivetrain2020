@@ -2,6 +2,7 @@ package frc.robot.auto;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -67,17 +68,17 @@ public class Autons {
     //     new RotateToAngle(15)
     // );
 
-    // public static SequentialCommandGroup leftToUpAgainstGoal = new SequentialCommandGroup(
-    //     new ParallelRaceGroup(
-    //         new HSSwerveDriveController(Trajectories.chezy_leftInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-    //         new ShooterVelocityManual(65)
-    //     ),
-    //     new ParallelDeadlineGroup(
-    //         new WaitCommand(5),
-    //         new ShootWithHighHood(),
-    //         new MoveBallsToShooter()
-    //     )
-    // );
+    public static SequentialCommandGroup leftToUpAgainstGoal = new SequentialCommandGroup(
+        new ParallelRaceGroup(
+            new HSSwerveDriveController(Trajectories.chezy_leftInitiationToScoringZone, Rotation2d.fromDegrees(0)),
+            new ShooterVelocityManual(65)
+        ),
+        new ParallelDeadlineGroup(
+            new WaitCommand(5),
+            new ShootWithHighHood(),
+            new MoveBallsToShooter()
+        )
+    );
 
     // public static SequentialCommandGroup rotateAndShoot = new SequentialCommandGroup(
 
@@ -102,29 +103,29 @@ public class Autons {
     //     )
     // );
 
-    // public static SequentialCommandGroup centerToUpAgainstGoal = new SequentialCommandGroup(
-    //     new ParallelRaceGroup(
-    //         new HSSwerveDriveController(Trajectories.chezy_centerInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-    //         new Rev(70)
-    //     ),
-    //     new ParallelDeadlineGroup(
-    //         new WaitCommand(8),
-    //         new ShootWithHighHood(),
-    //         new MoveBallsToShooter()
-    //     )
-    // );
+    public static SequentialCommandGroup centerToUpAgainstGoal = new SequentialCommandGroup(
+        new ParallelRaceGroup(
+            new HSSwerveDriveController(Trajectories.chezy_centerInitiationToScoringZone, Rotation2d.fromDegrees(0)),
+            new Rev(70)
+        ),
+        new ParallelDeadlineGroup(
+            new WaitCommand(8),
+            new ShootWithHighHood(),
+            new MoveBallsToShooter()
+        )
+    );
 
-    // public static SequentialCommandGroup rightToUpAgainstGoal = new SequentialCommandGroup(
-    //     new ParallelRaceGroup(
-    //         new HSSwerveDriveController(Trajectories.chezy_rightInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-    //         new ShooterVelocityManual(65)
-    //     ),
-    //     new ParallelDeadlineGroup(
-    //         new WaitCommand(5),
-    //         new ShootWithHighHood(),
-    //         new MoveBallsToShooter()
-    //     )
-    // );
+    public static SequentialCommandGroup rightToUpAgainstGoal = new SequentialCommandGroup(
+        new ParallelRaceGroup(
+            new HSSwerveDriveController(Trajectories.chezy_rightInitiationToScoringZone, Rotation2d.fromDegrees(0)),
+            new ShooterVelocityManual(65)
+        ),
+        new ParallelDeadlineGroup(
+            new WaitCommand(5),
+            new ShootWithHighHood(),
+            new MoveBallsToShooter()
+        )
+    );
 
     // public static SequentialCommandGroup throughTrench = new SequentialCommandGroup(
 
@@ -155,8 +156,18 @@ public class Autons {
     //     )
 
     // );
-
+    public static SequentialCommandGroup getAutoCommand(){
+        String dash = SmartDashboard.getString("autoPath", "steal");
+        if(dash.equals("left")){
+            return leftToUpAgainstGoal;
+        }
+        else if(dash.equals("right")){
+            return rightToUpAgainstGoal;
+        }
+        else if(dash.equals("center")){
+            return centerToUpAgainstGoal;
+        }
+        return stealBallsFromTrench;
+    }
     public static SequentialCommandGroup autonCommand = stealBallsFromTrench;
-
-
 }

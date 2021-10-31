@@ -27,7 +27,7 @@ public class RevHighHood extends IndefiniteCommand {
 
     @Override
     public void execute(){
-        Shooter.getInstance().setHoodAngle(0.27);
+        
         long currentTime = System.currentTimeMillis();
 
         if(currentTime - commandTime < DELAY){
@@ -38,6 +38,7 @@ public class RevHighHood extends IndefiniteCommand {
             Indexer.getInstance().setLinearPercentOutput(0);
             Indexer.getInstance().setAgitatorPercentOutput(0);
             Shooter.getInstance().setVelocity(120);
+            Shooter.getInstance().setHoodAngle(0.27);
         }
     }
 

@@ -75,6 +75,11 @@ public class Trajectories {
                 config);
 
 
+
+                public static Trajectory chezy_outoftheway = TrajectoryGenerator.generateTrajectory(
+                List.of(new Pose2d(2.4384, 3.048, Rotation2d.fromDegrees(270)),
+                        new Pose2d(2.4384, 1.5348, Rotation2d.fromDegrees(270))),
+                config);
                 
                 // public static Trajectory chezy_moveAway = TrajectoryGenerator.generateTrajectory(
                 // List.of(new Pose2d(2.3295, 2.5995, Rotation2d.fromDegrees(90)),

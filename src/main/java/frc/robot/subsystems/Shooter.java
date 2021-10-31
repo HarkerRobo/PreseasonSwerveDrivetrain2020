@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.util.Limelight;
 import harkerrobolib.util.Conversions;
@@ -73,7 +74,9 @@ public class Shooter extends SubsystemBase {
         double hoodAngle = 0.376581 + (0.00635765 * limelightDistance) + (-0.00001741 * Math.pow(limelightDistance, 2));
         if(limelightDistance==0) return;
        SmartDashboard.putNumber("limelight dist", limelightDistance);
-        Shooter.getInstance().setHoodAngle(hoodAngle);
+       if(!OI.getInstance().getOperatorGamepad().getButtonYState()){
+            Shooter.getInstance().setHoodAngle(hoodAngle);
+        }
     }
 
     public void intakeInit(){

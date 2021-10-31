@@ -38,7 +38,8 @@ public class OI {
         // A Invert intake
         // B Rev
         // X Align
-        // Y Rev high
+        // Y Rev hig
+        
 
 
         driverGamepad.getButtonA().whilePressed(new SwerveTranslationAlign());

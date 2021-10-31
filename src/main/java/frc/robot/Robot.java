@@ -146,7 +146,7 @@ public class Robot extends TimedRobot {
     Drivetrain.getInstance().getPigeon().zero();
 
     Limelight.setLEDS(true);
-    CommandScheduler.getInstance().schedule(Autons.getAutoCommand());
+    CommandScheduler.getInstance().schedule(Autons.autonCommand);
         // m_autoSelected = m_chooser.getSelected();
     // System.out.println("Auto selected: " + m_autoSelected);
     wasTeleop = false;

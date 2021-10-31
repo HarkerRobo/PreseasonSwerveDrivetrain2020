@@ -81,6 +81,17 @@ public class Autons {
         )
     );
 
+
+    public static SequentialCommandGroup shootAndMove = new SequentialCommandGroup(
+        new ParallelDeadlineGroup(
+            new WaitCommand(8),
+            new ShootWithLimelight(),
+            new MoveBallsToShooter()
+        ),
+        new HSSwerveDriveController(Trajectories.chezy_outoftheway, Rotation2d.fromDegrees(0))
+        
+    );
+
     // public static SequentialCommandGroup rotateAndShoot = new SequentialCommandGroup(
 
     //     new ParallelDeadlineGroup(
@@ -170,5 +181,5 @@ public class Autons {
         }
         return stealBallsFromTrench;
     }
-    public static SequentialCommandGroup autonCommand = stealBallsFromTrench;
+    public static SequentialCommandGroup autonCommand = shootAndMove;
 }

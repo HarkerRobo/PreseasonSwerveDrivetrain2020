@@ -6,6 +6,7 @@ import frc.robot.commands.drivetrain.SwerveTranslationAlign;
 import frc.robot.commands.intake.MoveBallsToShooter;
 import frc.robot.commands.shooter.ShootWithLimelight;
 import frc.robot.commands.shooter.Rev;
+import frc.robot.commands.shooter.RevHighHood;
 import frc.robot.commands.shooter.ShootWithHighHood;
 import frc.robot.commands.shooter.ShooterVelocityManual;
 import frc.robot.subsystems.Drivetrain;
@@ -33,6 +34,12 @@ public class OI {
     private void initBindings() {
         // https://docs.google.com/drawings/d/1dSrsltlSsIqcEyNErSiSdRW-P8vYl1y5DzKc4hMTjqs/edit
 
+        // Op
+        // A Invert intake
+        // B Rev
+        // X Align
+        // Y Rev high
+
 
         driverGamepad.getButtonA().whilePressed(new SwerveTranslationAlign());
         driverGamepad.getButtonB().whilePressed(new ParallelCommandGroup(
@@ -50,6 +57,9 @@ public class OI {
         }, Intake.getInstance()));
         operatorGamepad.getButtonB().whilePressed(
             new Rev(70)
+        );
+        operatorGamepad.getButtonY().whilePressed(
+            new RevHighHood()
         );
         operatorGamepad.getButtonBumperLeft().whilePressed(new ParallelCommandGroup(
             new ShootWithHighHood(),

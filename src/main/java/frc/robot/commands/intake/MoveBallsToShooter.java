@@ -10,7 +10,7 @@ public class MoveBallsToShooter extends IndefiniteCommand{
     private static final double LINEAR_MAX_SPEED = 0.5;
     private static final long OUT_DELAY = 100;
     private static final long PID_DELAY = 1000;
-    private static final long MIN_DELAY = 1000;
+    private static final long MIN_DELAY = 500;
     private long commandTime;
     private long pidTime=-1;
 

@@ -12,7 +12,7 @@ import frc.robot.util.Limelight;
 public class Rev extends IndefiniteCommand {
     private double velocity;
     private long commandTime;
-    private static final long MIN_DELAY = 100;
+    private static final long DELAY = 100;
     private static final double AGITATOR_MAX_SPEED = 0.8;
     private static final double LINEAR_MAX_SPEED = 0.5;
 
@@ -33,7 +33,7 @@ public class Rev extends IndefiniteCommand {
         
         long currentTime = System.currentTimeMillis();
 
-        if(currentTime - commandTime < MIN_DELAY){
+        if(currentTime - commandTime < DELAY){
             Indexer.getInstance().setLinearPercentOutput(-LINEAR_MAX_SPEED);
             Indexer.getInstance().setAgitatorPercentOutput(AGITATOR_MAX_SPEED);
         }

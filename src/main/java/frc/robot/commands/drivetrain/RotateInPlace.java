@@ -17,7 +17,7 @@ public class RotateInPlace extends IndefiniteCommand {
     private static final double kP=0.03;
     private static final double kI=0.0;//00002;
     private static final double kD=0.0;//02;
-    private static final double TX_SETPOINT=0;
+    private static final double TX_SETPOINT=-0.3;
     private static final double I_ZONE = 0;
 
 

@@ -33,7 +33,7 @@ public class Autons {
         
         new ParallelRaceGroup(
             new HSSwerveDriveController(Trajectories.chezy_moveToBalls, Rotation2d.fromDegrees(0)),
-            new IntakeAutonControlForward(0.5)
+            new IntakeAutonControlForward(0.8)
         ),
         new ParallelRaceGroup(
             new HSSwerveDriveController(Trajectories.chezy_moveToShootingLocation, Rotation2d.fromDegrees(0)),
@@ -63,68 +63,68 @@ public class Autons {
 
 
 
-    public static SequentialCommandGroup turn = new SequentialCommandGroup(
-        new RotateToAngle(15)
-    );
+    // public static SequentialCommandGroup turn = new SequentialCommandGroup(
+    //     new RotateToAngle(15)
+    // );
 
-    public static SequentialCommandGroup leftToUpAgainstGoal = new SequentialCommandGroup(
-        new ParallelRaceGroup(
-            new HSSwerveDriveController(Trajectories.chezy_leftInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-            new ShooterVelocityManual(65)
-        ),
-        new ParallelDeadlineGroup(
-            new WaitCommand(5),
-            new ShootWithHighHood(),
-            new MoveBallsToShooter()
-        )
-    );
+    // public static SequentialCommandGroup leftToUpAgainstGoal = new SequentialCommandGroup(
+    //     new ParallelRaceGroup(
+    //         new HSSwerveDriveController(Trajectories.chezy_leftInitiationToScoringZone, Rotation2d.fromDegrees(0)),
+    //         new ShooterVelocityManual(65)
+    //     ),
+    //     new ParallelDeadlineGroup(
+    //         new WaitCommand(5),
+    //         new ShootWithHighHood(),
+    //         new MoveBallsToShooter()
+    //     )
+    // );
 
-    public static SequentialCommandGroup rotateAndShoot = new SequentialCommandGroup(
+    // public static SequentialCommandGroup rotateAndShoot = new SequentialCommandGroup(
 
-        new ParallelDeadlineGroup(
-            new WaitCommand(1),
-            new RotateInPlace()
-        ),
+    //     new ParallelDeadlineGroup(
+    //         new WaitCommand(1),
+    //         new RotateInPlace()
+    //     ),
 
-        new ParallelDeadlineGroup(
-            new WaitCommand(8),
-            new ShootWithHighHood(),
-            new MoveBallsToShooter()
-        )
-    );
+    //     new ParallelDeadlineGroup(
+    //         new WaitCommand(8),
+    //         new ShootWithHighHood(),
+    //         new MoveBallsToShooter()
+    //     )
+    // );
 
-    public static SequentialCommandGroup justShooting = new SequentialCommandGroup(
+    // public static SequentialCommandGroup justShooting = new SequentialCommandGroup(
 
-        new ParallelDeadlineGroup(
-            new WaitCommand(8),
-            new ShootWithHighHood(),
-            new MoveBallsToShooter()
-        )
-    );
+    //     new ParallelDeadlineGroup(
+    //         new WaitCommand(8),
+    //         new ShootWithHighHood(),
+    //         new MoveBallsToShooter()
+    //     )
+    // );
 
-    public static SequentialCommandGroup centerToUpAgainstGoal = new SequentialCommandGroup(
-        new ParallelRaceGroup(
-            new HSSwerveDriveController(Trajectories.chezy_centerInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-            new Rev(70)
-        ),
-        new ParallelDeadlineGroup(
-            new WaitCommand(8),
-            new ShootWithHighHood(),
-            new MoveBallsToShooter()
-        )
-    );
+    // public static SequentialCommandGroup centerToUpAgainstGoal = new SequentialCommandGroup(
+    //     new ParallelRaceGroup(
+    //         new HSSwerveDriveController(Trajectories.chezy_centerInitiationToScoringZone, Rotation2d.fromDegrees(0)),
+    //         new Rev(70)
+    //     ),
+    //     new ParallelDeadlineGroup(
+    //         new WaitCommand(8),
+    //         new ShootWithHighHood(),
+    //         new MoveBallsToShooter()
+    //     )
+    // );
 
-    public static SequentialCommandGroup rightToUpAgainstGoal = new SequentialCommandGroup(
-        new ParallelRaceGroup(
-            new HSSwerveDriveController(Trajectories.chezy_rightInitiationToScoringZone, Rotation2d.fromDegrees(0)),
-            new ShooterVelocityManual(65)
-        ),
-        new ParallelDeadlineGroup(
-            new WaitCommand(5),
-            new ShootWithHighHood(),
-            new MoveBallsToShooter()
-        )
-    );
+    // public static SequentialCommandGroup rightToUpAgainstGoal = new SequentialCommandGroup(
+    //     new ParallelRaceGroup(
+    //         new HSSwerveDriveController(Trajectories.chezy_rightInitiationToScoringZone, Rotation2d.fromDegrees(0)),
+    //         new ShooterVelocityManual(65)
+    //     ),
+    //     new ParallelDeadlineGroup(
+    //         new WaitCommand(5),
+    //         new ShootWithHighHood(),
+    //         new MoveBallsToShooter()
+    //     )
+    // );
 
     // public static SequentialCommandGroup throughTrench = new SequentialCommandGroup(
 

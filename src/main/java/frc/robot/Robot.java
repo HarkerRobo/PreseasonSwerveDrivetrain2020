@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean("cd intake stalling", Intake.getInstance().isStalling());
     SmartDashboard.putBoolean("cd shooter blocked", Indexer.getInstance().shooterSensorBlocked());
     SmartDashboard.putBoolean("cd linear blocked", Indexer.getInstance().linearSensorBlocked());
-    SmartDashboard.putBoolean("arjun dixit", false);
+    SmartDashboard.putBoolean("arjun dixit", true);
 
 
     // SmartDashboard.putNumber("angle pos tl pulse width", drivetrain.getTopLeft().getRotationMotor().getSensorCollection().getPulseWidthRiseToFallUs());

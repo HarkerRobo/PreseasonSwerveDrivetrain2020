@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -13,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
 import frc.robot.RobotMap;
+import frc.robot.util.HSMotorFeedForward;
 import frc.robot.util.Limelight;
 import harkerrobolib.util.Conversions;
 import harkerrobolib.util.Conversions.SpeedUnit;
@@ -29,7 +31,7 @@ public class Shooter extends SubsystemBase {
     private static final double ROTATION_I = 0.0001;
     private static final double ROTATION_I_ZONE = 150;
     private static final double ROTATION_D = 0.9;
-    private static final double ROTATION_F = 0.04697602371;
+    private static final double ROTATION_F = 0;
 
     private static final double RAMP_RATE = 0;
     private static final double VOLTAGE_COMP = 10;
@@ -63,13 +65,14 @@ public class Shooter extends SubsystemBase {
     public double velAdjustment = -1;
     public double highVelAdjustment = 0;
 
-    public HSFeedFo
+    public HSMotorFeedForward feedForward;
 
     private Shooter() {
         rotation = new HSFalcon(RobotMap.SHOOTER_MASTER);
         rotationFollower = new HSFalcon(RobotMap.SHOOTER_FOLLOWER);
 
         hoodServo = new Servo(RobotMap.HOOD_SERVO_CHANNEL);
+        feedForward = new HSMotorFeedForward(0.734, 0.0728, 0.0247);
         intakeInit();
     }
 
@@ -119,7 +122,7 @@ public class Shooter extends SubsystemBase {
             isPercentOutput = true;
         }
         else {
-            rotation.set(ControlMode.Velocity, velocity);
+            rotation.set(ControlMode.Velocity, velocity, DemandType.ArbitraryFeedForward, feedForward.calculate(velocity));
             isPercentOutput = false;
         }
     }

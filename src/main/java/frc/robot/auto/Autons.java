@@ -181,5 +181,5 @@ public class Autons {
         }
         return stealBallsFromTrench;
     }
-    public static SequentialCommandGroup autonCommand = shootAndMove;
+    public static SequentialCommandGroup autonCommand = stealBallsFromTrench;
 }

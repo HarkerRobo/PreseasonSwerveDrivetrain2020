@@ -47,6 +47,8 @@ public class Shooter extends SubsystemBase {
     public static final double GEAR_RATIO = 2.0/3.0;
     public static final double POWER_PORT_HEIGHT= 8.1875;
 
+    public static final double POWER_PORT_HEIGHT_test= 4.25;
+
     private static final int CURRENT_DRAW_MIN = 10;
     private static final int STALL_VELOCITY = 100;
 
@@ -153,11 +155,21 @@ public class Shooter extends SubsystemBase {
 
     public double getDistance() {
         if(Limelight.isTargetVisible()) {
-            return medianFilter.calculate(POWER_PORT_HEIGHT - Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.LIMELIGHT_ANGLE + Limelight.getTy()));
+            return medianFilter.calculate(POWER_PORT_HEIGHT - Limelight.LIMELIGHT_HEIGHT) / Math.tan(Math.toRadians(Limelight.getTy() + Limelight.LIMELIGHT_ANGLE));
         } else {
             medianFilter.reset();
             return 0;
         }
+    }
+
+    public double getYDistance() {
+
+        
+        return Math.sin(Math.toRadians(Drivetrain.getInstance().getPigeon().getFusedHeading() +  Limelight.getTx())) * getDistance();
+    }
+
+    public double getXDistance() {
+       return Math.cos(Math.toRadians((Drivetrain.getInstance().getPigeon().getFusedHeading() +  Limelight.getTx() ))) * getDistance();
     }
 
     public double getVelocityError (){

@@ -4,6 +4,7 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.Drivetrain;
 import harkerrobolib.wrappers.HSTalon;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
@@ -32,7 +33,7 @@ public class SwerveModule {
 	private static final double TRANSLATION_P = 0.7;
 	private static final double TRANSLATION_I = 0.0;
 	private static final double TRANSLATION_D = 10;
-	private static final double TRANSLATION_F = 0.04697602371;
+	private static final double TRANSLATION_F = 0; //0.04697602371;
 
 	private static final double ANGLE_P = 1.1;
 	private static final double ANGLE_I = 0;
@@ -48,6 +49,8 @@ public class SwerveModule {
 	private boolean ROTATION_INVERT;
 	private boolean TRANSLATION_INVERT;
 
+	private HSMotorFeedForward feedForward;
+
 
 	public SwerveModule(boolean rotationSensorPhase, boolean translationSensorPhase, int rotationDriveId,
 			int translationDriveId, boolean rotationInverted, boolean translationInverted) {
@@ -59,6 +62,7 @@ public class SwerveModule {
 
 		rotation = new HSTalon(rotationDriveId);
 		translation = new HSFalcon(translationDriveId);
+		feedForward = new HSMotorFeedForward(0.705, 0.0506, 0.00202);
 		rotationMotorInit();
 		translationMotorInit();
 	}
@@ -127,7 +131,6 @@ public class SwerveModule {
 		);
 	}
 
-
 	public void setSwerveManual(SwerveModuleState state){
 		//state = optimize(state, getRotationAngle());
 		double speed=state.speedMetersPerSecond;
@@ -135,14 +138,11 @@ public class SwerveModule {
 		double currentAngle=getRotationAngle();
 		while(angle-currentAngle>180){
 			angle -= 360;
-			//delta = desiredState.angle.getDegrees() - currentAngle;
 		}
 
-		while(angle-currentAngle<-180){
+		while(angle-currentAngle<-180){                                                                                             
 
 			angle += 360;
-			//delta = desiredState.angle.minus(currentAngle);
-
 		}
 
 		if(angle-currentAngle>90){
@@ -155,10 +155,10 @@ public class SwerveModule {
 			speed *= -1;
 		}
 
-		translation.set(TalonFXControlMode.Velocity, Drivetrain.GEAR_RATIO * Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  speed * Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048));
+		double vel = Drivetrain.GEAR_RATIO * Conversions.convertSpeed(SpeedUnit.FEET_PER_SECOND,  speed * Drivetrain.FEET_TO_METER, SpeedUnit.ENCODER_UNITS, Drivetrain.WHEEL_DIAMETER, 2048);
+
+		translation.set(TalonFXControlMode.Velocity, vel, DemandType.ArbitraryFeedForward, feedForward.calculate(vel)/VOLTAGE_COMP);
 		
 		rotation.set(ControlMode.Position,angle * (4096 / 360));
-
-
 	}
 }

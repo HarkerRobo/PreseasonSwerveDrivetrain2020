@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -88,6 +89,9 @@ public class Drivetrain extends SubsystemBase {
 
     private SwerveDriveOdometry odometry;
 
+    private SimpleMotorFeedforward drivetrainCharacterization;
+
+
     public Drivetrain() {
         topLeft = new SwerveModule(TOP_LEFT_ROTATION_SENSOR_PHASE, TOP_LEFT_TRANSLATION_SENSOR_PHASE,
                 RobotMap.ROTATION_IDS[0], RobotMap.TRANSLATION_IDS[0], TOP_LEFT_ROTATION_INVERTED, TOP_LEFT_TRANSLATION_INVERTED);
@@ -109,6 +113,8 @@ public class Drivetrain extends SubsystemBase {
         
         kinematics = new SwerveDriveKinematics(frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
         odometry = new SwerveDriveOdometry(kinematics, Rotation2d.fromDegrees(pigeon.getFusedHeading()), new Pose2d(0,0, new Rotation2d()));
+
+        drivetrainCharacterization=new SimpleMotorFeedforward(0.705, 0.0506, 0.00202);
     }
 
     public SwerveModule getTopLeft() {
@@ -178,5 +184,18 @@ public class Drivetrain extends SubsystemBase {
         consumer.accept(topRight.getRotationMotor());
         consumer.accept(bottomLeft.getRotationMotor());
         consumer.accept(bottomRight.getRotationMotor());
+    }
+
+    public SimpleMotorFeedforward getCharacterizationn(){
+        return drivetrainCharacterization;
+    }
+
+    public double getCharacterizationVelFeedForward(double vel){
+
+        return drivetrainCharacterization.calculate(vel);
+    }
+
+    public double getCharacterizationVelAccelFeedForward(double vel, double a){
+        return drivetrainCharacterization.calculate(vel,a);
     }
 }

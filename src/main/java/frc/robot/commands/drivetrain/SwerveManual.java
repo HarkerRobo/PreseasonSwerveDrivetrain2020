@@ -42,7 +42,7 @@ public class SwerveManual extends IndefiniteCommand {
             translationx=0;
             translationy=0;
             if(Math.abs(angularVelocity)<(Drivetrain.MIN_OUTPUT)){
-            angularVelocity=0.000001;}
+            angularVelocity=0.000001;}//why
         }
     
 
@@ -78,8 +78,8 @@ public class SwerveManual extends IndefiniteCommand {
 
     pigeonAngle=Drivetrain.getInstance().getPigeon().getFusedHeading();
 
-        ChassisSpeeds chassis = ChassisSpeeds.fromFieldRelativeSpeeds(translationx, translationy, -angularVelocity, new Rotation2d(Math.toRadians(Drivetrain.getInstance().getPigeon().getFusedHeading())));
+    ChassisSpeeds chassis = ChassisSpeeds.fromFieldRelativeSpeeds(translationx, translationy, -angularVelocity, new Rotation2d(Math.toRadians(Drivetrain.getInstance().getPigeon().getFusedHeading())));
 
-        Drivetrain.getInstance().setAngleAndDriveVelocity(Drivetrain.getInstance().getKinematics().toSwerveModuleStates(chassis));
+    Drivetrain.getInstance().setAngleAndDriveVelocity(Drivetrain.getInstance().getKinematics().toSwerveModuleStates(chassis));
     }
 }

@@ -63,6 +63,8 @@ public class Shooter extends SubsystemBase {
     public double velAdjustment = -1;
     public double highVelAdjustment = 0;
 
+    public HSFeedFo
+
     private Shooter() {
         rotation = new HSFalcon(RobotMap.SHOOTER_MASTER);
         rotationFollower = new HSFalcon(RobotMap.SHOOTER_FOLLOWER);

@@ -42,7 +42,7 @@ public class SwerveManual extends IndefiniteCommand {
             translationx=0;
             translationy=0;
             if(Math.abs(angularVelocity)<(Drivetrain.MIN_OUTPUT)){
-            angularVelocity=0.000001;}//why
+            angularVelocity=0.0;}//why
         }
     
 

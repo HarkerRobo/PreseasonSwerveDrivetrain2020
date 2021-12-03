@@ -105,14 +105,14 @@ public class OI {
         // }));
 
 
-        operatorGamepad.getDownDPadButton().whenPressed(new SequentialCommandGroup(
-            new HSSwerveDriveController(MoveToTargetLocation.getToTargetTrajectory(), new Rotation2d(0)),
+        // operatorGamepad.getDownDPadButton().whenPressed(new SequentialCommandGroup(
+        //     new HSSwerveDriveController(MoveToTargetLocation.getToTargetTrajectory(), new Rotation2d(0)),
             
-            new ParallelDeadlineGroup(
-                new WaitCommand(0.5),
-                new RotateInPlace()
-            )
-        ));
+        //     new ParallelDeadlineGroup(
+        //         new WaitCommand(0.5),
+        //         new RotateInPlace()
+        //     )
+        // ));
 
     }
     
